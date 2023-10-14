@@ -412,7 +412,7 @@
   ;; Change default prefix key; needs to be set before loading org-journal
   (setq org-journal-prefix-key "C-c j ")
   :config
-  (setq org-journal-dir "~/org/journal/"
+  (setq org-journal-dir "~/Documents/org/journal/"
         org-journal-date-format "%A, %d %B %Y"))
 
 (setq org-capture-templates
@@ -443,10 +443,10 @@
 
 (require 'org-tempo)
 
-(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-(add-to-list 'org-structure-template-alist '("py" . "src python"))
+(add-to-list 'org-structure-template-alist '("b"   . "src bash"))
+(add-to-list 'org-structure-template-alist '("py"  . "src python"))
 (add-to-list 'org-structure-template-alist '("exs" . "src elixir"))
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("el"  . "src emacs-lisp"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
