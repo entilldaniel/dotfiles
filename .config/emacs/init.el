@@ -457,8 +457,7 @@
 (setq org-confirm-babel-evaluate nil)
 
 (defun org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/.dotfiles/emacs.org"))
+  (when (eq (string-match "/home/.*/.dotfiles/.*.org" (buffer-file-name)) 0)
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
