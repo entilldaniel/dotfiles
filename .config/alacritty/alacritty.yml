@@ -1,0 +1,14 @@
+font:
+  size: 8
+  normal:
+    family: Hack
+    style: normal
+window:
+  opacity: 0.9
+  padding:
+    x: 10
+    y: 10
+import:
+   - ~/.config/alacritty/themes/schemes.yaml
+   - ~/.config/alacritty/themes/themes/gruvbox_material.yaml
+
