@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+# nabbed from i3-sensible-terminal
+
+fms=(
+	"$FILEMANAGER"
+	"thunar"
+	"caja"
+	"nautilus"
+	"pcmanfm"
+	"pcmanfm-qt"
+	"nemo"
+	"dde-file-manager"
+	"dolphin"
+	"rox"
+	"spacefm"
+	"corefm"
+)
+
+
+for f in "${fms[@]}"; do
+    command -v "$f" > /dev/null 2>&1 && exec "$f" "$@"
+done
