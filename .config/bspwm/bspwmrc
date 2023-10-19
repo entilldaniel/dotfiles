@@ -11,7 +11,7 @@ pkill polybar
 polybar -c "$HOME/.config/bspwm/polybar.ini" &
 
 # background
-feh --bg-fill --randomize "$HOME/Pictures/wallpapers/"
+feh --bg-fill --randomize "$HOME/Pictures/wallpapers/" &
 
 pkill picom
 picom -b &
@@ -46,7 +46,5 @@ bspc subscribe desktop_layout |
                        picom-trans --reset;; tiled)
         esac;
     done
-
-
 
 

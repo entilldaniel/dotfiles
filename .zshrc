@@ -13,7 +13,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 HISTSIZE=2500
 
-export PATH=$PATH:/home/hubbe/development/flutter/bin
+export PATH=$PATH:/home/hubbe/development/flutter/bin:/home/hubbe/.local/bin
 
 #enable ASDF
 . $HOME/.asdf/asdf.sh
