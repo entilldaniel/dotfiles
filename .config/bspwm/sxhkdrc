@@ -5,6 +5,7 @@ super + w
 # terminal emulator
 super + Return
     al-terminal
+
 # program launcher
 super + space
     rofi_run -d 
@@ -21,18 +22,18 @@ super + x
 super + {_,shift + }q
     bspc node -{c,k}
 
+# show sxhkd help
+super + slash
+    sxhkd-help
+    
 # alternate between the tiled and monocle layout
 super + shift + m
     bspc desktop -l next
 
-# if the current node is automatic, send it to the last manual, otherwise pull the last leaf
-super + y
-    bspc query -N -n focused.automatic && bspc node -n last.!automatic || bspc node last.leaf -n focused
-
-# swap the current node and the biggest node
-super + g
-    bspc node -s biggest
-
+# rotate windows in workspace
+super + shift + {d,a}
+    bspc node @/ -C {forward,backward}       
+    
 #
 # state/flags
 #
@@ -112,7 +113,7 @@ super + alt + shift + {h,j,k,l}
     bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
-super + {Left,Down,Up,Right}
+super + alt + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}
 
 # volume control keys
@@ -128,3 +129,13 @@ XF86MonBrightnessUp
 XF86MonBrightnessDown
     xbacklight -10
 
+super + v
+    CM_LAUNCHER=rofi clipmenu \
+    -location 1 \
+    -m -3 \
+    -lines 15 \
+    -no-show-icons \
+    -theme-str '* \{ font: 10px; \}' \
+    -theme-str 'listview \{ spacing: 0; \}' \
+    -theme-str 'window \{ width: 40em; \}'
+    

@@ -16,6 +16,10 @@ feh --bg-fill --randomize "$HOME/Pictures/wallpapers/" &
 pkill picom
 picom -b &
 
+systemctl --user import-environment DISPLAY
+pkill clipmenud
+clipmenud &
+
 # set some bsp specific
 bspc monitor -d 1 2 3 4 5
 
