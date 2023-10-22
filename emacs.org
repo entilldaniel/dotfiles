@@ -150,7 +150,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (use-package dired-open
     :config
     (setq dired-open-extensions '(("mp4" . "vlc"))))
-    #+end_src
+#+end_src
 
 ** Theeming
 #+begin_src emacs-lisp
@@ -287,9 +287,10 @@ Set the font and enable font ligatures.
 #+begin_src emacs-lisp
   (use-package perspective
     :bind
-    ("C-x C-b" . persp-list-buffers)
+    (("C-x C-b" . persp-list-buffers)
+     ("C-x k" . persp-kill-buffer*))
     :custom
-    (persp-mode-prefix-key (kbd "C-c M-p"))
+    (persp-mode-prefix-key (kbd "C-x x"))
     :init
     (persp-mode))
 #+end_src

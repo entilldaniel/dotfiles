@@ -220,9 +220,10 @@
 
 (use-package perspective
   :bind
-  ("C-x C-b" . persp-list-buffers)
+  (("C-x C-b" . persp-list-buffers)
+   ("C-x k" . persp-kill-buffer*))
   :custom
-  (persp-mode-prefix-key (kbd "C-c M-p"))
+  (persp-mode-prefix-key (kbd "C-x x"))
   :init
   (persp-mode))
 
@@ -616,16 +617,3 @@
   (interactive)
   (insert
    (format-time-string "%Y-%m-%d")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(python-mode elpy rustic paredit mix elixir-mode emmet-mode lsp-tailwindcss lsp-origami lsp-ui lsp-ivy lsp-treemacs lsp-mode counsel-projectile docker flycheck yasnippet restclient exec-path-from-shell eshell-git-prompt which-key visual-fill-column treemacs-projectile treemacs-magit treemacs-icons-dired rainbow-mode rainbow-delimiters pomodoro perspective org-present org-journal org-bullets ob-elixir multiple-cursors move-text mastodon markdown-mode ivy-rich ivy-prescient ivy-hydra helpful doom-themes doom-modeline dired-single dired-open diminish counsel-spotify counsel company command-log-mode auto-package-update all-the-icons-dired)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -116,18 +116,24 @@ super + alt + shift + {h,j,k,l}
 super + alt + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}
 
-# volume control keys
+# toggle mute
 XF86AudioMute
     pamixer -t
-XF86AudioRaiseVolume
 
-pamixer -i 2
+# Raise volume
+XF86AudioRaiseVolume
+    pamixer -i 5
+
+#Lower volume   
 XF86AudioLowerVolume
-    pamixer -d 2
+    pamixer -d 5
+
+#Lower brightness
 XF86MonBrightnessUp
-    xbacklight +10
+    brightnessctl s +50
+    
 XF86MonBrightnessDown
-    xbacklight -10
+    brightnessctl s 50-
 
 super + v
     CM_LAUNCHER=rofi clipmenu \
