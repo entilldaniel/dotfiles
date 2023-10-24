@@ -176,7 +176,7 @@ Set the font and enable font ligatures.
 
 *** Specify Fonts
 #+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(font . "Jetbrains Mono-12"))
+  (add-to-list 'default-frame-alist '(font . "JetBrains Mono-18"))
 
 #+end_src
 

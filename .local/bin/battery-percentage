@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+set -e
+BATTERIES=`upower -e | grep battery_BAT`
+
+for battery in $BATTERIES
+do
+    data=`upower -i $battery`
+#    percentage=`upower -i $battery | grep percentage | awk '/percentage/ {print $2}'`
+    percentage=`echo "$data" | grep percentage | awk '/percentage/ {print $2}'`
+    state=`echo "$data" | grep "state:" | awk '/state/ {print $2}'`
+    name=`echo "$data" | grep "native-path:" | awk '/native-path/ {print $2}'`
+
+    #    echo "$data"
+    echo $name
+    echo $state
+    echo $percentage
+done     
+               

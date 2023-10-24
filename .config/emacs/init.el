@@ -132,7 +132,7 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(add-to-list 'default-frame-alist '(font . "Jetbrains Mono-12"))
+(add-to-list 'default-frame-alist '(font . "JetBrains Mono-18"))
 
 (dolist (char/ligature-re
          `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
