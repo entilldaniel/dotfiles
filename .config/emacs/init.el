@@ -132,7 +132,9 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-18"))
+(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "JetBrains Mono-18")))
+    ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14")))
+    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14")))
 
 (dolist (char/ligature-re
          `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
