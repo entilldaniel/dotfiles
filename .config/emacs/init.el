@@ -175,12 +175,8 @@
          ("C-c a" . mc/mark-all-like-this)))
 
 (use-package windmove
-  :bind (("C-c <left>" . windmove-left)
-         ("C-c <right>" . windmove-right)
-         ("C-z <left>" . windmove-left)
-         ("C-z <right>" . windmove-right)           
-         ("C-c <up>" . windmove-up)
-         ("C-c <down>" . windmove-down)))
+  :config
+  (windmove-default-keybindings 'ctrl))
 
 (use-package ace-window
   :bind
