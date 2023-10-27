@@ -13,7 +13,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 HISTSIZE=2500
 
-export PATH="$PATH:$HOME/development/flutter/bin:$HOME/.local/bin"
+export PATH=$PATH:/home/hubbe/development/flutter/bin
 
 #enable ASDF
 . $HOME/.asdf/asdf.sh
@@ -37,6 +37,3 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export FLYCTL_INSTALL="$HOME/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"

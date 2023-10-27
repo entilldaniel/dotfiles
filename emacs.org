@@ -1,5 +1,5 @@
 #+TITLE: Emacs Configuration
-#+PROPERTY: header-args:emacs-lisp :tangle .config/emacs/init.el
+#+PROPERTY: header-args:emacs-lisp :tangle shared/.config/emacs/init.el
 * Initial Setup
 ** Handle GC and startup
 Increase garbage collection threshold so we can't start faster without GC'ing and display the startup time for emacs

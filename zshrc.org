@@ -1,5 +1,5 @@
 #+TITLE: Z-Shell Configuration
-#+PROPERTY: header-args:bash :tangle .zshrc
+#+PROPERTY: header-args:bash :tangle shared/.zshrc
 * Basic configuration
 Load of my zsh, with path to my **oh-my-zsh** installation.
 
