@@ -1,0 +1,7 @@
+[Unit]
+Description=Reload BSPWM
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "/home/hubbe/.scripts/monitor_manager"
+StandardOutput=journal

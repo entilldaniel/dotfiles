@@ -1,0 +1,14 @@
+#! /bin/bash
+
+INTERNAL_MONITOR = "eDP1"
+EXTERNAL_MONITOR = "DP1"
+
+if [[]]; then
+    bspc desktop "$INTERNAL_MONITOR" --to-monitor "$EXTERNAL_MONITOR"
+    xrandr --output "$EXTERNAL_MONITOR" --mode 3840x2160 --primary && xrandr --output "$INTERNAL_MONITOR" --off
+else
+    bspc desktop "$EXTERNAL_MONITOR" --to-monitor "$INTERNAL_MONITOR"
+    xrandr --output "$INTERNAL_MONITOR" --mode 1920x1080 --primary && xrandr --output "$EXTERNAL_MONITOR" --off
+fi
+
+bspc wm -r

@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+INTERNAL_MONITOR=eDP1
+EXTERNAL_MONITOR=DP1
+
+
+if [[ $(xrandr -q | grep "^${EXTERNAL_MONITOR} connected") ]]; then
+    xrandr --output "$EXTERNAL_MONITOR" --primary --mode 3840x2160 --pos 0x0 --rotate normal --output "$INTERNAL_MONITOR" --off
+else
+    xrandr --output "$INTERNAL_MONITOR" --primary --mode 1920x1080 --pos 0x0 --rotate normal --output "$EXTERNAL_MONITOR" --off
+fi
