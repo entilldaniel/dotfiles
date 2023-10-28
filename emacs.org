@@ -74,6 +74,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (setq use-dialog-box nil)
   (setq kill-whole-line t)
   (setq next-line-add-newlines t)
+  (setq next-screen-context-lines 10)
   (line-number-mode t)
   (dolist (mode '(org-mode-hook
                   treemacs-mode-hook
@@ -127,7 +128,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 
 #+end_src
 
-** Scrolling
+*** Scrolling
 
 #+begin_src emacs-lisp
   (setq scroll-step 1)
@@ -135,7 +136,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (setq auto-window-vscroll nil)
 #+end_src
 
-** Window Transparency
+*** Window Transparency
 
 #+begin_src emacs-lisp
   (set-frame-parameter nil 'alpha-background 90)
@@ -280,6 +281,10 @@ Set the font and enable font ligatures.
 
 #+end_src
 
+** Hyperbole
+#+begin_src emacs-lisp
+  (use-package hyperbole)
+#+end_src
 ** Perspective
 #+begin_src emacs-lisp
   (use-package perspective
@@ -290,6 +295,7 @@ Set the font and enable font ligatures.
     (persp-mode-prefix-key (kbd "C-x x"))
     :init
     (persp-mode))
+
 #+end_src
 ** Helper Packages
 

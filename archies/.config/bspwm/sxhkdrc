@@ -130,10 +130,10 @@ XF86AudioLowerVolume
 
 #Lower brightness
 XF86MonBrightnessUp
-    brightnessctl s +50
+    brightnessctl s +5%
     
 XF86MonBrightnessDown
-    brightnessctl s 50-
+    brightnessctl s 5%-
 
 super + v
     CM_LAUNCHER=rofi clipmenu \

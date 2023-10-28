@@ -58,6 +58,7 @@
 (setq use-dialog-box nil)
 (setq kill-whole-line t)
 (setq next-line-add-newlines t)
+(setq next-screen-context-lines 10)
 (line-number-mode t)
 (dolist (mode '(org-mode-hook
                 treemacs-mode-hook
@@ -215,6 +216,8 @@
   ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
 (global-set-key (kbd "<f2>") 'hydra-text-scale/body)
+
+(use-package hyperbole)
 
 (use-package perspective
   :bind
