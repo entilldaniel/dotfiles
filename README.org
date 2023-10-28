@@ -1,12 +1,21 @@
 * My dotfiles
 These are my dotfiles, enjoy.
+My home laptops are two thinkpads, a T480 and a T490s.
+
+* Arch Linux screen installation
+See this page https://miikanissi.com/blog/hotplug-dual-monitor-setup-bspwm/
+
+You need to setup a udev rule
+In **/etc/udev/rules.d/99-reload-monitor.rules**
+#+begin_src bash
+ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/su m --command='systemctl --user start bspwm-reload.service'"
+#+end_src
 
 ** Emacs 
 I'm using emacs and org-tangle to keep track of my configuration, inspired by
 David Wilson.
 
 ** Gnu Stow
-
-** Usage
+*** Usage
  - Checkout repo.
- - run `stow .` in directory
+ - run `stow shared archie` in directory for my home laptops and only `shared` for my work laptop
