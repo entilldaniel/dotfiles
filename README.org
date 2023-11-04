@@ -8,7 +8,7 @@ See this page https://miikanissi.com/blog/hotplug-dual-monitor-setup-bspwm/
 You need to setup a udev rule
 In **/etc/udev/rules.d/99-reload-monitor.rules**
 #+begin_src bash
-ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/su m --command='systemctl --user start bspwm-reload.service'"
+ACTION=="change", SUBSYSTEM=="drm", RUN+="/bin/su __USERNAME__ --command='systemctl --user start bspwm-reload.service'"
 #+end_src
 
 ** Emacs 
