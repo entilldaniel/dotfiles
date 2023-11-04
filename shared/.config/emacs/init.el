@@ -35,6 +35,9 @@
   (auto-package-update-maybe)
   (auto-package-update-at-time "06:00"))
 
+(use-package no-littering)
+(setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)

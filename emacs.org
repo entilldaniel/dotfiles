@@ -44,6 +44,8 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
     (auto-package-update-maybe)
     (auto-package-update-at-time "06:00"))
 
+  (use-package no-littering)
+  (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
 #+end_src
 
 * Interface
