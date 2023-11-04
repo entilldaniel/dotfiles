@@ -20,6 +20,9 @@ systemctl --user import-environment DISPLAY
 pkill clipmenud
 clipmenud &
 
+pkill redshift
+redshift &
+
 # set some bsp specific
 bspc monitor -d 1 2 3 4 5
 
