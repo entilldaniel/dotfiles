@@ -3,7 +3,7 @@
 INTERNAL_MONITOR = "eDP1"
 EXTERNAL_MONITOR = "DP1"
 
-if [[]]; then
+if [[ xrandr -q | grep "^DP1 connected" ]]; then
     bspc desktop "$INTERNAL_MONITOR" --to-monitor "$EXTERNAL_MONITOR"
     xrandr --output "$EXTERNAL_MONITOR" --mode 3840x2160 --primary && xrandr --output "$INTERNAL_MONITOR" --off
 else

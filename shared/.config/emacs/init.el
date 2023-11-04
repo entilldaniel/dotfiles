@@ -618,3 +618,16 @@
   (interactive)
   (insert
    (format-time-string "%Y-%m-%d")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(yaml which-key vterm visual-fill-column use-package ts treemacs-projectile treemacs-magit treemacs-icons-dired sicp rustic restclient rainbow-mode rainbow-delimiters python-mode pomodoro perspective paredit org-present org-journal org-bullets ob-elixir neotree multiple-cursors move-text mix mastodon lsp-ui lsp-tailwindcss lsp-origami lsp-javacomp lsp-java lsp-ivy lsp-dart ivy-rich ivy-prescient ivy-hydra hyperbole helpful flycheck exec-path-from-shell eterm-256color eshell-git-prompt emmet-mode elpy elixir-mode eat doom-themes doom-modeline docker dired-single dired-open diminish counsel-spotify counsel-projectile company-box command-log-mode auto-package-update all-the-icons-dired)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

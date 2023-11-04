@@ -4,7 +4,7 @@ configuration {
 	modi: "drun,run,window,ssh";
 	kb-cancel: "Escape,Control+g,Control+bracketleft,Alt+F1";
 /*  show-icons: true;*/
-/*	font: "mono 12";*/
+    font: "Hack 12";
 /*	icon-theme: ;*/
 /*	location: 0;*/
 /*	yoffset: 0;*/
