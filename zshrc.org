@@ -9,6 +9,7 @@ Load of my zsh, with path to my **oh-my-zsh** installation.
 * Select Theme
 See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 #+begin_src bash
+  #zmodload zsh/zprof  
   ZSH_THEME="agnoster"
   COMPLETION_WAITING_DOTS="true"
   #+end_src
@@ -29,34 +30,43 @@ Too many plugins may slow down shell startup
 
 * User Configuration
 #+BEGIN_src bash
-    export PATH=$PATH:/home/hubbe/development/flutter/bin
+  export PATH=$PATH:/home/hubbe/development/flutter/bin
 
-    #enable ASDF
-    . $HOME/.asdf/asdf.sh
+  #enable ASDF
+  . $HOME/.asdf/asdf.sh
 
-    # append completions to fpath
-    fpath=(${ASDF_DIR}/completions $fpath)
-    # initialise completions with ZSH's compinit
-    autoload -Uz compinit && compinit
+  # append completions to fpath
+  fpath=(${ASDF_DIR}/completions $fpath)
+  # initialise completions with ZSH's compinit
 
-    # Test speeding up zsh shell
-    DISABLE_UNTRACKED_FILES_DIRTY="true"  
-
-    #disable caps lock
-    setxkbmap -option ctrl:nocaps
-
-    export EDITOR="emacsclient -nw"
-    alias edit=$EDITOR
-
-    #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-    export SDKMAN_DIR="$HOME/.sdkman"
-    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+  # initialise completions with ZSH's compinit
+  #autoload -Uz compinit && (compinit &) 
+  # autoload -Uz compinit 
+  # if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+  # 	compinit; 
+  # else
+  # 	compinit -C;
+  # fi;
 
 
-    export NVM_DIR="$HOME/.config/nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  # Test speeding up zsh shell
+  DISABLE_UNTRACKED_FILES_DIRTY="true"  
 
+  #disable caps lock
+  setxkbmap -option ctrl:nocaps
+
+  export EDITOR="emacsclient -nw"
+  alias edit=$EDITOR
+
+  #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+  export SDKMAN_DIR="$HOME/.sdkman"
+  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+
+  export NVM_DIR="$HOME/.config/nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  #zprof
 
 #+end_src
 

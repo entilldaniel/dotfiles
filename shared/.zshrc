@@ -1,12 +1,13 @@
-#zmodload zsh/zprof  
 export ZSH="$HOME/.oh-my-zsh"
 
+#zmodload zsh/zprof  
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
 plugins=(
     git
     colorize
+    history
     fzf
 )
 
@@ -20,12 +21,13 @@ export PATH=$PATH:/home/hubbe/development/flutter/bin
 
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
 
 # initialise completions with ZSH's compinit
-#autoload -Uz compinit && (compinit &)
+#autoload -Uz compinit && (compinit &) 
 # autoload -Uz compinit 
 # if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-# 	compinit;
+# 	compinit; 
 # else
 # 	compinit -C;
 # fi;
@@ -33,6 +35,9 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 # Test speeding up zsh shell
 DISABLE_UNTRACKED_FILES_DIRTY="true"  
+
+#disable caps lock
+setxkbmap -option ctrl:nocaps
 
 export EDITOR="emacsclient -nw"
 alias edit=$EDITOR
