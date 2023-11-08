@@ -5,6 +5,8 @@ xsetroot -cursor_name left_ptr
 
 # key bindings
 sxhkd -c "$HOME/.config/bspwm/sxhkdrc" &
+#disable caps lock
+setxkbmap -option ctrl:nocaps
 
 # panel
 pkill polybar
