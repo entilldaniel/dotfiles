@@ -23,11 +23,14 @@ fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
 
+# Test speeding up zsh shell
+DISABLE_UNTRACKED_FILES_DIRTY="true"  
+
 #disable caps lock
 setxkbmap -option ctrl:nocaps
 
 export EDITOR="emacsclient -nw"
-
+alias edit=$EDITOR
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
