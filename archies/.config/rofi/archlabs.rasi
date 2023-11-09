@@ -1,27 +1,32 @@
 /******************************************************************************
  * ROFI Color theme
- * User: SmokeKing
- * Copyright: Nathaniel Maia
+ * User: Hubbe
+ * Based on ArchLabs original rofi theme
+ * Copyright from original work: Nathaniel Maia
  ******************************************************************************/
 
+    
 window {
-    width:            30%;
-    height:           25%;
-    padding:          20;
+    font:             "hack 15";
+    width:            50%;
+    height:           40%;
+    padding:          30;
     text-color:       #c1c1c1;
-    background-color: #212121;
+    background-color: argb:CC212121;
     border-radius:    15px;
 }
 
 prompt {
-    font-size:0;
-    width: 100;
+    width:            100;
+    background:       transparent;
+    background-color: argb:66212121;
 }
 
 entry {
     text-color:       #c1c1c1;
-    background-color: #212121;
-    padding: 10px;
+    background:       transparent;
+    background-color: argb:00212121;    
+    padding:          10px;
 }
 
 inputbar {
@@ -29,53 +34,61 @@ inputbar {
     padding: 	      10;
     border: 	      none;
     background:	      transparent;
-    background-color: #212121;	
+    background-color: argb:CC212121;
     text-color:       #c1c1c1;
 }
 
 listview {
     columns:          2;
-    padding:          4;
+    padding:          8;
     cycle:            false;
     dynamic:          true;
     layout:           vertical;
-    background-color: #212121;
+    background:       transparent;
+    background-color: argb:00212121;
 }
 
 mainbox {
     children:         [inputbar, listview];
-    background-color: #212121;
+    background:       transparent;
+    background-color: argb:00212121;    
 }
 
 element {
-    padding:          4;
+    padding:          4 6 4;
+    spacing:          4;
     text-color:       #c1c1c1;
     background-color: #212121;
+    background:       transparent;
+    background-color: argb:00FF0021;    
 }
 
 element-icon {
-    padding:          0 4 0;
+    padding:          4 6 4;
     text-color:       inherit;
     background-color: inherit;
+    size:             1.5em;
 }
 
 element-text {
+    vertical-align:   0.5;
+    font-size:        3em;
     text-color:       inherit;
     background-color: inherit;
 }
 
 element normal.urgent, element alternate.urgent {
     text-color:       #c1c1c1;
+    background-color: #FF3e3e;
 }
 
 element normal.active, element alternate.active {
     text-color:       #c1c1c1;
-    background-color: #212121;
+    background-color: argb:66212121;
 }
 
 element selected {
-	text-color:       #212121;
-	background-color: #c1c1c1;
+	background-color: #5416c7;
 }
 
 element selected.urgent {
