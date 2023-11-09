@@ -162,7 +162,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
     :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
   (use-package doom-themes
-    :init (load-theme 'doom-snazzy t))
+    :init (load-theme 'doom-monokai-pro t))
   (use-package doom-modeline
     :init (doom-modeline-mode 1)
     :custom ((doom-modeline-height 15)))
@@ -459,6 +459,7 @@ Set the font and enable font ligatures.
     (variable-pitch-mode)
     (visual-line-mode))
 
+
   (defun org-font-setup ()
     ;; replace list hyphen with dot"
     (font-lock-add-keywords 'org-mode
@@ -472,7 +473,7 @@ Set the font and enable font ligatures.
                     (org-level-6 . 1.1)
                     (org-level-7 . 1.1)
                     (org-level-8 . 1.1)))
-      (set-face-attribute (car face) nil :font "Fira Code" :weight 'regular :height (cdr face)))
+      (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
     ;; Ensure that anything that should be fixed-pitch in Org files appears that way
     (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -776,6 +777,7 @@ Set the font and enable font ligatures.
     (insert
      (format-time-string "%Y-%m-%d")))
 
+  (load-file "~/.config/emacs/custom.el")
 #+end_src
 
 

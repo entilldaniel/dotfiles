@@ -126,7 +126,7 @@
   :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package doom-themes
-  :init (load-theme 'doom-snazzy t))
+  :init (load-theme 'doom-monokai-pro t))
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
@@ -366,6 +366,7 @@
   (variable-pitch-mode)
   (visual-line-mode))
 
+
 (defun org-font-setup ()
   ;; replace list hyphen with dot"
   (font-lock-add-keywords 'org-mode
@@ -379,7 +380,7 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Fira Code" :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -621,16 +622,5 @@
   (interactive)
   (insert
    (format-time-string "%Y-%m-%d")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(yaml which-key vterm visual-fill-column use-package ts treemacs-projectile treemacs-magit treemacs-icons-dired sicp rustic restclient rainbow-mode rainbow-delimiters python-mode pomodoro perspective paredit org-present org-journal org-bullets ob-elixir neotree multiple-cursors move-text mix mastodon lsp-ui lsp-tailwindcss lsp-origami lsp-javacomp lsp-java lsp-ivy lsp-dart ivy-rich ivy-prescient ivy-hydra hyperbole helpful flycheck exec-path-from-shell eterm-256color eshell-git-prompt emmet-mode elpy elixir-mode eat doom-themes doom-modeline docker dired-single dired-open diminish counsel-spotify counsel-projectile company-box command-log-mode auto-package-update all-the-icons-dired)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(load-file "~/.config/emacs/custom.el")
