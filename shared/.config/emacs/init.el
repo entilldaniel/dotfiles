@@ -421,6 +421,9 @@
   (setq org-journal-dir "~/Documents/org/journal/"
         org-journal-date-format "%A, %d %B %Y"))
 
+(setq org-agenda-files (list "~/Documents/org/todo.org"
+                             "~/Documents/org/ideas.org"))
+
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
          "* TODO %?\n %i\n")

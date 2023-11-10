@@ -506,19 +506,21 @@ Set the font and enable font ligatures.
 
 #+end_src
 
-** Org Journal
+** Org Journal and Agenda
 
 #+begin_src emacs-lisp
-  (use-package org-journal
-    :ensure t
-    :defer t
-    :init
-    ;; Change default prefix key; needs to be set before loading org-journal
-    (setq org-journal-prefix-key "C-c j ")
-    :config
-    (setq org-journal-dir "~/Documents/org/journal/"
-          org-journal-date-format "%A, %d %B %Y"))
+    (use-package org-journal
+      :ensure t
+      :defer t
+      :init
+      ;; Change default prefix key; needs to be set before loading org-journal
+      (setq org-journal-prefix-key "C-c j ")
+      :config
+      (setq org-journal-dir "~/Documents/org/journal/"
+            org-journal-date-format "%A, %d %B %Y"))
 
+    (setq org-agenda-files (list "~/Documents/org/todo.org"
+                                 "~/Documents/org/ideas.org"))
 #+end_src
 
 ** Org Capture Templates

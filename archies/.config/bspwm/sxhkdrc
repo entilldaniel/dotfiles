@@ -14,6 +14,9 @@ super + space
 super + shift + r
     pkill -USR1 -x sxhkd
 
+super + shift + w
+    emacsclient -c -eval '(org-capture)'
+
 # quit bspwm normally
 super + x
     rofi_run -l
