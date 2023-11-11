@@ -17,6 +17,9 @@ super + shift + r
 super + shift + w
     bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" -eval '(org-capture)'
 
+super + shift + j
+    bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" --eval "(progn (call-interactively 'org-journal-new-entry) (delete-other-windows))"
+    
 # quit bspwm normally
 super + x
     rofi_run -l

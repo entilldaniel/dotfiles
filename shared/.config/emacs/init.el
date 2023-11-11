@@ -424,6 +424,8 @@
 (setq org-agenda-files (list "~/Documents/org/todo.org"
                              "~/Documents/org/ideas.org"))
 
+(global-set-key (kbd "C-c c") 'org-capture)
+
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
          "* TODO %?\n %i\n")

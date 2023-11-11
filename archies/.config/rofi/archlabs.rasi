@@ -7,7 +7,6 @@
 
     
 window {
-    font:             "hack 15";
     width:            50%;
     height:           40%;
     padding:          30;
