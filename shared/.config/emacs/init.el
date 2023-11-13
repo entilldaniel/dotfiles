@@ -422,7 +422,9 @@
         org-journal-date-format "%A, %d %B %Y"))
 
 (setq org-agenda-files (list "~/Documents/org/todo.org"
-                             "~/Documents/org/ideas.org"))
+                             "~/Documents/org/ideas.org"
+                             "~/Documents/org/work.org"
+                             "~/Documents/org/private.org"))
 
 (global-set-key (kbd "C-c c") 'org-capture)
 
@@ -433,6 +435,8 @@
          "* IDEA: %?\n %i\n")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
          "* OBSIDIAN: %?\n %i\n")))
+
+(add-hook 'org-capture-mode-hook 'delete-other-windows)
 
 (defun myfuns/start-presentation ()
   (interactive)
