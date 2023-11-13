@@ -22,3 +22,4 @@ case "$HOST" in
 esac
 
 bspc wm -r
+

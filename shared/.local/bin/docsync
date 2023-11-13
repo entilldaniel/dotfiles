@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+
+case $1 in
+    get)
+        echo "Fetching vault updates"
+        rclone -P sync drive:vaults ~/Documents/vaults
+        echo "Fetching org files"
+        rclone -P sync drive:org ~/Documents/org
+        echo "Done fetching updates."
+        ;;
+    push)
+        echo "Pushing vault updates"
+        rclone -P sync ~/Documents/vaults drive:vaults
+        echo "Pushing org files"
+        rclone -P sync ~/Documents/org drive:org
+        echo "Done pushing updates"
+        ;;
+    *)
+        echo "Bad usage, call with either get or push"
+esac
+
