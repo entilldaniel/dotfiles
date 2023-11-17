@@ -78,7 +78,7 @@ else
 				;;
 			-l|--logout)
 				case "$(rofi -sep "|" -dmenu -i -p 'System' -width 20 -hide-scrollbar \
-					-line-padding 4 -padding 20 -lines 4 <<< " Lock| Logout| Reboot| Shutdown")" in
+					-line-padding 4 -padding 50 -lines 4 <<< " Lock| Logout| Reboot| Shutdown")" in
 					*Lock) i3lock-fancy ;;
 					*Reboot) systemctl reboot ;;
 					*Shutdown) systemctl -i poweroff ;;

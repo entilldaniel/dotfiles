@@ -12,7 +12,6 @@
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (package-initialize)
@@ -94,6 +93,22 @@
 
 ;; Disable warnings for native comp
 (setq native-comp-async-report-warnings-errors nil)
+
+(use-package dashboard
+  :init
+  (setq dashboard-startup-banner "/home/hubbe/Pictures/emacs.png")
+  (setq dashboard-items '((recents  . 10)
+                      (bookmarks . 10)
+                      (projects . 5)
+                      (agenda . 5)
+                      (registers . 5)))
+  (setq dashboard-startup-banner "Time to code!")
+  (setq dashboard-center-content t)
+  (setq dashboard-display-icons-p nil)
+  (setq dashboard-icon-type 'all-the-icons)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t))
+(use-package page-break-lines)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-x p") 'proced)
@@ -421,12 +436,17 @@
   (setq org-journal-dir "~/Documents/org/journal/"
         org-journal-date-format "%A, %d %B %Y"))
 
+(setq calendar-week-start-day 1)
 (setq org-agenda-files (list "~/Documents/org/todo.org"
-                             "~/Documents/org/ideas.org"
                              "~/Documents/org/work.org"
-                             "~/Documents/org/private.org"))
+                             "~/Documents/org/ideas.org"
+                             "~/Documents/org/archive.org"))
 
-(global-set-key (kbd "C-c c") 'org-capture)
+(setq org-refile-targets '((nil :maxlevel . 9)
+                           (org-agenda-files :maxlevel . 9)))
+(setq org-outline-path-complete-in-steps nil)  ;; Refile in a single go
+(setq org-refile-use-outline-path t)           ;; Show full paths for refiling
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
 
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
@@ -437,6 +457,7 @@
          "* OBSIDIAN: %?\n %i\n")))
 
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
+(global-set-key (kbd "C-c c") 'org-capture)
 
 (defun myfuns/start-presentation ()
   (interactive)
@@ -578,6 +599,17 @@
   :init
   (setq lsp-tailwindcss-add-on-mode t))
 
+
+(use-package dap-mode
+  :after lsp-mode
+  :commands dap-debug
+  :hook ((elixir-mode . dap-ui-mode) (elixir-mode . dap-mode))
+  :config
+  (require 'dap-elixir)
+  (setq dap-auto-configure-features '(sessions locals controls tooltip)) 
+  (add-hook 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra))))
+
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
@@ -586,13 +618,45 @@
   :bind ("M-/" . emmet-expand-line))
 
 (use-package ob-elixir)
-(use-package elixir-mode
-  :init
-  (add-to-list 'exec-path "~/bin/elixir-ls")
-  :hook ((elixir-mode . lsp-deferred)
-         (before-save-hook . elixir-format)))
+  (use-package elixir-mode
+    :init
+    (add-to-list 'exec-path "/home/hubbe/.config/emacs/var/lsp/server/elixir-ls")
+    :hook ((elixir-mode . lsp-deferred)
+           (before-save-hook . elixir-format))
+    :config
+    (require 'dap-elixir))
 
-(use-package mix)
+  (use-package mix)
+  (use-package exunit)
+
+(defun dap-elixir--populate-start-file-args (conf)
+  "Populate CONF with the required arguments."
+  (-> conf
+      (dap--put-if-absent :dap-server-path '("debugger.sh"))
+      (dap--put-if-absent :type "Elixir")
+      (dap--put-if-absent :name "mix test")
+      (dap--put-if-absent :request "launch")
+      (dap--put-if-absent :task "test")
+      (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
+      (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
+
+  (dap-register-debug-template
+   "Elixir::Elixir Application"
+   (list :type "Elixir"
+         :program nil
+         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+         :projectDir "/home/hubbe/Projects/elixir/gen_chat"
+         :cwd "/home/hubbe/Projects/elixir/gen_chat"
+         :name "gen chat"))
+
+  (dap-register-debug-template
+   "Elixir::Blog"
+   (list :type "Elixir"
+         :task "phx.server"
+         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+         :projectDir "/home/hubbe/Projects/elixir/blog"
+         :cwd "/home/hubbe/Projects/elixir/blog"
+         :name "phoenix blog"))
 
 (use-package paredit
   :ensure t

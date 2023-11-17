@@ -4,11 +4,12 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
+zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
+    nvm
     git
     colorize
     history
-    fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -24,13 +25,12 @@ fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 
 # initialise completions with ZSH's compinit
-#autoload -Uz compinit && (compinit &) 
-# autoload -Uz compinit 
-# if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-# 	compinit; 
-# else
-# 	compinit -C;
-# fi;
+autoload -Uz compinit 
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit; 
+else
+    compinit -C;
+fi;
 
 
 # Test speeding up zsh shell
@@ -46,8 +46,4 @@ alias edit=$EDITOR
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #zprof
