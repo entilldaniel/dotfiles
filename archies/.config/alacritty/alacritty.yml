@@ -11,4 +11,5 @@ window:
 import:
    - ~/.config/alacritty/themes/schemes.yaml
    - ~/.config/alacritty/themes/themes/gruvbox_material.yaml
-
+selection:
+  save_to_clipboard: true
