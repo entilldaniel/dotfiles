@@ -12,7 +12,8 @@
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+			 ("elpa" . "https://elpa.gnu.org/packages/")
+			 ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (package-initialize)
 (unless package-archive-contents
@@ -574,12 +575,10 @@
 
 (use-package lsp-treemacs
   :config
+  (setq lsp-treemacs-sync-mode 1)
   :after lsp)
 
-(lsp-treemacs-sync-mode 1)
-
 (use-package lsp-ivy)
-
 (use-package lsp-ui
   :commands lsp-ui-mode
   :custom
@@ -608,7 +607,7 @@
   (require 'dap-elixir)
   (setq dap-auto-configure-features '(sessions locals controls tooltip)) 
   (add-hook 'dap-stopped-hook
-            (lambda (arg) (call-interactively #'dap-hydra))))
+	    (lambda (arg) (call-interactively #'dap-hydra))))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -657,6 +656,15 @@
          :projectDir "/home/hubbe/Projects/elixir/blog"
          :cwd "/home/hubbe/Projects/elixir/blog"
          :name "phoenix blog"))
+
+(dap-register-debug-template
+   "Elixir::Pento"
+   (list :type "Elixir"
+         :task "phx.server"
+         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+         :projectDir "/home/hubbe/Projects/elixir/pento"
+         :cwd "/home/hubbe/Projects/elixir/pento"
+         :name "phoenix pento"))
 
 (use-package paredit
   :ensure t

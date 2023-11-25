@@ -21,7 +21,8 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 #+begin_src emacs-lisp
   (require 'package)
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+			   ("elpa" . "https://elpa.gnu.org/packages/")
+			   ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
   (package-initialize)
   (unless package-archive-contents
@@ -706,12 +707,10 @@ Set the font and enable font ligatures.
 
   (use-package lsp-treemacs
     :config
+    (setq lsp-treemacs-sync-mode 1)
     :after lsp)
 
-  (lsp-treemacs-sync-mode 1)
-
   (use-package lsp-ivy)
-
   (use-package lsp-ui
     :commands lsp-ui-mode
     :custom
@@ -740,7 +739,7 @@ Set the font and enable font ligatures.
     (require 'dap-elixir)
     (setq dap-auto-configure-features '(sessions locals controls tooltip)) 
     (add-hook 'dap-stopped-hook
-              (lambda (arg) (call-interactively #'dap-hydra))))
+	      (lambda (arg) (call-interactively #'dap-hydra))))
 #+end_src
 
 ** Code
@@ -781,7 +780,7 @@ Set the font and enable font ligatures.
         (dap--put-if-absent :task "test")
         (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
         (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
-  
+
     (dap-register-debug-template
      "Elixir::Elixir Application"
      (list :type "Elixir"
@@ -799,6 +798,15 @@ Set the font and enable font ligatures.
            :projectDir "/home/hubbe/Projects/elixir/blog"
            :cwd "/home/hubbe/Projects/elixir/blog"
            :name "phoenix blog"))
+
+  (dap-register-debug-template
+     "Elixir::Pento"
+     (list :type "Elixir"
+           :task "phx.server"
+           :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+           :projectDir "/home/hubbe/Projects/elixir/pento"
+           :cwd "/home/hubbe/Projects/elixir/pento"
+           :name "phoenix pento"))
 
 #+end_src
 *** Lisps

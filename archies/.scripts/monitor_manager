@@ -1,5 +1,6 @@
 #! /bin/bash
 
+
 # Send internal monitor as first param and external as second
 function switch_monitor () {
     if [[ $(xrandr -q | grep "^$2 connected") ]]; then
