@@ -15,6 +15,13 @@ case $1 in
         rclone -P -u -M copy ~/Documents/org drive:org
         echo "Done pushing updates"
         ;;
+    clean)
+        echo "Synchronizing vaults remote with local"
+        rclone -P -u -M sync ~/Documents/vaults drive:vaults
+        echo "Synchronizing org-files remote with local"
+        rclone -P -u -M sync ~/Documents/org drive:org
+        echo "Done pushing updates"
+        ;;
     *)
         echo "Bad usage, call with either get or push"
 esac
