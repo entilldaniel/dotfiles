@@ -454,6 +454,8 @@
          "* TODO %?\n %i\n")
         ("i" "IDEA" entry (file+headline "~/Documents/org/ideas.org" "Ideas")
          "* IDEA: %?\n %i\n")
+        ("n" "NOTE" entry (file+headline "~/Documents/org/ideas.org" "Notes")
+         "* %?\n %i\n")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
          "* OBSIDIAN: %?\n %i\n")))
 
