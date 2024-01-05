@@ -8,6 +8,11 @@ sxhkd -c "$HOME/.config/bspwm/sxhkdrc" &
 #disable caps lock
 setxkbmap -option ctrl:nocaps
 
+#redshift
+pgrep redshift | xargs -n1 kill -9
+redshift -x 
+redshift &
+
 # panel
 pkill polybar
 polybar -c "$HOME/.config/bspwm/polybar.ini" &
@@ -21,9 +26,6 @@ picom -b &
 systemctl --user import-environment DISPLAY
 pkill clipmenud
 clipmenud &
-
-pkill redshift
-redshift &
 
 # set some bsp specific
 bspc monitor -d 1 2 3 4 5
