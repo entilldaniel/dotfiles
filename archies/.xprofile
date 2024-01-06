@@ -28,3 +28,7 @@ xset r rate 350 60
 
 # left hand mouse
 #xmodmap -e "pointer = 3 2 1"
+
+
+#disable beep
+xset -b
