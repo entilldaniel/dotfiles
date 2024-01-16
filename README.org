@@ -1,6 +1,7 @@
 * My dotfiles
 These are my dotfiles, enjoy.
 My home laptops are two thinkpads, a T480 and a T490s.
+I've been trying hard to get udev rules to work on my T480 but to no avail.
 
 * Arch Linux screen installation
 See this page https://miikanissi.com/blog/hotplug-dual-monitor-setup-bspwm/
