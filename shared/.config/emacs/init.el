@@ -1,5 +1,8 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
+(setq load-prefer-newer t)
+(setq user-full-name "Daniel Figueroa")
+(setq use-short-answers t)
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
@@ -8,21 +11,18 @@
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
 
+
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			 ("elpa" . "https://elpa.gnu.org/packages/")
-			 ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
 
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
 (setq use-package-always-ensure t)
 
 (use-package auto-package-update
@@ -80,7 +80,6 @@
 (setq x-select-enable-clipboard t)
 (setq inhibit-startup-screen t)
 (setq confirm-kill-emacs 'y-or-n-p)
-(defalias 'yes-or-no-p 'y-or-n-p)
 (setq dired-dwim-target t)
 (setq global-auto-revert-non-file-buffers t)
 (make-directory "~/.emacs_backups/" t)
@@ -88,27 +87,13 @@
 (setq auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t)))
 (setq backup-directory-alist '(("." . "~/.emacs_backups")))
 (setq proced-enable-color-flag t)
+(setq create-lockfiles nil)
 
 ;; Emacs 29 specific
 (repeat-mode)
 
 ;; Disable warnings for native comp
 (setq native-comp-async-report-warnings-errors nil)
-
-(use-package dashboard
-  :init
-  (setq dashboard-startup-banner "/home/hubbe/Pictures/emacs.png")
-  (setq dashboard-items '((recents  . 10)
-                      (bookmarks . 10)
-                      (projects . 5)
-                      (agenda . 5)
-                      (registers . 5)))
-  (setq dashboard-startup-banner "Time to code!")
-  (setq dashboard-center-content t)
-  (setq dashboard-display-icons-p nil)
-  (setq dashboard-icon-type 'all-the-icons)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t))
 (use-package page-break-lines)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -628,7 +613,24 @@
     (require 'dap-elixir))
 
   (use-package mix)
-  (use-package exunit)
+(use-package ob-elixir)
+(use-package elixir-mode
+  :init
+  (add-to-list 'exec-path "/home/hubbe/.config/emacs/var/lsp/server/elixir-ls")
+  :hook ((elixir-mode . lsp-deferred)
+         (before-save-hook . elixir-format))
+  :config
+  (require 'dap-elixir))
+
+(use-package mix)
+(use-package exunit
+  :diminish t
+  :bind
+  ("C-c e ." . exunit-verify-single)
+  ("C-c e b" . exunit-verify)
+  ("C-c e u a" . exunit-verify-all-in-umbrella)
+  ("C-c e a" . exunit-verify-all)
+  ("C-c e l" . exunit-rerun))
 
 (defun dap-elixir--populate-start-file-args (conf)
   "Populate CONF with the required arguments."

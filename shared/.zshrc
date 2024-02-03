@@ -41,9 +41,13 @@ setxkbmap -option ctrl:nocaps
 
 export EDITOR="emacsclient -nw"
 alias edit=$EDITOR
+alias cat="bat --no-pager"
+alias ls="exa"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+eval "$(starship init zsh)"
 #zprof
+
