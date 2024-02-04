@@ -11,7 +11,6 @@
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
 
-
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
 (require 'package)
