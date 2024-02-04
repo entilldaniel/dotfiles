@@ -44,6 +44,11 @@ alias edit=$EDITOR
 alias cat="bat --no-pager"
 alias ls=exa
 alias ks=kubectl
+alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
+
+cheat () {
+    curl "https://cheat.sh/$1"
+}
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

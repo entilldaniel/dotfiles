@@ -735,10 +735,14 @@ Set the font and enable font ligatures.
 #+end_src
 
 ** Languages
-*** HTML
+*** HTML and other Markup languages
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :bind ("M-/" . emmet-expand-line))
+
+  (use-package yaml-mode)
+  (use-package toml-mode)
+  (use-package markdown-mode)
 #+end_src
 
 *** Elixir
