@@ -1,5 +1,5 @@
 [font]
-size = 8
+size = 10
   [font.normal]
   family="Hack"
   style="normal"
@@ -10,3 +10,4 @@ opacity=0.9
   y=10
 [selection]
 save_to_clipboard=true
+

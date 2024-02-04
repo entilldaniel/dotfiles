@@ -42,8 +42,8 @@ setxkbmap -option ctrl:nocaps
 export EDITOR="emacsclient -nw"
 alias edit=$EDITOR
 alias cat="bat --no-pager"
-alias ls="exa"
-alias kubectl="ks"
+alias ls=exa
+alias ks=kubectl
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
