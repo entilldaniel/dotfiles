@@ -42,8 +42,10 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 #disable caps lock
 setxkbmap -option ctrl:nocaps
 
+export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
-alias edit=$EDITOR
+
+alias edit='$EDITOR $(fzf)'
 alias cat="bat --no-pager"
 alias ls=exa
 alias ks=kubectl
@@ -60,5 +62,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 eval "$(starship init zsh)"
 #zprof
+
+
 
 
