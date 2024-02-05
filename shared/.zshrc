@@ -4,6 +4,9 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
+# ZSH Autocomplete https://github.com/marlonrichert/zsh-autocomplete
+source ~/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh 
+
 zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
     nvm
@@ -25,12 +28,12 @@ fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 
 # initialise completions with ZSH's compinit
-autoload -Uz compinit 
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit; 
-else
-    compinit -C;
-fi;
+# autoload -Uz compinit 
+# if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+#     compinit; 
+# else
+#     compinit -C;
+# fi;
 
 
 # Test speeding up zsh shell
@@ -45,6 +48,7 @@ alias cat="bat --no-pager"
 alias ls=exa
 alias ks=kubectl
 alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
+alias tree='exa --long --tree'
 
 cheat () {
     curl "https://cheat.sh/$1"
@@ -56,4 +60,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 eval "$(starship init zsh)"
 #zprof
+
 
