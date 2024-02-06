@@ -45,12 +45,12 @@ setxkbmap -option ctrl:nocaps
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
 
-alias edit='$EDITOR $(fzf)'
+alias edit='emacsclient -nw -a "" $(fzf)'
 alias cat="bat --no-pager"
 alias ls=exa
 alias ks=kubectl
 alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
-alias tree='exa --long --tree'
+alias tree='exa --long --tree -a'
 
 cheat () {
     curl "https://cheat.sh/$1"
