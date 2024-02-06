@@ -136,9 +136,9 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "JetBrains Mono-18")))
-      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14")))
-      ((equal "" "") (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))))
+(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack-18")))
+      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack-14")))
+      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack-14"))))
 
 (dolist (char/ligature-re
          `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
