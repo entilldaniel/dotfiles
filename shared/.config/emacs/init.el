@@ -674,6 +674,7 @@
          :name "phoenix pento"))
 
 (use-package paredit
+  :ensure t
   :hook ((emacs-lisp-mode . paredit-mode)
          (ielm-mode . paredit-mode)
          (lisp-mode . paredit-mode)
@@ -681,10 +682,6 @@
          (eval-expression-minibuffer . paredit-mode)))
 
 
-
-(setenv "JAVA_HOME"  "/home/hubbe/.sdkman/candidates/java/current")
-(use-package lsp-java
-  :hook ((java-mode . lsp-mode)))
 
 (use-package rustic
   :hook (rustic-mode . lsp-deferred)
