@@ -95,6 +95,13 @@
 (setq native-comp-async-report-warnings-errors nil)
 (use-package page-break-lines)
 
+(use-package dimmer
+  :config
+  (setq dimmer-adjustment-mode :foreground)
+  (setq dimmer-fraction 0.5)
+  (dimmer-configure-which-key))
+(dimmer-mode)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-x p") 'proced)
 (global-set-key (kbd "C-x r m") 'counsel-bookmark)
@@ -250,9 +257,9 @@
   :config
   (setq which-key-idle-delay 1))
 
-(use-package pomodoro
+(use-package kubel
   :config
-  (setq pomodoro-play-sounds t))
+  (setq kubel-log-tail-n 250))
 
 (use-package mastodon
   :config
@@ -519,6 +526,9 @@
 (setq vterm-shell "zsh")
 (setq vterm-max-scrollback 10000)
 (setq vterm-timer-delay 0.01))
+
+
+(use-package multi-vterm)
 
 (use-package restclient)
 

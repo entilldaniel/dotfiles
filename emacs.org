@@ -109,8 +109,15 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   ;; Disable warnings for native comp
   (setq native-comp-async-report-warnings-errors nil)
   (use-package page-break-lines)
-
-
+#+end_src
+*** Visibility
+#+begin_src emacs-lisp
+  (use-package dimmer
+    :config
+    (setq dimmer-adjustment-mode :foreground)
+    (setq dimmer-fraction 0.5)
+    (dimmer-configure-which-key))
+  (dimmer-mode)
 #+end_src
 *** Custom keybindings
 #+begin_src emacs-lisp
@@ -320,11 +327,11 @@ Set the font and enable font ligatures.
     (setq which-key-idle-delay 1))
 #+end_src
 * Tools
-** Pomodoro Time
+** Kubernetes
 #+begin_src emacs-lisp
-  (use-package pomodoro
+  (use-package kubel
     :config
-    (setq pomodoro-play-sounds t))
+    (setq kubel-log-tail-n 250))
 #+end_src
 
 * Social
@@ -604,35 +611,37 @@ Set the font and enable font ligatures.
 
 * Terminal Configuration
 #+begin_src emacs-lisp
-    (defun configure-eshell ()
-      (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-      (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+  (defun configure-eshell ()
+    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-      (setq eshell-history-size         10000
-            eshell-buffer-maximum-lines 10000
-            eshell-hist-ignoredups t
-            eshell-scroll-to-bottom-on-input t))
+    (setq eshell-history-size         10000
+          eshell-buffer-maximum-lines 10000
+          eshell-hist-ignoredups t
+          eshell-scroll-to-bottom-on-input t))
 
-    (use-package eshell-git-prompt)
-    (use-package eshell
-      :hook (eshell-first-time-mode . configure-eshell)
-      :config
-      (with-eval-after-load 'esh-opt
-        (setq eshell-destroy-buffer-when-process-dies t)
-        (setq eshell-visual-commands '("htop" "zsh"))))
-
-    (use-package exec-path-from-shell
-      :config
-      (when (daemonp)
-        (exec-path-from-shell-initialize)))
-
-    (use-package vterm
-    :commands vterm
+  (use-package eshell-git-prompt)
+  (use-package eshell
+    :hook (eshell-first-time-mode . configure-eshell)
     :config
-    (setq vterm-shell "zsh")
-    (setq vterm-max-scrollback 10000)
-    (setq vterm-timer-delay 0.01))
+    (with-eval-after-load 'esh-opt
+      (setq eshell-destroy-buffer-when-process-dies t)
+      (setq eshell-visual-commands '("htop" "zsh"))))
 
+  (use-package exec-path-from-shell
+    :config
+    (when (daemonp)
+      (exec-path-from-shell-initialize)))
+
+  (use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-shell "zsh")
+  (setq vterm-max-scrollback 10000)
+  (setq vterm-timer-delay 0.01))
+
+
+  (use-package multi-vterm)
 #+end_src
 
 * Development
