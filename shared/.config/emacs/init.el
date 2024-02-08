@@ -121,6 +121,13 @@
   :config
   (setq dired-open-extensions '(("mp4" . "vlc"))))
 
+(use-package direx
+  :config
+  (setq direx:open-icon "  ")
+  (setq direx:closed-icon "  ")
+  (setq direx:leaf-icon "   "))
+(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
+
 (use-package all-the-icons)
 (use-package all-the-icons-dired
   :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
@@ -136,9 +143,9 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack-18")))
-      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack-14")))
-      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack-14"))))
+(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
+      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
+      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font"))))
 
 (dolist (char/ligature-re
          `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
@@ -219,8 +226,6 @@
   ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
 (global-set-key (kbd "<f2>") 'hydra-text-scale/body)
-
-(use-package hyperbole)
 
 (use-package perspective
   :bind
@@ -404,7 +409,7 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (defun org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
+  (setq visual-fill-column-width 120
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
@@ -507,6 +512,13 @@
   :config
   (when (daemonp)
     (exec-path-from-shell-initialize)))
+
+(use-package vterm
+:commands vterm
+:config
+(setq vterm-shell "zsh")
+(setq vterm-max-scrollback 10000)
+(setq vterm-timer-delay 0.01))
 
 (use-package restclient)
 
@@ -646,32 +658,32 @@
       (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
       (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
 
-  (dap-register-debug-template
-   "Elixir::Elixir Application"
-   (list :type "Elixir"
-         :program nil
-         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-         :projectDir "/home/hubbe/Projects/elixir/gen_chat"
-         :cwd "/home/hubbe/Projects/elixir/gen_chat"
-         :name "gen chat"))
+;;   (dap-register-debug-template
+;;    "Elixir::Elixir Application"
+;;    (list :type "Elixir"
+;;          :program nil
+;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+;;          :projectDir "/home/hubbe/Projects/elixir/gen_chat"
+;;          :cwd "/home/hubbe/Projects/elixir/gen_chat"
+;;          :name "gen chat"))
 
-  (dap-register-debug-template
-   "Elixir::Blog"
-   (list :type "Elixir"
-         :task "phx.server"
-         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-         :projectDir "/home/hubbe/Projects/elixir/blog"
-         :cwd "/home/hubbe/Projects/elixir/blog"
-         :name "phoenix blog"))
+;;   (dap-register-debug-template
+;;    "Elixir::Blog"
+;;    (list :type "Elixir"
+;;          :task "phx.server"
+;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+;;          :projectDir "/home/hubbe/Projects/elixir/blog"
+;;          :cwd "/home/hubbe/Projects/elixir/blog"
+;;          :name "phoenix blog"))
 
-(dap-register-debug-template
-   "Elixir::Pento"
-   (list :type "Elixir"
-         :task "phx.server"
-         :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-         :projectDir "/home/hubbe/Projects/elixir/pento"
-         :cwd "/home/hubbe/Projects/elixir/pento"
-         :name "phoenix pento"))
+;; (dap-register-debug-template
+;;    "Elixir::Pento"
+;;    (list :type "Elixir"
+;;          :task "phx.server"
+;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+;;          :projectDir "/home/hubbe/Projects/elixir/pento"
+;;          :cwd "/home/hubbe/Projects/elixir/pento"
+;;          :name "phoenix pento"))
 
 (use-package paredit
   :ensure t
@@ -712,3 +724,11 @@
    (format-time-string "%Y-%m-%d")))
 
 (load-file "~/.config/emacs/custom.el")
+
+(defun list-all-fonts ()
+  (interactive)
+  (get-buffer-create "fonts")
+  (switch-to-buffer "fonts")
+  (dolist (font (x-list-fonts "*"))
+    (insert (format "%s\n" font)))
+  (beginning-of-buffer))

@@ -146,13 +146,20 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (set-frame-parameter nil 'internal-border-width 0)
 #+end_src
 
-** Dired
+** Dired and file browsing
 #+begin_src emacs-lisp
   (use-package dired-single)
 
   (use-package dired-open
     :config
     (setq dired-open-extensions '(("mp4" . "vlc"))))
+
+  (use-package direx
+    :config
+    (setq direx:open-icon "  ")
+    (setq direx:closed-icon "  ")
+    (setq direx:leaf-icon "   "))
+  (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
 #+end_src
 
 ** Theeming
@@ -179,9 +186,9 @@ Set the font and enable font ligatures.
 
 *** Specify Fonts
 #+begin_src emacs-lisp
-(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack-18")))
-      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack-14")))
-      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack-14"))))
+  (cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
+        ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
+        ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font"))))
 #+end_src
 
 *** Font Ligatures
@@ -283,10 +290,6 @@ Set the font and enable font ligatures.
 
 #+end_src
 
-** Hyperbole
-#+begin_src emacs-lisp
-  (use-package hyperbole)
-#+end_src
 ** Perspective
 #+begin_src emacs-lisp
   (use-package perspective
@@ -316,8 +319,6 @@ Set the font and enable font ligatures.
     :config
     (setq which-key-idle-delay 1))
 #+end_src
-
-
 * Tools
 ** Pomodoro Time
 #+begin_src emacs-lisp
@@ -497,7 +498,7 @@ Set the font and enable font ligatures.
     (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
   (defun org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
+    (setq visual-fill-column-width 120
           visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
@@ -603,27 +604,34 @@ Set the font and enable font ligatures.
 
 * Terminal Configuration
 #+begin_src emacs-lisp
-  (defun configure-eshell ()
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+    (defun configure-eshell ()
+      (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+      (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-    (setq eshell-history-size         10000
-          eshell-buffer-maximum-lines 10000
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t))
+      (setq eshell-history-size         10000
+            eshell-buffer-maximum-lines 10000
+            eshell-hist-ignoredups t
+            eshell-scroll-to-bottom-on-input t))
 
-  (use-package eshell-git-prompt)
-  (use-package eshell
-    :hook (eshell-first-time-mode . configure-eshell)
+    (use-package eshell-git-prompt)
+    (use-package eshell
+      :hook (eshell-first-time-mode . configure-eshell)
+      :config
+      (with-eval-after-load 'esh-opt
+        (setq eshell-destroy-buffer-when-process-dies t)
+        (setq eshell-visual-commands '("htop" "zsh"))))
+
+    (use-package exec-path-from-shell
+      :config
+      (when (daemonp)
+        (exec-path-from-shell-initialize)))
+
+    (use-package vterm
+    :commands vterm
     :config
-    (with-eval-after-load 'esh-opt
-      (setq eshell-destroy-buffer-when-process-dies t)
-      (setq eshell-visual-commands '("htop" "zsh"))))
-
-  (use-package exec-path-from-shell
-    :config
-    (when (daemonp)
-      (exec-path-from-shell-initialize)))
+    (setq vterm-shell "zsh")
+    (setq vterm-max-scrollback 10000)
+    (setq vterm-timer-delay 0.01))
 
 #+end_src
 
@@ -787,32 +795,32 @@ Set the font and enable font ligatures.
         (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
         (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
 
-    (dap-register-debug-template
-     "Elixir::Elixir Application"
-     (list :type "Elixir"
-           :program nil
-           :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-           :projectDir "/home/hubbe/Projects/elixir/gen_chat"
-           :cwd "/home/hubbe/Projects/elixir/gen_chat"
-           :name "gen chat"))
+  ;;   (dap-register-debug-template
+  ;;    "Elixir::Elixir Application"
+  ;;    (list :type "Elixir"
+  ;;          :program nil
+  ;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+  ;;          :projectDir "/home/hubbe/Projects/elixir/gen_chat"
+  ;;          :cwd "/home/hubbe/Projects/elixir/gen_chat"
+  ;;          :name "gen chat"))
 
-    (dap-register-debug-template
-     "Elixir::Blog"
-     (list :type "Elixir"
-           :task "phx.server"
-           :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-           :projectDir "/home/hubbe/Projects/elixir/blog"
-           :cwd "/home/hubbe/Projects/elixir/blog"
-           :name "phoenix blog"))
+  ;;   (dap-register-debug-template
+  ;;    "Elixir::Blog"
+  ;;    (list :type "Elixir"
+  ;;          :task "phx.server"
+  ;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+  ;;          :projectDir "/home/hubbe/Projects/elixir/blog"
+  ;;          :cwd "/home/hubbe/Projects/elixir/blog"
+  ;;          :name "phoenix blog"))
 
-  (dap-register-debug-template
-     "Elixir::Pento"
-     (list :type "Elixir"
-           :task "phx.server"
-           :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-           :projectDir "/home/hubbe/Projects/elixir/pento"
-           :cwd "/home/hubbe/Projects/elixir/pento"
-           :name "phoenix pento"))
+  ;; (dap-register-debug-template
+  ;;    "Elixir::Pento"
+  ;;    (list :type "Elixir"
+  ;;          :task "phx.server"
+  ;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
+  ;;          :projectDir "/home/hubbe/Projects/elixir/pento"
+  ;;          :cwd "/home/hubbe/Projects/elixir/pento"
+  ;;          :name "phoenix pento"))
 
 #+end_src
 *** Lisps
@@ -869,6 +877,15 @@ Set the font and enable font ligatures.
   (load-file "~/.config/emacs/custom.el")
 #+end_src
 
+* Other stuff
+#+begin_src emacs-lisp
 
+  (defun list-all-fonts ()
+    (interactive)
+    (get-buffer-create "fonts")
+    (switch-to-buffer "fonts")
+    (dolist (font (x-list-fonts "*"))
+      (insert (format "%s\n" font)))
+    (beginning-of-buffer))
 
-
+#+end_src
