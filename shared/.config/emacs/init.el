@@ -150,9 +150,9 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
-      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font")))
-      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font"))))
+(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 20")))
+      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14")))
+      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14"))))
 
 (dolist (char/ligature-re
          `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
