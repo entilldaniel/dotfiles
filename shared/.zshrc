@@ -94,10 +94,3 @@ eval "$(atuin init zsh)"
 # Fix vterm showing %
 setopt PROMPT_SP
 
-
-
-
-
-
-
-

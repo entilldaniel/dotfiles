@@ -155,18 +155,14 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 
 ** Dired and file browsing
 #+begin_src emacs-lisp
-  (use-package dired-single)
+
+  (setq dired-listing-switches "-alh")
+  (setq dired-kill-when-opening-new-dired-buffer t)
 
   (use-package dired-open
     :config
     (setq dired-open-extensions '(("mp4" . "vlc"))))
 
-  (use-package direx
-    :config
-    (setq direx:open-icon "  ")
-    (setq direx:closed-icon "  ")
-    (setq direx:leaf-icon "   "))
-  (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
 #+end_src
 
 ** Theeming

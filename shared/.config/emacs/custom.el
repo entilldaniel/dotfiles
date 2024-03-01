@@ -4,7 +4,24 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(kubel dimmer direx vterm yaml-mode which-key visual-fill-column treemacs-projectile treemacs-magit treemacs-icons-dired toml-mode rustic restclient rainbow-mode rainbow-delimiters python-mode pomodoro perspective paredit page-break-lines org-present org-journal org-bullets ob-elixir no-littering multiple-cursors move-text mix mastodon lsp-ui lsp-tailwindcss lsp-origami lsp-java lsp-ivy java-imports ivy-rich ivy-prescient ivy-hydra hyperbole helpful flycheck exunit exec-path-from-shell eshell-git-prompt emmet-mode elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker dired-single dired-open diminish dashboard counsel-spotify counsel-projectile command-log-mode auto-package-update all-the-icons-dired)))
+   '(all-the-icons-dired auto-package-update command-log-mode company-box
+                         counsel-projectile counsel-spotify diminish
+                         dimmer dired dired-open dired-single direx
+                         docker doom-modeline doom-themes eat
+                         elixir-mode elpy emmet-mode eshell-git-prompt
+                         eterm-256color exec-path-from-shell exunit
+                         flycheck go-mode helpful hyperbole ivy-hydra
+                         ivy-prescient ivy-rich lsp-ivy lsp-java
+                         lsp-javacomp lsp-origami lsp-tailwindcss
+                         lsp-ui mastodon mix move-text multi-vterm
+                         multiple-cursors neotree no-littering
+                         ob-elixir org-bullets org-journal org-present
+                         page-break-lines paredit perspective pomodoro
+                         python-mode rainbow-delimiters rainbow-mode
+                         restclient rustic sicp toml-mode
+                         treemacs-icons-dired treemacs-magit
+                         treemacs-projectile ts use-package
+                         visual-fill-column which-key yaml-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

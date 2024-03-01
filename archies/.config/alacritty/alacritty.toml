@@ -1,7 +1,7 @@
 [font]
 size = 10
   [font.normal]
-  family="Hack"
+  family="Hack Nerd Font"
   style="normal"
 [window]
 opacity=0.9

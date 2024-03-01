@@ -122,18 +122,12 @@
 (add-to-list 'default-frame-alist '(alpha-background . 90))
 (set-frame-parameter nil 'internal-border-width 0)
 
-(use-package dired-single)
+(setq dired-listing-switches "-alh")
+(setq dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-open
   :config
   (setq dired-open-extensions '(("mp4" . "vlc"))))
-
-(use-package direx
-  :config
-  (setq direx:open-icon "  ")
-  (setq direx:closed-icon "  ")
-  (setq direx:leaf-icon "   "))
-(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory)
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
