@@ -156,6 +156,8 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 *** padding
 #+begin_src emacs-lisp
   (use-package spacious-padding
+    :config
+    (setq spacious-padding-subtle-mode-line t)
     :hook (after-init . spacious-padding-mode))
 #+end_src
 

@@ -123,6 +123,8 @@
 (set-frame-parameter nil 'internal-border-width 0)
 
 (use-package spacious-padding
+  :config
+  (setq spacious-padding-subtle-mode-line t)
   :hook (after-init . spacious-padding-mode))
 
 (setq dired-listing-switches "-alh")
