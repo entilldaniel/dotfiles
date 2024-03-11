@@ -80,6 +80,7 @@
 (setq inhibit-startup-screen t)
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq dired-dwim-target t)
+(setq delete-by-moving-to-thrash t)
 (setq global-auto-revert-non-file-buffers t)
 (make-directory "~/.emacs_backups/" t)
 (make-directory "~/.emacs_autosave/" t)
@@ -214,6 +215,7 @@
          ("M-<down>" . move-text-down)))
 
 (use-package treemacs)
+(doom-themes-treemacs-config)
 (use-package treemacs-projectile
   :after (treemacs projectile))
 (use-package treemacs-icons-dired
@@ -259,6 +261,8 @@
 (use-package kubel
   :config
   (setq kubel-log-tail-n 250))
+
+(use-package proceed)
 
 (use-package mastodon
   :config

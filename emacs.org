@@ -95,6 +95,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (setq inhibit-startup-screen t)
   (setq confirm-kill-emacs 'y-or-n-p)
   (setq dired-dwim-target t)
+  (setq delete-by-moving-to-thrash t)
   (setq global-auto-revert-non-file-buffers t)
   (make-directory "~/.emacs_backups/" t)
   (make-directory "~/.emacs_autosave/" t)
@@ -277,6 +278,7 @@ Set the font and enable font ligatures.
 ** Treemacs
 #+begin_src emacs-lisp
   (use-package treemacs)
+  (doom-themes-treemacs-config)
   (use-package treemacs-projectile
     :after (treemacs projectile))
   (use-package treemacs-icons-dired
@@ -336,6 +338,10 @@ Set the font and enable font ligatures.
   (use-package kubel
     :config
     (setq kubel-log-tail-n 250))
+#+end_src
+** Proceed
+#+begin_src emacs-lisp
+  (use-package proceed)
 #+end_src
 
 * Social
