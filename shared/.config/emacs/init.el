@@ -126,7 +126,8 @@
 (use-package spacious-padding
   :config
   (setq spacious-padding-subtle-mode-line t)
-  :hook (after-init . spacious-padding-mode))
+  :hook
+  (after-init . (spacious-padding-mode 1)))
 
 (setq dired-listing-switches "-alh")
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -325,16 +326,6 @@
 (use-package company
   :ensure t
   :hook (after-init . global-company-mode))
-
-(use-package ivy-posframe
-  :config ((setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display))))
-  :init
-  (ivy-posframe-mode 1))
-;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
-;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
-;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
 
 (global-set-key (kbd "M-p") 'completion-at-point)
 

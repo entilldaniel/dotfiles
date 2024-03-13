@@ -159,7 +159,8 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (use-package spacious-padding
     :config
     (setq spacious-padding-subtle-mode-line t)
-    :hook (after-init . spacious-padding-mode))
+    :hook
+    (after-init . (spacious-padding-mode 1)))
 #+end_src
 
 ** Dired and file browsing
@@ -411,16 +412,6 @@ Set the font and enable font ligatures.
   (use-package company
     :ensure t
     :hook (after-init . global-company-mode))
-
-  (use-package ivy-posframe
-    :config ((setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display))))
-    :init
-    (ivy-posframe-mode 1))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
-  ;; (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
 
   (global-set-key (kbd "M-p") 'completion-at-point)
 #+end_src
