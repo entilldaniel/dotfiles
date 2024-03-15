@@ -23,9 +23,8 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 ** Package System Setup
 #+begin_src emacs-lisp
   (require 'package)
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t)
 
   (package-initialize)
   (unless package-archive-contents
@@ -41,7 +40,7 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
     (auto-package-update-delete-old-versions t)
     :config
     (auto-package-update-maybe)
-    (auto-package-update-at-time "06:00"))
+    (auto-package-update-at-time "11:59"))
 
   (use-package no-littering)
   (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
@@ -157,10 +156,11 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 *** padding
 #+begin_src emacs-lisp
   (use-package spacious-padding
-    :config
+    :custom
     (setq spacious-padding-subtle-mode-line t)
-    :hook
-    (after-init . (spacious-padding-mode 1)))
+    :config
+    (spacious-padding-mode 1))
+
 #+end_src
 
 ** Dired and file browsing
@@ -340,9 +340,9 @@ Set the font and enable font ligatures.
     :config
     (setq kubel-log-tail-n 250))
 #+end_src
-** Proceed
+** Proced
 #+begin_src emacs-lisp
-  (use-package proceed)
+  (use-package proced)
 #+end_src
 
 * Social

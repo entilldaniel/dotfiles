@@ -14,9 +14,8 @@
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
 (require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 (unless package-archive-contents
@@ -32,7 +31,7 @@
   (auto-package-update-delete-old-versions t)
   :config
   (auto-package-update-maybe)
-  (auto-package-update-at-time "06:00"))
+  (auto-package-update-at-time "11:59"))
 
 (use-package no-littering)
 (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
@@ -124,10 +123,10 @@
 (set-frame-parameter nil 'internal-border-width 0)
 
 (use-package spacious-padding
-  :config
+  :custom
   (setq spacious-padding-subtle-mode-line t)
-  :hook
-  (after-init . (spacious-padding-mode 1)))
+  :config
+  (spacious-padding-mode 1))
 
 (setq dired-listing-switches "-alh")
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -263,7 +262,7 @@
   :config
   (setq kubel-log-tail-n 250))
 
-(use-package proceed)
+(use-package proced)
 
 (use-package mastodon
   :config
