@@ -51,7 +51,7 @@ alias ls=exa
 alias ks=kubectl
 alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
 alias tree='exa --long --tree -a'
-
+alias gbuild='./gradlew clean build'
 
 # For emacs vterm support
 vterm_printf(){

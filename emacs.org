@@ -648,8 +648,7 @@ Set the font and enable font ligatures.
   :commands vterm
   :config
   (setq vterm-shell "zsh")
-  (setq vterm-max-scrollback 10000)
-  (setq vterm-timer-delay 0.01))
+  (setq vterm-max-scrollback 10000))
 
 
   (use-package multi-vterm)
