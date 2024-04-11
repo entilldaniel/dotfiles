@@ -3,6 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   '("~/Documents/mega.org" "/home/hubbe/Documents/org/todo.org" "/home/hubbe/Documents/org/work.org" "/home/hubbe/Documents/org/ideas.org" "/home/hubbe/Documents/org/archive.org"))
  '(package-selected-packages
    '(all-the-icons-dired auto-package-update command-log-mode company-box
 			 counsel-projectile counsel-spotify diminish
