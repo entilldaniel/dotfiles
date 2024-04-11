@@ -153,16 +153,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (set-frame-parameter nil 'internal-border-width 0)
 #+end_src
 
-*** padding
-#+begin_src emacs-lisp
-  (use-package spacious-padding
-    :custom
-    (setq spacious-padding-subtle-mode-line t)
-    :config
-    (spacious-padding-mode 1))
-
-#+end_src
-
 ** Dired and file browsing
 #+begin_src emacs-lisp
 
@@ -182,7 +172,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
     :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
   (use-package doom-themes
-    :init (load-theme 'doom-monokai-pro t))
+    :init (load-theme 'modus-operandi-tinted t)) ;;'doom-monokai-pro t))
   (use-package doom-modeline
     :init (doom-modeline-mode 1)
     :custom ((doom-modeline-height 15)))
@@ -194,17 +184,17 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 
 #+end_src
 
-** Font configuration
+*** Font configuration
 Set the font and enable font ligatures.
 
-*** Specify Fonts
+**** Specify Fonts
 #+begin_src emacs-lisp
   (cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 20")))
         ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14")))
         ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14"))))
 #+end_src
 
-*** Font Ligatures
+**** Font Ligatures
 #+begin_src emacs-lisp
 
   (dolist (char/ligature-re
@@ -243,6 +233,15 @@ Set the font and enable font ligatures.
                             `([,ligature-re 0 font-shape-gstring]))))
 
 #+end_src
+*** padding
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :custom
+    (setq spacious-padding-subtle-mode-line t)
+    :config
+    (spacious-padding-mode 1))
+#+end_src
+
    
 ** Cursor and Window stuff
 
@@ -649,7 +648,6 @@ Set the font and enable font ligatures.
   :config
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 10000))
-
 
   (use-package multi-vterm)
 #+end_src

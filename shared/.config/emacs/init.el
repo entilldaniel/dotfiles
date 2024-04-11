@@ -122,12 +122,6 @@
 (add-to-list 'default-frame-alist '(alpha-background . 90))
 (set-frame-parameter nil 'internal-border-width 0)
 
-(use-package spacious-padding
-  :custom
-  (setq spacious-padding-subtle-mode-line t)
-  :config
-  (spacious-padding-mode 1))
-
 (setq dired-listing-switches "-alh")
 (setq dired-kill-when-opening-new-dired-buffer t)
 
@@ -140,7 +134,7 @@
   :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package doom-themes
-  :init (load-theme 'doom-monokai-pro t))
+  :init (load-theme 'modus-operandi-tinted t)) ;;'doom-monokai-pro t))
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
@@ -188,6 +182,12 @@
         (ligature-re (cdr char/ligature-re)))
     (set-char-table-range composition-function-table char
                           `([,ligature-re 0 font-shape-gstring]))))
+
+(use-package spacious-padding
+  :custom
+  (setq spacious-padding-subtle-mode-line t)
+  :config
+  (spacious-padding-mode 1))
 
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
@@ -528,7 +528,6 @@
 :config
 (setq vterm-shell "zsh")
 (setq vterm-max-scrollback 10000))
-
 
 (use-package multi-vterm)
 
