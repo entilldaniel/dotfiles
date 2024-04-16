@@ -72,7 +72,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!"))
+                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
 
 (setq ring-bell-function 'ignore)
 (setq x-select-enable-clipboard t)
@@ -118,9 +118,9 @@
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
 
-(set-frame-parameter nil 'alpha-background 90)
-(add-to-list 'default-frame-alist '(alpha-background . 90))
-(set-frame-parameter nil 'internal-border-width 0)
+;;  (set-frame-parameter nil 'alpha-background 90)
+;;  (add-to-list 'default-frame-alist '(alpha-background . 90))
+;;  (set-frame-parameter nil 'internal-border-width 0)
 
 (setq dired-listing-switches "-alh")
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -131,10 +131,10 @@
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
-  :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+    :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package doom-themes
-  :init (load-theme 'modus-operandi-tinted t)) ;;'doom-monokai-pro t))
+    :init (load-theme 'doom-monokai-pro t))
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 15)))
@@ -184,10 +184,8 @@
                           `([,ligature-re 0 font-shape-gstring]))))
 
 (use-package spacious-padding
-  :custom
-  (setq spacious-padding-subtle-mode-line t)
   :config
-  (spacious-padding-mode 1))
+  (setq spacious-padding-subtle-mode-line t))
 
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
@@ -743,3 +741,5 @@
   (dolist (font (x-list-fonts "*"))
     (insert (format "%s\n" font)))
   (beginning-of-buffer))
+
+(spacious-padding-mode 1)
