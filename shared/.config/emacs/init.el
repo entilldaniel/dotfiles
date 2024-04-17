@@ -256,17 +256,6 @@
   :config
   (setq which-key-idle-delay 1))
 
-(use-package kubel
-  :config
-  (setq kubel-log-tail-n 250))
-
-(use-package proced)
-
-(use-package mastodon
-  :config
-  (setq mastodon-instance-url "https://emacs.ch")
-  (setq mastodon-active-user "entilldaniel"))
-
 (defun my-yank ()
   "I want to access the most recent kill when I cut and paste"
   (interactive)
@@ -325,6 +314,28 @@
   :hook (after-init . global-company-mode))
 
 (global-set-key (kbd "M-p") 'completion-at-point)
+
+(use-package embark
+  :bind
+  (("C-," . embark-act)
+   ("C-." . embark-cycle))
+  :config
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(use-package kubel
+  :config
+  (setq kubel-log-tail-n 250))
+
+(use-package proced)
+
+(use-package mastodon
+  :config
+  (setq mastodon-instance-url "https://emacs.ch")
+  (setq mastodon-active-user "entilldaniel"))
 
 (use-package counsel-spotify)
 (setq counsel-spotfiy-client-id "590302fb731a455cb820da4b5aa0b250")
@@ -741,5 +752,3 @@
   (dolist (font (x-list-fonts "*"))
     (insert (format "%s\n" font)))
   (beginning-of-buffer))
-
-(spacious-padding-mode 1)

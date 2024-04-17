@@ -330,27 +330,7 @@ Set the font and enable font ligatures.
     :config
     (setq which-key-idle-delay 1))
 #+end_src
-* Tools
-** Kubernetes
-#+begin_src emacs-lisp
-  (use-package kubel
-    :config
-    (setq kubel-log-tail-n 250))
-#+end_src
-** Proced
-#+begin_src emacs-lisp
-  (use-package proced)
-#+end_src
-
-* Social
-#+begin_src emacs-lisp  
-  (use-package mastodon
-    :config
-    (setq mastodon-instance-url "https://emacs.ch")
-    (setq mastodon-active-user "entilldaniel"))
-
-#+end_src   
-* Counsel and Ivy 
+** Counsel and Ivy 
 #+begin_src emacs-lisp
 
   (defun my-yank ()
@@ -413,6 +393,40 @@ Set the font and enable font ligatures.
   (global-set-key (kbd "M-p") 'completion-at-point)
 #+end_src
 
+** Embark
+#+begin_src emacs-lisp
+  (use-package embark
+    :bind
+    (("C-," . embark-act)
+     ("C-." . embark-cycle))
+    :config
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                   nil
+                   (window-parameters (mode-line-format . none)))))
+#+end_src
+* Tools
+** Kubernetes
+#+begin_src emacs-lisp
+  (use-package kubel
+    :config
+    (setq kubel-log-tail-n 250))
+#+end_src
+** Proced
+#+begin_src emacs-lisp
+  (use-package proced)
+#+end_src
+
+* Social
+** Mastodon
+#+begin_src emacs-lisp  
+  (use-package mastodon
+    :config
+    (setq mastodon-instance-url "https://emacs.ch")
+    (setq mastodon-active-user "entilldaniel"))
+
+#+end_src   
 ** Spotify
 #+begin_src emacs-lisp
   (use-package counsel-spotify)
@@ -890,10 +904,6 @@ Set the font and enable font ligatures.
      (format-time-string "%Y-%m-%d")))
 
   (load-file "~/.config/emacs/custom.el")
-#+end_src
-
-* Other stuff
-#+begin_src emacs-lisp
 
   (defun list-all-fonts ()
     (interactive)
@@ -903,9 +913,4 @@ Set the font and enable font ligatures.
       (insert (format "%s\n" font)))
     (beginning-of-buffer))
 
-#+end_src
-
-* In The end we do this:
-#+begin_src emacs-lisp
-(spacious-padding-mode 1)
 #+end_src

@@ -13,7 +13,7 @@
                          counsel-projectile counsel-spotify diminish
                          dimmer dired-open dired-single direx docker
                          doom-modeline doom-themes eat elixir-mode
-                         elixir-yasnippets elpy emmet-mode
+                         elixir-yasnippets elpy embark emmet-mode
                          eshell-git-prompt eterm-256color
                          exec-path-from-shell exunit flycheck go-mode
                          helpful hyperbole ivy-hydra ivy-prescient
