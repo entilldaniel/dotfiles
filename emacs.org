@@ -145,14 +145,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (setq auto-window-vscroll nil)
 #+end_src
 
-*** Window Transparency
-
-#+begin_src emacs-lisp
-;;  (set-frame-parameter nil 'alpha-background 90)
-;;  (add-to-list 'default-frame-alist '(alpha-background . 90))
-;;  (set-frame-parameter nil 'internal-border-width 0)
-#+end_src
-
 ** Dired and file browsing
 #+begin_src emacs-lisp
 
