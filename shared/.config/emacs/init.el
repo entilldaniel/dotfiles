@@ -118,10 +118,6 @@
 (setq scroll-conservatively 10000)
 (setq auto-window-vscroll nil)
 
-;;  (set-frame-parameter nil 'alpha-background 90)
-;;  (add-to-list 'default-frame-alist '(alpha-background . 90))
-;;  (set-frame-parameter nil 'internal-border-width 0)
-
 (setq dired-listing-switches "-alh")
 (setq dired-kill-when-opening-new-dired-buffer t)
 
@@ -183,9 +179,8 @@
     (set-char-table-range composition-function-table char
                           `([,ligature-re 0 font-shape-gstring]))))
 
-(use-package spacious-padding
-  :config
-  (setq spacious-padding-subtle-mode-line t))
+(use-package spacious-padding)
+(spacious-padding-mode 1)
 
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
@@ -254,7 +249,7 @@
   :init (which-key-mode)
   :diminish which-key-mode
   :config
-  (setq which-key-idle-delay 1))
+  (setq which-key-idle-delay 0.5))
 
 (defun my-yank ()
   "I want to access the most recent kill when I cut and paste"
@@ -311,7 +306,11 @@
 
 (use-package company
   :ensure t
-  :hook (after-init . global-company-mode))
+  :hook
+  (after-init . global-company-mode)
+  :config
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.1))
 
 (global-set-key (kbd "M-p") 'completion-at-point)
 
@@ -569,22 +568,22 @@
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package lsp-mode
-  :commands (lsp lsp-deferred)
+  :commands lsp
   :init
   (setq lsp-keymap-prefix "C-c l")
   :diminish lsp-mode
-  :config
-  (lsp-enable-which-key-integration)
+  :hook (
+  (lsp-mode . lsp-enable-which-key-integration))
   :custom
   ;;Rust config
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
+  ;;(lsp-rust-analyzer-cargo-watch-command "clippy")
+  ;;(lsp-rust-analyzer-server-display-inlay-hints t)
+  ;;(lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  ;;(lsp-rust-analyzer-display-chaining-hints t)
+  ;;(lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  ;;(lsp-rust-analyzer-display-closure-return-type-hints t)
+  ;;(lsp-rust-analyzer-display-parameter-hints nil)
+  ;;(lsp-rust-analyzer-display-reborrow-hints nil)
   :bind
   (("C-<f8>" . dap-breakpoint-toggle))
   :config
