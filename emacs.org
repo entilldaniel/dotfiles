@@ -241,44 +241,37 @@ Set the font and enable font ligatures.
 #+end_src
 
 **** Font Ligatures
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp  
+    
+#+end_src       
 
-  (dolist (char/ligature-re
-	 `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
-	   (?/  . ,(rx (or (or "/==" "/=" "/>" "/**" "/*") (+ "/"))))
-	   (?*  . ,(rx (or (or "*>" "*/") (+ "*"))))
-	   (?<  . ,(rx (or (or "<<=" "<<-" "<|||" "<==>" "<!--" "<=>" "<||" "<|>" "<-<"
-			       "<==" "<=<" "<-|" "<~>" "<=|" "<~~" "<$>" "<+>" "</>"
-			       "<*>" "<->" "<=" "<|" "<:" "<>"  "<$" "<-" "<~" "<+"
-			       "</" "<*")
-			   (+ "<"))))
-	   (?:  . ,(rx (or (or ":?>" "::=" ":>" ":<" ":?" ":=") (+ ":"))))
-	   (?=  . ,(rx (or (or "=>>" "==>" "=/=" "=!=" "=>" "=:=") (+ "="))))
-	   (?!  . ,(rx (or (or "!==" "!=") (+ "!"))))
-	   (?>  . ,(rx (or (or ">>-" ">>=" ">=>" ">]" ">:" ">-" ">=") (+ ">"))))
-	   (?&  . ,(rx (+ "&")))
-	   (?|  . ,(rx (or (or "|->" "|||>" "||>" "|=>" "||-" "||=" "|-" "|>"
-			       "|]" "|}" "|=")
-			   (+ "|"))))
-	   (?.  . ,(rx (or (or ".?" ".=" ".-" "..<") (+ "."))))
-	   (?+  . ,(rx (or "+>" (+ "+"))))
-	   (?\[ . ,(rx (or "[<" "[|")))
-	   (?\{ . ,(rx "{|"))
-	   (?\? . ,(rx (or (or "?." "?=" "?:") (+ "?"))))
-	   (?#  . ,(rx (or (or "#_(" "#[" "#{" "#=" "#!" "#:" "#_" "#?" "#(")
-			   (+ "#"))))
-	   (?\; . ,(rx (+ ";")))
-	   (?_  . ,(rx (or "_|_" "__")))
-	   (?~  . ,(rx (or "~~>" "~~" "~>" "~-" "~@")))
-	   (?$  . ,(rx "$>"))
-	   (?^  . ,(rx "^="))
-	   (?\] . ,(rx "]#"))))
-  (let ((char (car char/ligature-re))
-	(ligature-re (cdr char/ligature-re)))
-    (set-char-table-range composition-function-table char
-			  `([,ligature-re 0 font-shape-gstring]))))
-
-#+end_src
+***** Ligature Mode
+#+begin_src emacs-lisp  
+  (use-package ligature
+    :config
+    ;; Enable the "www" ligature in every possible major mode
+    (ligature-set-ligatures 't '("www"))
+    ;; Enable traditional ligature support in eww-mode, if the
+    ;; `variable-pitch' face supports it
+    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+    ;; Enable all Cascadia Code ligatures in programming modes
+    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://"))
+    ;; Enables ligature checks globally in all buffers. You can also do it
+    ;; per mode with `ligature-mode'.
+    (global-ligature-mode t))
+#+end_src   
 ** Cursor and Window movement
 #+begin_src emacs-lisp
   (use-package multiple-cursors

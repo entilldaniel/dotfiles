@@ -35,8 +35,8 @@ fpath=(${ASDF_DIR}/completions $fpath)
 #     compinit -C;
 # fi;
 
-
 # Test speeding up zsh shell
+
 DISABLE_UNTRACKED_FILES_DIRTY="true"  
 
 #disable caps lock
@@ -92,5 +92,5 @@ eval "$(atuin init zsh)"
 
 
 # Fix vterm showing %
-setopt PROMPT_SP
+#setopt PROMPT_SP
 

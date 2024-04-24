@@ -23,11 +23,11 @@
                          eshell-git-prompt eterm-256color
                          exec-path-from-shell exunit flycheck go-mode
                          helpful hyperbole ivy-hydra ivy-prescient
-                         ivy-rich kubel lsp-ivy lsp-java lsp-javacomp
-                         lsp-origami lsp-tailwindcss lsp-ui mastodon
-                         mix modus-themes mood-line move-text
-                         multi-vterm multiple-cursors neotree
-                         no-littering ob-elixir org-bullets
+                         ivy-rich kubel ligature lsp-ivy lsp-java
+                         lsp-javacomp lsp-origami lsp-tailwindcss
+                         lsp-ui mastodon mix modus-themes mood-line
+                         move-text multi-vterm multiple-cursors
+                         neotree no-littering ob-elixir org-bullets
                          org-journal org-present page-break-lines
                          paredit perspective pkg-info pomodoro
                          python-mode rainbow-delimiters rainbow-mode
