@@ -72,7 +72,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!"))
+                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
 
 (setq ring-bell-function 'ignore)
 (setq x-select-enable-clipboard t)
@@ -118,35 +118,31 @@
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
-  :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package modus-themes)
-(setq modus-themes-region '(accented))
-(setq modus-themes-mode-line '(accented borderless padded))
-(setq modus-themes-org-blocks 'tinted-background)
-(setq modus-themes-paren-match '(bold intense))
-(setq modus-themes-syntax '(faint))
-(setq modus-themes-completions
+(setq modus-themes-region '(accented)
+      modus-themes-mode-line '(accented borderless)
+      modus-themes-org-blocks 'tinted-background
+      modus-themes-paren-match '(bold intense)
+      modus-themes-syntax '(faint)
+      modus-themes-completions
       '((matches . (extrabold))
-        (selection . (italic))))
-(setq modus-themes-headings
+        (selection . (italic)))
+      modus-themes-headings
       '((1 . (rainbow overline background 1.4))
         (2 . (rainbow background 1.3))
         (3 . (rainbow bold 1.2))
-        (t . (semilight 1.1))))
-(setq modus-themes-common-palette-overrides
+        (t . (semilight 1.1)))
+      modus-themes-common-palette-overrides
       '((border-mode-line-active bg-mode-line-active)
         (border-mode-line-inactive bg-mode-line-inactive)
-        (modus-themes-preset-overrides-faint)))
+        (modus-themes-preset-overrides-faint))
+      modus-themes-scale-headings t)
+
 ;;    (setq modus-vivendi-tinted-palette-overrides
 ;;            '((prose-macro "#2D3250")))
-
-(setq modus-themes-scale-headings t)
-
-(setq modus-themes-common-palette-overrides
-      '((bg-mode-line-active bg-blue-subtle)
-        (fg-mode-line-active fg-main)
-        (border-mode-line-active blue-subtle)))
 
 (defun my-modus-themes-invisible-dividers (&rest _)
   "Make window dividers invisible.
@@ -170,23 +166,30 @@
                                :overline ,border-mode-line-inactive
                                :box (:line-width 10 :color ,bg-mode-line-inactive)))))))
 
-;; ESSENTIAL to make the underline move to the bottom of the box:
-(setq x-underline-at-descent-line t)
-
-(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
-(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-(load-theme 'modus-vivendi-tinted t)
-
+;; Here so it comes before the hook
 (use-package spacious-padding)
 (setq spacious-padding-subtle-mode-line
       `( :mode-line-active 'default
          :mode-line-inactive vertical-border))
-(spacious-padding-mode 1)
+(spacious-padding-mode)
+
+;; ESSENTIAL to make the underline move to the bottom of the box:
+(setq x-underline-at-descent-line t)
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
+(add-hook 'window-setup-hook #'(spacious-padding-mode 1))
+
+(load-theme 'modus-vivendi-tinted t)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
+
+(use-package smart-mode-line
+  :config
+  (sml/setup)
+  (setq sml/theme 'respectful))
 
 (cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 20")))
       ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14")))

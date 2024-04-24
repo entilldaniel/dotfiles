@@ -4,7 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2"
+   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
+     "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
+     "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
+     "c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2"
      default))
  '(org-agenda-files
    '("~/Documents/mega.org" "/home/hubbe/Documents/org/todo.org"
@@ -28,8 +31,9 @@
                          org-journal org-present page-break-lines
                          paredit perspective pkg-info pomodoro
                          python-mode rainbow-delimiters rainbow-mode
-                         restclient rustic sicp spacious-padding
-                         toml-mode treemacs-icons-dired treemacs-magit
+                         restclient rustic sicp smart-mode-line
+                         smart-modeline spacious-padding toml-mode
+                         treemacs-icons-dired treemacs-magit
                          treemacs-projectile ts use-package
                          visual-fill-column which-key)))
 (custom-set-faces
