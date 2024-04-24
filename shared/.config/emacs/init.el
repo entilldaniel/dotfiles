@@ -6,10 +6,10 @@
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-                   (float-time
-                    (time-subtract after-init-time before-init-time)))
-           gcs-done))
+	   (format "%.2f seconds"
+		   (float-time
+		    (time-subtract after-init-time before-init-time)))
+	   gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -72,7 +72,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
+                               "\n;;; Happy Hacking!"))
 
 (setq ring-bell-function 'ignore)
 (setq x-select-enable-clipboard t)
@@ -95,16 +95,7 @@
 (setq native-comp-async-report-warnings-errors nil)
 (use-package page-break-lines)
 
-(use-package dimmer
-  :config
-  (setq dimmer-adjustment-mode :foreground)
-  (setq dimmer-fraction 0.5)
-  (dimmer-configure-which-key))
-(dimmer-mode)
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "C-x p") 'proced)
-(global-set-key (kbd "C-x r m") 'counsel-bookmark)
 (global-unset-key (kbd "C-z"))
 
 (defun close-frame-p ()
@@ -127,13 +118,70 @@
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
-    :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+  :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-(use-package doom-themes
-    :init (load-theme 'doom-monokai-pro t))
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+(use-package modus-themes)
+(setq modus-themes-region '(accented))
+(setq modus-themes-mode-line '(accented borderless padded))
+(setq modus-themes-org-blocks 'tinted-background)
+(setq modus-themes-paren-match '(bold intense))
+(setq modus-themes-syntax '(faint))
+(setq modus-themes-completions
+      '((matches . (extrabold))
+        (selection . (italic))))
+(setq modus-themes-headings
+      '((1 . (rainbow overline background 1.4))
+        (2 . (rainbow background 1.3))
+        (3 . (rainbow bold 1.2))
+        (t . (semilight 1.1))))
+(setq modus-themes-common-palette-overrides
+      '((border-mode-line-active bg-mode-line-active)
+        (border-mode-line-inactive bg-mode-line-inactive)
+        (modus-themes-preset-overrides-faint)))
+;;    (setq modus-vivendi-tinted-palette-overrides
+;;            '((prose-macro "#2D3250")))
+
+(setq modus-themes-scale-headings t)
+
+(setq modus-themes-common-palette-overrides
+      '((bg-mode-line-active bg-blue-subtle)
+        (fg-mode-line-active fg-main)
+        (border-mode-line-active blue-subtle)))
+
+(defun my-modus-themes-invisible-dividers (&rest _)
+  "Make window dividers invisible.
+    Add this to the `modus-themes-post-load-hook'."
+  (let ((bg (face-background 'default)))
+    (custom-set-faces
+     `(fringe ((t :background ,bg :foreground ,bg)))
+     `(window-divider ((t :background ,bg :foreground ,bg)))
+     `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
+     `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
+
+
+(defun my-modus-themes-custom-faces (&rest _)
+  (modus-themes-with-colors
+    (custom-set-faces
+     ;; Add "padding" to the mode lines
+     `(mode-line ((,c :underline ,border-mode-line-active
+                      :overline ,border-mode-line-active
+                      :box (:line-width 10 :color ,bg-mode-line-active))))
+     `(mode-line-inactive ((,c :underline ,border-mode-line-inactive
+                               :overline ,border-mode-line-inactive
+                               :box (:line-width 10 :color ,bg-mode-line-inactive)))))))
+
+;; ESSENTIAL to make the underline move to the bottom of the box:
+(setq x-underline-at-descent-line t)
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
+(load-theme 'modus-vivendi-tinted t)
+
+(use-package spacious-padding)
+(setq spacious-padding-subtle-mode-line
+      `( :mode-line-active 'default
+         :mode-line-inactive vertical-border))
+(spacious-padding-mode 1)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -145,42 +193,39 @@
       ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14"))))
 
 (dolist (char/ligature-re
-         `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
-           (?/  . ,(rx (or (or "/==" "/=" "/>" "/**" "/*") (+ "/"))))
-           (?*  . ,(rx (or (or "*>" "*/") (+ "*"))))
-           (?<  . ,(rx (or (or "<<=" "<<-" "<|||" "<==>" "<!--" "<=>" "<||" "<|>" "<-<"
-                               "<==" "<=<" "<-|" "<~>" "<=|" "<~~" "<$>" "<+>" "</>"
-                               "<*>" "<->" "<=" "<|" "<:" "<>"  "<$" "<-" "<~" "<+"
-                               "</" "<*")
-                           (+ "<"))))
-           (?:  . ,(rx (or (or ":?>" "::=" ":>" ":<" ":?" ":=") (+ ":"))))
-           (?=  . ,(rx (or (or "=>>" "==>" "=/=" "=!=" "=>" "=:=") (+ "="))))
-           (?!  . ,(rx (or (or "!==" "!=") (+ "!"))))
-           (?>  . ,(rx (or (or ">>-" ">>=" ">=>" ">]" ">:" ">-" ">=") (+ ">"))))
-           (?&  . ,(rx (+ "&")))
-           (?|  . ,(rx (or (or "|->" "|||>" "||>" "|=>" "||-" "||=" "|-" "|>"
-                               "|]" "|}" "|=")
-                           (+ "|"))))
-           (?.  . ,(rx (or (or ".?" ".=" ".-" "..<") (+ "."))))
-           (?+  . ,(rx (or "+>" (+ "+"))))
-           (?\[ . ,(rx (or "[<" "[|")))
-           (?\{ . ,(rx "{|"))
-           (?\? . ,(rx (or (or "?." "?=" "?:") (+ "?"))))
-           (?#  . ,(rx (or (or "#_(" "#[" "#{" "#=" "#!" "#:" "#_" "#?" "#(")
-                           (+ "#"))))
-           (?\; . ,(rx (+ ";")))
-           (?_  . ,(rx (or "_|_" "__")))
-           (?~  . ,(rx (or "~~>" "~~" "~>" "~-" "~@")))
-           (?$  . ,(rx "$>"))
-           (?^  . ,(rx "^="))
-           (?\] . ,(rx "]#"))))
-  (let ((char (car char/ligature-re))
-        (ligature-re (cdr char/ligature-re)))
-    (set-char-table-range composition-function-table char
-                          `([,ligature-re 0 font-shape-gstring]))))
-
-(use-package spacious-padding)
-(spacious-padding-mode 1)
+   `((?-  . ,(rx (or (or "-->" "-<<" "->>" "-|" "-~" "-<" "->") (+ "-"))))
+	 (?/  . ,(rx (or (or "/==" "/=" "/>" "/**" "/*") (+ "/"))))
+	 (?*  . ,(rx (or (or "*>" "*/") (+ "*"))))
+	 (?<  . ,(rx (or (or "<<=" "<<-" "<|||" "<==>" "<!--" "<=>" "<||" "<|>" "<-<"
+			     "<==" "<=<" "<-|" "<~>" "<=|" "<~~" "<$>" "<+>" "</>"
+			     "<*>" "<->" "<=" "<|" "<:" "<>"  "<$" "<-" "<~" "<+"
+			     "</" "<*")
+			 (+ "<"))))
+	 (?:  . ,(rx (or (or ":?>" "::=" ":>" ":<" ":?" ":=") (+ ":"))))
+	 (?=  . ,(rx (or (or "=>>" "==>" "=/=" "=!=" "=>" "=:=") (+ "="))))
+	 (?!  . ,(rx (or (or "!==" "!=") (+ "!"))))
+	 (?>  . ,(rx (or (or ">>-" ">>=" ">=>" ">]" ">:" ">-" ">=") (+ ">"))))
+	 (?&  . ,(rx (+ "&")))
+	 (?|  . ,(rx (or (or "|->" "|||>" "||>" "|=>" "||-" "||=" "|-" "|>"
+			     "|]" "|}" "|=")
+			 (+ "|"))))
+	 (?.  . ,(rx (or (or ".?" ".=" ".-" "..<") (+ "."))))
+	 (?+  . ,(rx (or "+>" (+ "+"))))
+	 (?\[ . ,(rx (or "[<" "[|")))
+	 (?\{ . ,(rx "{|"))
+	 (?\? . ,(rx (or (or "?." "?=" "?:") (+ "?"))))
+	 (?#  . ,(rx (or (or "#_(" "#[" "#{" "#=" "#!" "#:" "#_" "#?" "#(")
+			 (+ "#"))))
+	 (?\; . ,(rx (+ ";")))
+	 (?_  . ,(rx (or "_|_" "__")))
+	 (?~  . ,(rx (or "~~>" "~~" "~>" "~-" "~@")))
+	 (?$  . ,(rx "$>"))
+	 (?^  . ,(rx "^="))
+	 (?\] . ,(rx "]#"))))
+(let ((char (car char/ligature-re))
+  (ligature-re (cdr char/ligature-re)))
+  (set-char-table-range composition-function-table char
+			`([,ligature-re 0 font-shape-gstring]))))
 
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
@@ -208,7 +253,6 @@
          ("M-<down>" . move-text-down)))
 
 (use-package treemacs)
-(doom-themes-treemacs-config)
 (use-package treemacs-projectile
   :after (treemacs projectile))
 (use-package treemacs-icons-dired
@@ -256,14 +300,17 @@
   (interactive)
   (counsel-yank-pop 0))
 
-(use-package swiper)
+(use-package swiper
+  :bind
+  (("C-s" . swiper)))
+
 (setq kill-do-not-save-duplicates t)
 (use-package counsel
   :bind(("M-x" . counsel-M-x)
         ("C-x b" . persp-counsel-switch-buffer)
         ("C-x C-f" . counsel-find-file)
         ("C-y" . my-yank)
-        ("C-s" . swiper)
+        ("C-x r m" . counsel-bookmark)
         :map minibuffer-local-map
         ("C-r" . counsel-minibuffer-history))
   :config
@@ -329,7 +376,9 @@
   :config
   (setq kubel-log-tail-n 250))
 
-(use-package proced)
+(use-package proced
+  :bind
+  (("C-x p" . proced)))
 
 (use-package mastodon
   :config
@@ -574,7 +623,7 @@
   :diminish lsp-mode
   :hook (
   (lsp-mode . lsp-enable-which-key-integration))
-  :custom
+  ;; :custom
   ;;Rust config
   ;;(lsp-rust-analyzer-cargo-watch-command "clippy")
   ;;(lsp-rust-analyzer-server-display-inlay-hints t)

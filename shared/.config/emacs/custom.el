@@ -3,6 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2"
+     default))
  '(org-agenda-files
    '("~/Documents/mega.org" "/home/hubbe/Documents/org/todo.org"
      "/home/hubbe/Documents/org/work.org"
@@ -19,14 +22,14 @@
                          helpful hyperbole ivy-hydra ivy-prescient
                          ivy-rich kubel lsp-ivy lsp-java lsp-javacomp
                          lsp-origami lsp-tailwindcss lsp-ui mastodon
-                         mix mood-line move-text multi-vterm
-                         multiple-cursors neotree no-littering
-                         ob-elixir org-bullets org-journal org-present
-                         page-break-lines paredit perspective pkg-info
-                         pomodoro python-mode rainbow-delimiters
-                         rainbow-mode restclient rustic sicp
-                         spacious-padding toml-mode
-                         treemacs-icons-dired treemacs-magit
+                         mix modus-themes mood-line move-text
+                         multi-vterm multiple-cursors neotree
+                         no-littering ob-elixir org-bullets
+                         org-journal org-present page-break-lines
+                         paredit perspective pkg-info pomodoro
+                         python-mode rainbow-delimiters rainbow-mode
+                         restclient rustic sicp spacious-padding
+                         toml-mode treemacs-icons-dired treemacs-magit
                          treemacs-projectile ts use-package
                          visual-fill-column which-key)))
 (custom-set-faces
