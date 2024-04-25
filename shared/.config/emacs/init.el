@@ -1,15 +1,15 @@
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024))
-(setq load-prefer-newer t)
-(setq user-full-name "Daniel Figueroa")
-(setq use-short-answers t)
+(setq gc-cons-threshold 100000000
+      read-process-output-max (* 1024 1024)
+      load-prefer-newer t
+      user-full-name "Daniel Figueroa"
+      use-short-answers t)
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-	   (format "%.2f seconds"
-		   (float-time
-		    (time-subtract after-init-time before-init-time)))
-	   gcs-done))
+           (format "%.2f seconds"
+                   (float-time
+                    (time-subtract after-init-time before-init-time)))
+           gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -47,20 +47,24 @@
 (size-indication-mode t)
 (blink-cursor-mode -1)
 (global-display-line-numbers-mode t)
-(setq-default cursor-type 'box)
-(setq next-line-add-newlines t)
 (recentf-mode 1)
 (set-default 'truncate-lines 1)
-(setq history-length 25)
 (savehist-mode 1)
 (save-place-mode 1)
 (global-auto-revert-mode 1)
-(setq global-auto-revert-non-file-buffers 1)
-(setq use-dialog-box nil)
-(setq kill-whole-line t)
-(setq next-line-add-newlines t)
-(setq next-screen-context-lines 10)
 (line-number-mode t)
+
+(setq-default cursor-type 'box)
+
+(setq next-line-add-newlines t
+      history-length 25
+      global-auto-revert-non-file-buffers 1
+      use-dialog-box nil
+      kill-whole-line t
+      next-line-add-newlines t
+      next-screen-context-lines 10
+      kill-do-not-save-duplicates t)
+
 (dolist (mode '(org-mode-hook
                 treemacs-mode-hook
                 term-mode-hook
@@ -74,19 +78,19 @@
                                (format-time-string "%Y-%m-%d - %H:%m")
                                "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
 
-(setq ring-bell-function 'ignore)
-(setq x-select-enable-clipboard t)
-(setq inhibit-startup-screen t)
-(setq confirm-kill-emacs 'y-or-n-p)
-(setq dired-dwim-target t)
-(setq delete-by-moving-to-thrash t)
-(setq global-auto-revert-non-file-buffers t)
+(setq ring-bell-function 'ignore
+      x-select-enable-clipboard t
+      inhibit-startup-screen t
+      confirm-kill-emacs 'y-or-n-p
+      dired-dwim-target t
+      delete-by-moving-to-thrash t
+      global-auto-revert-non-file-buffers t
+      auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
+      backup-directory-alist '(("." . "~/.emacs_backups"))
+      proced-enable-color-flag t
+      create-lockfiles nil)
 (make-directory "~/.emacs_backups/" t)
 (make-directory "~/.emacs_autosave/" t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t)))
-(setq backup-directory-alist '(("." . "~/.emacs_backups")))
-(setq proced-enable-color-flag t)
-(setq create-lockfiles nil)
 
 ;; Emacs 29 specific
 (repeat-mode)
@@ -105,12 +109,12 @@
 (if (daemonp)
     (global-set-key (kbd "C-x C-c") 'close-frame-p))
 
-(setq scroll-step 1)
-(setq scroll-conservatively 10000)
-(setq auto-window-vscroll nil)
+(setq scroll-step 1
+      scroll-conservatively 10000
+      auto-window-vscroll nil)
 
-(setq dired-listing-switches "-alh")
-(setq dired-kill-when-opening-new-dired-buffer t)
+(setq dired-listing-switches "-alh"
+      dired-kill-when-opening-new-dired-buffer t)
 
 (use-package dired-open
   :config
@@ -166,12 +170,7 @@
                                :overline ,border-mode-line-inactive
                                :box (:line-width 10 :color ,bg-mode-line-inactive)))))))
 
-;; Here so it comes before the hook
-(use-package spacious-padding)
-(setq spacious-padding-subtle-mode-line
-      `( :mode-line-active 'default
-         :mode-line-inactive vertical-border))
-(spacious-padding-mode)
+
 
 ;; ESSENTIAL to make the underline move to the bottom of the box:
 (setq x-underline-at-descent-line t)
@@ -180,6 +179,14 @@
 (add-hook 'window-setup-hook #'(spacious-padding-mode 1))
 
 (load-theme 'modus-vivendi-tinted t)
+
+(use-package spacious-padding
+  :config
+  (setq spacious-padding-subtle-mode-line
+        `( :mode-line-active 'default
+           :mode-line-inactive vertical-border))
+  :init
+  (spacious-padding-mode))
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -199,12 +206,8 @@
 
 (use-package ligature
   :config
-  ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia Code ligatures in programming modes
   (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
                                        ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
                                        "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
@@ -247,7 +250,9 @@
   :bind (("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))
 
-(use-package treemacs)
+(use-package treemacs
+  :bind
+  (("C-c t" . treemacs)))
 (use-package treemacs-projectile
   :after (treemacs projectile))
 (use-package treemacs-icons-dired
@@ -255,7 +260,6 @@
 (use-package treemacs-magit
   :after (treemacs magit))
 
-(global-set-key (kbd "C-c t") 'treemacs)
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode -1)))
 
@@ -290,61 +294,58 @@
   :config
   (setq which-key-idle-delay 0.5))
 
-(defun my-yank ()
-  "I want to access the most recent kill when I cut and paste"
-  (interactive)
-  (counsel-yank-pop 0))
+(defun dw/minibuffer-backward-kill (arg)
+  "When minibuffer is completing a file name delete up to parent
+folder, otherwise delete a character backward"
+  (interactive "p")
+  (if minibuffer-completing-file-name
+      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
+      (if (string-match-p "/." (minibuffer-contents))
+          (zap-up-to-char (- arg) ?/)
+        (delete-minibuffer-contents))
+    (delete-backward-char arg)))
 
-(use-package swiper
-  :bind
-  (("C-s" . swiper)))
-
-(setq kill-do-not-save-duplicates t)
-(use-package counsel
-  :bind(("M-x" . counsel-M-x)
-        ("C-x b" . persp-counsel-switch-buffer)
-        ("C-x C-f" . counsel-find-file)
-        ("C-y" . my-yank)
-        ("C-x r m" . counsel-bookmark)
-        :map minibuffer-local-map
-        ("C-r" . counsel-minibuffer-history))
-  :config
-  (setq ivy-initial-inputs-alist nil)) ;; Don't start searches with ^
-
-(use-package ivy
-  :diminish
-  :config
-  (ivy-mode t)
-  (setq ivy-use-virtual-buffers t)
-  (setq enabe-recursive-minibuffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-re-builders-alist
-        '((ivy-switch-buffer . ivy--regex-plus)
-          (t . ivy--regex-fuzzy)))
-  (setq ivy-magic-slash-non-match-action nil)
-  (setq ivy-format-function 'ivy-format-function-line))
-
-(use-package ivy-prescient
-  :after counsel
-  :config
-  (setq prescient-sort-length nil)
-  (ivy-prescient-mode 1))
-
-(use-package ivy-rich
+(use-package vertico
   :init
-  (ivy-rich-mode 1))
+  (vertico-mode)
+  :bind (:map minibuffer-local-map
+              ("<backspace>" . dw/minibuffer-backward-kill))
+  :config
+  (setq vertico-resize t)
+  (setq vertico-count 15)
+  (setq vertico-cycle t))
+(use-package consult
+  :bind
+  (("C-s"     . consult-line)
+   ("C-x b"   . consult-buffer)
+   ("C-x r m" . counsult-bookmark)
+   ("C-y"     . consult-yank-pop)))
 
-(use-package ivy-hydra)
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
 
 (use-package helpful
-  :custom
-  (counsel-describe-function-function #'helpful-callable)
-  (counsel-describe-variable-function #'helpful-variable)
   :bind
-  ([remap describe-function] . counsel-describe-function)
-  ([remap describe-command] . helpful-command)
-  ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+  (("C-h f"   . helpful-callable)
+   ("C-h v"   . helpful-variable)
+   ("C-h k"   . helpful-key)
+   ("C-h x"   . helpful-command)
+   ("C-c C-d" . helpful-at-point)))
 
 (use-package company
   :ensure t
@@ -366,6 +367,11 @@
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package kubel
   :config
