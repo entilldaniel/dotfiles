@@ -255,9 +255,10 @@ Set the font and enable font ligatures.
 	     :default-family "Hack"
 	     :default-height 180
 	     :fixed-pitch-family "Hack Nerd Font"
-             :variable-pitch-family "Iosevka"
-             :italic-family "Hack"
+	     :variable-pitch-family "Iosevka"
+	     :italic-family "Hack"
 	     :line-spacing 1))))
+
 
   (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
 	((equal (system-name) "archie") (fontaine-set-preset 'regular))

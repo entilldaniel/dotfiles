@@ -201,18 +201,21 @@
 (use-package fontaine
   :config
   (setq fontaine-presets
-        '((regular
-           :default-family "Hack"
-           :default-height 140
-           :fixed-pitch-family "Hack Nerd Font"
-           :variable-pitch-family "Iosevka"
-           :italic-family "Hack"
-           :line-spacing 1)
-          (large
-           :default-family "Iosevka"
-           :default-height 180
-           :variable-pitch-family "Hack Nerd Font"
-           :line-spacing 1))))
+	'((regular
+	   :default-family "Hack"
+	   :default-height 140
+	   :fixed-pitch-family "Hack Nerd Font"
+	   :variable-pitch-family "Iosevka"
+	   :italic-family "Hack"
+	   :line-spacing 1)
+	  (large
+	   :default-family "Hack"
+	   :default-height 180
+	   :fixed-pitch-family "Hack Nerd Font"
+	   :variable-pitch-family "Iosevka"
+	   :italic-family "Hack"
+	   :line-spacing 1))))
+
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
@@ -335,9 +338,6 @@ folder, otherwise delete a character backward"
    ("C-x r m" . counsult-bookmark)
    ("C-y"     . consult-yank-pop)))
 
-(use-package vertico-grid
-  :after vertico)
-
 (use-package orderless
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
@@ -356,16 +356,7 @@ folder, otherwise delete a character backward"
   :init
   (marginalia-mode))
 
-;; (use-package helpful
-;;   :bind
-;;   (("C-h f"   . helpful-callable)
-;;    ("C-h v"   . helpful-variable)
-;;    ("C-h k"   . helpful-key)
-;;    ("C-h x"   . helpful-command)
-;;    ("C-c C-d" . helpful-at-point)))
-
-;; (use-package 
-  company
+(use-package company
   :ensure t
   :hook
   (after-init . global-company-mode)

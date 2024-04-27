@@ -4,9 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))
- '(package-selected-packages
-   '(vertico-grid marginalia orderless vertico ligature fontaine smart-mode-line embark-consult embark modus-themes which-key visual-fill-column treemacs-projectile treemacs-magit treemacs-icons-dired toml-mode spacious-padding rustic restclient rainbow-mode rainbow-delimiters python-mode pomodoro pkg-info perspective paredit page-break-lines org-present org-journal org-bullets ob-elixir no-littering multiple-cursors multi-vterm move-text mix mastodon lsp-ui lsp-tailwindcss lsp-origami lsp-java lsp-ivy kubel java-imports ivy-rich ivy-prescient ivy-posframe ivy-hydra helpful flycheck exunit exec-path-from-shell eshell-git-prompt emmet-mode elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker direx dired-single dired-open dimmer diminish dashboard counsel-spotify counsel-projectile command-log-mode auto-package-update all-the-icons-dired)))
+   '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
+     default)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
