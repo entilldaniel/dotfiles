@@ -22,11 +22,11 @@
                          elixir-mode elixir-yasnippets elpy embark
                          embark-consult emmet-mode eshell-git-prompt
                          eterm-256color exec-path-from-shell exunit
-                         flycheck go-mode helpful hyperbole ivy-hydra
-                         ivy-prescient ivy-rich kubel ligature lsp-ivy
-                         lsp-java lsp-javacomp lsp-origami
-                         lsp-tailwindcss lsp-ui marginalia mastodon
-                         mix modus-themes mood-line move-text
+                         flycheck fontaine go-mode helpful hyperbole
+                         ivy-hydra ivy-prescient ivy-rich kubel
+                         ligature lsp-ivy lsp-java lsp-javacomp
+                         lsp-origami lsp-tailwindcss lsp-ui marginalia
+                         mastodon mix modus-themes mood-line move-text
                          multi-vterm multiple-cursors neotree
                          no-littering ob-elixir orderless org-bullets
                          org-journal org-present page-break-lines

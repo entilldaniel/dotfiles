@@ -198,9 +198,21 @@
   (sml/setup)
   (setq sml/theme 'respectful))
 
-(cond ((equal (system-name) "endive") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 20")))
-      ((equal (system-name) "archie") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14")))
-      ((equal "" "") (add-to-list 'default-frame-alist '(font . "Hack Nerd Font 14"))))
+(use-package fontaine
+  :config
+  (setq fontaine-presets
+        '((regular
+           :default-family "Hack"
+           :default-height 140
+           :fixed-pitch-family "Hack Nerd Font"
+           :variable-pitch-family "Iosevka"
+           :italic-family "Hack"
+           :line-spacing 1)
+          (large
+           :default-family "Iosevka"
+           :default-height 180
+           :variable-pitch-family "Hack Nerd Font"
+           :line-spacing 1))))
 
 
 
