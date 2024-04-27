@@ -244,24 +244,25 @@ Set the font and enable font ligatures.
   (use-package fontaine
     :config
     (setq fontaine-presets
-          '((regular
-             :default-family "Hack"
-             :default-height 140
-             :fixed-pitch-family "Hack Nerd Font"
+	  '((regular
+	     :default-family "Hack"
+	     :default-height 140
+	     :fixed-pitch-family "Hack Nerd Font"
+	     :variable-pitch-family "Iosevka"
+	     :italic-family "Hack"
+	     :line-spacing 1)
+	    (large
+	     :default-family "Hack"
+	     :default-height 180
+	     :fixed-pitch-family "Hack Nerd Font"
              :variable-pitch-family "Iosevka"
              :italic-family "Hack"
-             :line-spacing 1)
-            (large
-             :default-family "Iosevka"
-             :default-height 180
-             :variable-pitch-family "Hack Nerd Font"
-             :line-spacing 1))))
-#+end_src
+	     :line-spacing 1))))
 
-**** Font Ligatures
-#+begin_src emacs-lisp  
-    
-#+end_src       
+  (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
+	((equal (system-name) "archie") (fontaine-set-preset 'regular))
+	((equal "" "") (fontaine-set-preset 'regular)))
+#+end_src
 
 ***** Ligature Mode
 Doesn't work with Hack Nerd Font.
@@ -383,62 +384,54 @@ This is the new cool way that emacs users use emacs.
 Enjoy!
 
 #+begin_src emacs-lisp
-  (defun dw/minibuffer-backward-kill (arg)
-    "When minibuffer is completing a file name delete up to parent
-  folder, otherwise delete a character backward"
-    (interactive "p")
-    (if minibuffer-completing-file-name
-        ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
-        (if (string-match-p "/." (minibuffer-contents))
-            (zap-up-to-char (- arg) ?/)
-          (delete-minibuffer-contents))
-      (delete-backward-char arg)))
+    (defun dw/minibuffer-backward-kill (arg)
+      "When minibuffer is completing a file name delete up to parent
+    folder, otherwise delete a character backward"
+      (interactive "p")
+      (if minibuffer-completing-file-name
+          ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
+          (if (string-match-p "/." (minibuffer-contents))
+              (zap-up-to-char (- arg) ?/)
+            (delete-minibuffer-contents))
+        (delete-backward-char arg)))
 
-  (use-package vertico
-    :init
-    (vertico-mode)
-    :bind (:map minibuffer-local-map
-                ("<backspace>" . dw/minibuffer-backward-kill))
-    :config
-    (setq vertico-resize t)
-    (setq vertico-count 15)
-    (setq vertico-cycle t))
-  (use-package consult
-    :bind
-    (("C-s"     . consult-line)
-     ("C-x b"   . consult-buffer)
-     ("C-x r m" . counsult-bookmark)
-     ("C-y"     . consult-yank-pop)))
+    (use-package vertico
+      :init
+      (vertico-mode)
+      :bind (:map minibuffer-local-map
+                  ("<backspace>" . dw/minibuffer-backward-kill))
+      :config
+      (setq vertico-resize t)
+      (setq vertico-count 15)
+      (setq vertico-cycle t))
+    (use-package consult
+      :bind
+      (("C-s"     . consult-line)
+       ("C-x b"   . consult-buffer)
+       ("C-x r m" . counsult-bookmark)
+       ("C-y"     . consult-yank-pop)))
 
-  (use-package orderless
-    :init
-    ;; Configure a custom style dispatcher (see the Consult wiki)
-    ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-    (setq completion-styles '(orderless basic)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles partial-completion)))))
+    (use-package orderless
+      :init
+      ;; Configure a custom style dispatcher (see the Consult wiki)
+      ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+      ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+      (setq completion-styles '(orderless basic)
+            completion-category-defaults nil
+            completion-category-overrides '((file (styles partial-completion)))))
 
-  (use-package marginalia
-    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-    ;; available in the *Completions* buffer, add it to the
-    ;; `completion-list-mode-map'.
-    :bind (:map minibuffer-local-map
-                ("M-A" . marginalia-cycle))
-    :init
-    (marginalia-mode))
+    (use-package marginalia
+      ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+      ;; available in the *Completions* buffer, add it to the
+      ;; `completion-list-mode-map'.
+      :bind (:map minibuffer-local-map
+                  ("M-A" . marginalia-cycle))
+      :init
+      (marginalia-mode))
 #+end_src
 
 ** Company mode
 #+begin_src emacs-lisp
-  (use-package helpful
-    :bind
-    (("C-h f"   . helpful-callable)
-     ("C-h v"   . helpful-variable)
-     ("C-h k"   . helpful-key)
-     ("C-h x"   . helpful-command)
-     ("C-c C-d" . helpful-at-point)))
-
   (use-package company
     :ensure t
     :hook

@@ -4,39 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa"
-     "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e"
-     "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223"
-     "c7a926ad0e1ca4272c90fce2e1ffa7760494083356f6bb6d72481b879afce1f2"
-     default))
- '(org-agenda-files
-   '("~/Documents/mega.org" "/home/hubbe/Documents/org/todo.org"
-     "/home/hubbe/Documents/org/work.org"
-     "/home/hubbe/Documents/org/ideas.org"
-     "/home/hubbe/Documents/org/archive.org"))
+   '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))
  '(package-selected-packages
-   '(all-the-icons-dired auto-package-update command-log-mode company-box
-                         consult counsel-projectile counsel-spotify
-                         diminish dimmer dired-open dired-single direx
-                         docker doom-modeline doom-themes eat
-                         elixir-mode elixir-yasnippets elpy embark
-                         embark-consult emmet-mode eshell-git-prompt
-                         eterm-256color exec-path-from-shell exunit
-                         flycheck fontaine go-mode helpful hyperbole
-                         ivy-hydra ivy-prescient ivy-rich kubel
-                         ligature lsp-ivy lsp-java lsp-javacomp
-                         lsp-origami lsp-tailwindcss lsp-ui marginalia
-                         mastodon mix modus-themes mood-line move-text
-                         multi-vterm multiple-cursors neotree
-                         no-littering ob-elixir orderless org-bullets
-                         org-journal org-present page-break-lines
-                         paredit perspective pkg-info pomodoro
-                         python-mode rainbow-delimiters rainbow-mode
-                         restclient rustic sicp smart-mode-line
-                         smart-modeline spacious-padding toml-mode
-                         treemacs-icons-dired treemacs-magit
-                         treemacs-projectile ts use-package vertico
-                         visual-fill-column which-key)))
+   '(vertico-grid marginalia orderless vertico ligature fontaine smart-mode-line embark-consult embark modus-themes which-key visual-fill-column treemacs-projectile treemacs-magit treemacs-icons-dired toml-mode spacious-padding rustic restclient rainbow-mode rainbow-delimiters python-mode pomodoro pkg-info perspective paredit page-break-lines org-present org-journal org-bullets ob-elixir no-littering multiple-cursors multi-vterm move-text mix mastodon lsp-ui lsp-tailwindcss lsp-origami lsp-java lsp-ivy kubel java-imports ivy-rich ivy-prescient ivy-posframe ivy-hydra helpful flycheck exunit exec-path-from-shell eshell-git-prompt emmet-mode elpy elixir-mode doom-themes doom-modeline dockerfile-mode docker direx dired-single dired-open dimmer diminish dashboard counsel-spotify counsel-projectile command-log-mode auto-package-update all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
