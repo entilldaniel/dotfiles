@@ -973,5 +973,3 @@ Enjoy!
 
 #+end_src
 
-
-
