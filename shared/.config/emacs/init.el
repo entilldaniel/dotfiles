@@ -328,7 +328,7 @@ folder, otherwise delete a character backward"
   :bind (:map minibuffer-local-map
               ("<backspace>" . dw/minibuffer-backward-kill))
   :config
-  (setq vertico-resize t)
+  (setq vertico-resize -1)
   (setq vertico-count 15)
   (setq vertico-cycle t))
 (use-package consult

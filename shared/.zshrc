@@ -3,7 +3,7 @@ unsetopt PROMPT_SP
 export ZSH="$HOME/.oh-my-zsh"
 
 #zmodload zsh/zprof  
-#ZSH_THEME="agnoster"
+ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
 # ZSH Autocomplete https://github.com/marlonrichert/zsh-autocomplete
@@ -86,7 +86,7 @@ cheat () {
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-eval "$(starship init zsh)"
+#eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 #zprof
 
