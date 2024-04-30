@@ -202,18 +202,18 @@
   :config
   (setq fontaine-presets
 	'((regular
-	   :default-family "Hack"
+	   :default-family "FiraCode Nerd Font Mono"
 	   :default-height 140
-	   :fixed-pitch-family "Hack Nerd Font"
+	   :fixed-pitch-family "FiraCode Nerd Font Mono"
 	   :variable-pitch-family "Iosevka"
-	   :italic-family "Hack"
+	   :italic-family "FiraCode Nerd Font Mono"
 	   :line-spacing 1)
 	  (large
-	   :default-family "Hack"
+	   :default-family "FiraCode Nerd Font Mono"
 	   :default-height 180
-	   :fixed-pitch-family "Hack Nerd Font"
+	   :fixed-pitch-family "FiraCode Nerd Font Mono"
 	   :variable-pitch-family "Iosevka"
-	   :italic-family "Hack"
+	   :italic-family "FiraCode Nerd Font Mono"
 	   :line-spacing 1))))
 
 
