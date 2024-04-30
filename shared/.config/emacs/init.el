@@ -290,8 +290,9 @@
 
 (use-package perspective
   :bind
-  (("C-x C-b" . persp-list-buffers)
-   ("C-x k" . persp-kill-buffer*))
+  (("C-x C-b" . persp-buffer-menu)
+   ("C-x b"   . persp-switch-to-buffer*)
+   ("C-x k"   . persp-kill-buffer*))
   :custom
   (persp-mode-prefix-key (kbd "C-x x"))
   :init
@@ -640,12 +641,6 @@ folder, otherwise delete a character backward"
 
 (use-package mix)
 (use-package ob-elixir)
-;; (use-package elixir-mode
-;;   :init
-;;   (add-to-list 'exec-path "~/.local/opt/elixir-ls")
-;;   :hook ((elixir-mode . lsp-deferred)
-;;          (before-save-hook . elixir-format)))
-
 (use-package elixir-ts-mode
   :hook (elixir-ts-mode . eglot-ensure)
   (elixir-ts-mode
@@ -671,44 +666,6 @@ folder, otherwise delete a character backward"
   ("C-c e u a" . exunit-verify-all-in-umbrella)
   ("C-c e a" . exunit-verify-all)
   ("C-c e l" . exunit-rerun))
-
-;; (defun dap-elixir--populate-start-file-args (conf)
-;;   "Populate CONF with the required arguments."
-;;   (-> conf
-;;       (dap--put-if-absent :dap-server-path '("debugger.sh"))
-;;       (dap--put-if-absent :type "Elixir")
-;;       (dap--put-if-absent :name "mix test")
-;;       (dap--put-if-absent :request "launch")
-;;       (dap--put-if-absent :task "test")
-;;       (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
-;;       (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
-
-;;  (dap-register-debug-template
-;;    "Elixir::Elixir Application"
-;;    (list :type "Elixir"
-;;          :program nil
-;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-;;          :projectDir "/home/hubbe/Projects/elixir/gen_chat"
-;;          :cwd "/home/hubbe/Projects/elixir/gen_chat"
-;;          :name "gen chat"))
-
-;;   (dap-register-debug-template
-;;    "Elixir::Blog"
-;;    (list :type "Elixir"
-;;          :task "phx.server"
-;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-;;          :projectDir "/home/hubbe/Projects/elixir/blog"
-;;          :cwd "/home/hubbe/Projects/elixir/blog"
-;;          :name "phoenix blog"))
-
-;; (dap-register-debug-template
-;;    "Elixir::Pento"
-;;    (list :type "Elixir"
-;;          :task "phx.server"
-;;          :dap-server-path '("/home/hubbe/.config/emacs/var/lsp/server/elixir-ls/debugger.sh")
-;;          :projectDir "/home/hubbe/Projects/elixir/pento"
-;;          :cwd "/home/hubbe/Projects/elixir/pento"
-;;          :name "phoenix pento"))
 
 (use-package paredit
   :ensure t
