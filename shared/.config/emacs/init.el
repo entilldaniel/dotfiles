@@ -454,15 +454,6 @@ folder, otherwise delete a character backward"
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\)"
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
@@ -472,12 +463,6 @@ folder, otherwise delete a character backward"
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
-
-;; (use-package org
-;;   :hook (org-mode . org-mode-setup)
-;;   :config
-;;   (setq org-ellipsis " ▾")
-;;   (org-font-setup))
 
 (use-package org-bullets
   :after org
@@ -626,68 +611,25 @@ folder, otherwise delete a character backward"
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-(use-package lsp-mode
-  :commands lsp
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :diminish lsp-mode
-  :hook (
-  (lsp-mode . lsp-enable-which-key-integration))
-  ;; :custom
-  ;;Rust config
-  ;;(lsp-rust-analyzer-cargo-watch-command "clippy")
-  ;;(lsp-rust-analyzer-server-display-inlay-hints t)
-  ;;(lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  ;;(lsp-rust-analyzer-display-chaining-hints t)
-  ;;(lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  ;;(lsp-rust-analyzer-display-closure-return-type-hints t)
-  ;;(lsp-rust-analyzer-display-parameter-hints nil)
-  ;;(lsp-rust-analyzer-display-reborrow-hints nil)
-  :bind
-  (("C-<f8>" . dap-breakpoint-toggle))
+(use-package eglot
+  :ensure nil
+  :defer t
+  :hook (elixir-mode . eglot-ensure)
   :config
-  (lsp-enable-which-key-integration))
-
-
-(use-package lsp-treemacs
-  :config
-  (setq lsp-treemacs-sync-mode 1)
-  :after lsp)
-
-(use-package lsp-ivy)
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable t))
-
-(use-package lsp-origami
-  :bind
-  (("C-c q" . origami-toggle-node))
-  :hook
-  ((lsp-after-open . lsp-origami-try-enable))
-  :config
-  (setq lsp-enable-folding t))
-
-(use-package lsp-tailwindcss
-  :init
-  (setq lsp-tailwindcss-add-on-mode t))
-
-
-(use-package dap-mode
-  :after lsp-mode
-  :commands dap-debug
-  :hook ((elixir-mode . dap-ui-mode) (elixir-mode . dap-mode))
-  :config
-  (require 'dap-elixir)
-  (setq dap-auto-configure-features '(sessions locals controls tooltip)) 
-  (add-hook 'dap-stopped-hook
-	    (lambda (arg) (call-interactively #'dap-hydra))))
+  (add-to-list
+   'eglot-server-programs
+   '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh")))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
+
+(add-to-list 'treesit-language-source-alist
+ '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
+   (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")))
+
+(add-to-list 'major-mode-remap-alist
+      '((elixir-mode . elixir-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
@@ -696,26 +638,31 @@ folder, otherwise delete a character backward"
 (use-package toml-mode)
 (use-package markdown-mode)
 
-(use-package ob-elixir)
-  (use-package elixir-mode
-    :init
-    (add-to-list 'exec-path "/home/hubbe/.config/emacs/var/lsp/server/elixir-ls")
-    :hook ((elixir-mode . lsp-deferred)
-           (before-save-hook . elixir-format))
-    :config
-    (require 'dap-elixir))
-
-  (use-package mix)
-(use-package ob-elixir)
-(use-package elixir-mode
-  :init
-  (add-to-list 'exec-path "/home/hubbe/.config/emacs/var/lsp/server/elixir-ls")
-  :hook ((elixir-mode . lsp-deferred)
-         (before-save-hook . elixir-format))
-  :config
-  (require 'dap-elixir))
-
 (use-package mix)
+(use-package ob-elixir)
+;; (use-package elixir-mode
+;;   :init
+;;   (add-to-list 'exec-path "~/.local/opt/elixir-ls")
+;;   :hook ((elixir-mode . lsp-deferred)
+;;          (before-save-hook . elixir-format)))
+
+(use-package elixir-ts-mode
+  :hook (elixir-ts-mode . eglot-ensure)
+  (elixir-ts-mode
+   .
+   (lambda ()
+     (push '(">=" . ?\u2265) prettify-symbols-alist)
+     (push '("<=" . ?\u2264) prettify-symbols-alist)
+     (push '("!=" . ?\u2260) prettify-symbols-alist)
+     (push '("==" . ?\u2A75) prettify-symbols-alist)
+     (push '("=~" . ?\u2245) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("->" . ?\u2192) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+  (before-save . eglot-format))
+
+
 (use-package exunit
   :diminish t
   :bind
@@ -725,18 +672,18 @@ folder, otherwise delete a character backward"
   ("C-c e a" . exunit-verify-all)
   ("C-c e l" . exunit-rerun))
 
-(defun dap-elixir--populate-start-file-args (conf)
-  "Populate CONF with the required arguments."
-  (-> conf
-      (dap--put-if-absent :dap-server-path '("debugger.sh"))
-      (dap--put-if-absent :type "Elixir")
-      (dap--put-if-absent :name "mix test")
-      (dap--put-if-absent :request "launch")
-      (dap--put-if-absent :task "test")
-      (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
-      (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
+;; (defun dap-elixir--populate-start-file-args (conf)
+;;   "Populate CONF with the required arguments."
+;;   (-> conf
+;;       (dap--put-if-absent :dap-server-path '("debugger.sh"))
+;;       (dap--put-if-absent :type "Elixir")
+;;       (dap--put-if-absent :name "mix test")
+;;       (dap--put-if-absent :request "launch")
+;;       (dap--put-if-absent :task "test")
+;;       (dap--put-if-absent :projectDir (lsp-find-session-folder (lsp-session) (buffer-file-name)))
+;;       (dap--put-if-absent :cwd (lsp-find-session-folder (lsp-session) (buffer-file-name)))))
 
-;;   (dap-register-debug-template
+;;  (dap-register-debug-template
 ;;    "Elixir::Elixir Application"
 ;;    (list :type "Elixir"
 ;;          :program nil
@@ -773,11 +720,11 @@ folder, otherwise delete a character backward"
 
 
 
-(use-package rustic
-  :hook (rustic-mode . lsp-deferred)
-  :bind (:map rustic-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)))
+;; (use-package rustic
+;;   :hook (rustic-mode . lsp-deferred)
+;;   :bind (:map rustic-mode-map
+;;               ("M-j" . lsp-ui-imenu)
+;;               ("M-?" . lsp-find-references)))
 
 (use-package elpy
   :init
