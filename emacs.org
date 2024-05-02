@@ -68,7 +68,8 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (save-place-mode 1)
   (global-auto-revert-mode 1)
   (line-number-mode t)
-
+  (repeat-mode)
+  
   (setq-default cursor-type 'box)
 
   (setq next-line-add-newlines t
@@ -84,14 +85,13 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
                   treemacs-mode-hook
                   term-mode-hook
                   eshell-mode-hook
-                  eat-mode-hook
                   markdown-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
   (setq initial-scratch-message (concat
                                  ";;; Emacs started: "
                                  (format-time-string "%Y-%m-%d - %H:%m")
-                                 "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
+                                 "\n;;; Happy Hacking!"))
 
   (setq ring-bell-function 'ignore
         x-select-enable-clipboard t
@@ -107,12 +107,8 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (make-directory "~/.emacs_backups/" t)
   (make-directory "~/.emacs_autosave/" t)
 
-  ;; Emacs 29 specific
-  (repeat-mode)
-
   ;; Disable warnings for native comp
   (setq native-comp-async-report-warnings-errors nil)
-  (use-package page-break-lines)
 #+end_src
 *** Custom keybindings
 #+begin_src emacs-lisp
@@ -140,16 +136,13 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 
 ** Dired and file browsing
 #+begin_src emacs-lisp
-
   (setq dired-listing-switches "-alh"
         dired-kill-when-opening-new-dired-buffer t)
 
   (use-package dired-open
     :config
     (setq dired-open-extensions '(("mp4" . "vlc"))))
-
 #+end_src
-
 ** Theeming
 *** Modus Theme
 Configuration for modus themes and spacious padding.
@@ -180,9 +173,6 @@ Configuration for modus themes and spacious padding.
           (modus-themes-preset-overrides-faint))
         modus-themes-scale-headings t)
 
-  ;;    (setq modus-vivendi-tinted-palette-overrides
-  ;;            '((prose-macro "#2D3250")))
-
   (defun my-modus-themes-invisible-dividers (&rest _)
     "Make window dividers invisible.
       Add this to the `modus-themes-post-load-hook'."
@@ -211,7 +201,7 @@ Configuration for modus themes and spacious padding.
   (setq x-underline-at-descent-line t)
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-  (add-hook 'window-setup-hook #'(spacious-padding-mode 1))
+  ;; (add-hook 'window-setup-hook #'(spacious-padding-mode 1)) 
 
   (load-theme 'modus-vivendi-tinted t)
 
@@ -264,7 +254,6 @@ Set the font and enable font ligatures.
 	((equal (system-name) "archie") (fontaine-set-preset 'regular))
 	((equal "" "") (fontaine-set-preset 'regular)))
 #+end_src
-
 ***** Ligature Mode
 Doesn't work with Hack Nerd Font.
 #+begin_src emacs-lisp  
@@ -288,7 +277,13 @@ Doesn't work with Hack Nerd Font.
     ;; Enables ligature checks globally in all buffers. You can also do it
     ;; per mode with `ligature-mode'.
     (global-ligature-mode t))
-#+end_src   
+#+end_src 
+*** Page Breaks
+#+begin_src emacs-lisp
+  (use-package page-break-lines
+    :init
+    (page-break-lines-mode))
+#+end_src
 ** Cursor and Window movement
 #+begin_src emacs-lisp
   (use-package multiple-cursors
@@ -325,8 +320,6 @@ Doesn't work with Hack Nerd Font.
   (use-package treemacs
     :bind
     (("C-c t" . treemacs)))
-  (use-package treemacs-projectile
-    :after (treemacs projectile))
   (use-package treemacs-icons-dired
     :hook (dired-mode . treemacs-icons-dired-enable-once))
   (use-package treemacs-magit
@@ -376,60 +369,39 @@ Doesn't work with Hack Nerd Font.
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.5))
-  
+    (setq which-key-idle-delay 0.5))  
 #+end_src
 
 ** Vertico, Consult, Orderless and Marginalia
-
 This is the new cool way that emacs users use emacs.
 Enjoy!
-
 #+begin_src emacs-lisp
-    (defun dw/minibuffer-backward-kill (arg)
-      "When minibuffer is completing a file name delete up to parent
-    folder, otherwise delete a character backward"
-      (interactive "p")
-      (if minibuffer-completing-file-name
-          ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
-          (if (string-match-p "/." (minibuffer-contents))
-              (zap-up-to-char (- arg) ?/)
-            (delete-minibuffer-contents))
-        (delete-backward-char arg)))
+  (use-package vertico
+    :init
+    (vertico-mode)
+    :config
+    (setq vertico-resize -1)
+    (setq vertico-count 15)
+    (setq vertico-cycle t))
 
-    (use-package vertico
-      :init
-      (vertico-mode)
-      :bind (:map minibuffer-local-map
-                  ("<backspace>" . dw/minibuffer-backward-kill))
-      :config
-      (setq vertico-resize -1)
-      (setq vertico-count 15)
-      (setq vertico-cycle t))
-    (use-package consult
-      :bind
-      (("C-s"     . consult-line)
-       ("C-x b"   . consult-buffer)
-       ("C-x r m" . counsult-bookmark)
-       ("C-y"     . consult-yank-pop)))
+  (use-package consult
+    :bind
+    (("C-s"     . consult-line)
+     ("C-x b"   . consult-buffer)
+     ("C-x r m" . consult-bookmark)
+     ("C-y"     . consult-yank-pop)))
 
-    (use-package orderless
-      :init
-      ;; Configure a custom style dispatcher (see the Consult wiki)
-      ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-      ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-      (setq completion-styles '(orderless basic)
-            completion-category-defaults nil
-            completion-category-overrides '((file (styles partial-completion)))))
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
 
-    (use-package marginalia
-      ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-      ;; available in the *Completions* buffer, add it to the
-      ;; `completion-list-mode-map'.
-      :bind (:map minibuffer-local-map
-                  ("M-A" . marginalia-cycle))
-      :init
-      (marginalia-mode))
+  (use-package marginalia
+    :bind (:map minibuffer-local-map
+                ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
 #+end_src
 
 ** Company mode
@@ -452,14 +424,12 @@ Enjoy!
     (("C-," . embark-act)
      ("C-." . embark-cycle))
     :config
-    ;; Hide the mode line of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                    nil
                    (window-parameters (mode-line-format . none)))))
 
   (use-package embark-consult
-    :ensure t ; only need to install it, embark loads it after consult if found
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
@@ -486,9 +456,10 @@ Enjoy!
 #+end_src   
 ** Spotify
 #+begin_src emacs-lisp
-  (use-package counsel-spotify)
-  (setq counsel-spotfiy-client-id "590302fb731a455cb820da4b5aa0b250")
-  (setq counsel-spotify-client-secret "78f30e787321411ca670a25f19d34e0f")
+  (use-package consult-spotify
+    :config
+    (setq espotfiy-client-id "590302fb731a455cb820da4b5aa0b250"
+          espotify-client-secret "78f30e787321411ca670a25f19d34e0f"))
 #+end_src
 
 * Markdown Mode
@@ -730,11 +701,14 @@ Eglot is the built in lsp client in emacs.
   (use-package eglot
     :ensure nil
     :defer t
-    :hook (elixir-mode . eglot-ensure)
+    :hook
+    (elixir-mode . eglot-ensure)
+    (rust-mode . eglot-ensure)
     :config
     (add-to-list
-     'eglot-server-programs
-     '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh")))
+     'eglot-server-programs '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh"))
+    (add-to-list
+     'eglot-server-programs '(rust-mode "/home/hubbe/.local/opt/rust-analyzer")))
 
 #+end_src
 ** Code
@@ -745,13 +719,14 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Treesitter
 #+begin_src emacs-lisp
-    (add-to-list 'treesit-language-source-alist
-     '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
-       (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")
-       (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
+  (add-to-list 'treesit-language-source-alist
+   '((heex       . "https://github.com/phoenixframework/tree-sitter-heex")
+     (elixir     . "https://github.com/elixir-lang/tree-sitter-elixir")
+     (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")
+     (rust       . "https://github.com/tree-sitter/tree-sitter-rust")))
 
-    (add-to-list 'major-mode-remap-alist
-          '((elixir-mode . elixir-ts-mode)))
+  (add-to-list 'major-mode-remap-alist
+        '((elixir-mode . elixir-ts-mode)))
 #+end_src
 
 ** Languages
@@ -812,16 +787,16 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Clojure
 #+begin_src emacs-lisp
-
+;; Someday
 #+end_src
 
 *** Rust
 #+begin_src emacs-lisp
-  ;; (use-package rustic
-  ;;   :hook (rustic-mode . lsp-deferred)
-  ;;   :bind (:map rustic-mode-map
-  ;;               ("M-j" . lsp-ui-imenu)
-  ;;               ("M-?" . lsp-find-references)))
+  (use-package rust-mode
+    :init
+    (setq rust-mode-treesitter-derive t))
+  (use-package cargo
+    :hook (rust-mode . cargo-minor-mode))
 #+end_src
 *** Python
 #+begin_src emacs-lisp
@@ -831,8 +806,7 @@ Eglot is the built in lsp client in emacs.
     :config
     (setq elpy-rpc-virtualenv-path "~/.config/emacs/pyenv"))
 
-  (use-package python-mode
-    :hook ((python-mode . lsp-deferred)))
+  (use-package python-mode)
 #+end_src
 
 * Custom functions
@@ -850,8 +824,6 @@ Eglot is the built in lsp client in emacs.
     (insert
      (format-time-string "%Y-%m-%d")))
 
-  (load-file "~/.config/emacs/custom.el")
-
   (defun list-all-fonts ()
     (interactive)
     (get-buffer-create "fonts")
@@ -861,4 +833,3 @@ Eglot is the built in lsp client in emacs.
     (beginning-of-buffer))
 
 #+end_src
-

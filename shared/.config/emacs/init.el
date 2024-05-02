@@ -53,6 +53,7 @@
 (save-place-mode 1)
 (global-auto-revert-mode 1)
 (line-number-mode t)
+(repeat-mode)
 
 (setq-default cursor-type 'box)
 
@@ -69,14 +70,13 @@
                 treemacs-mode-hook
                 term-mode-hook
                 eshell-mode-hook
-                eat-mode-hook
                 markdown-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
+                               "\n;;; Happy Hacking!"))
 
 (setq ring-bell-function 'ignore
       x-select-enable-clipboard t
@@ -92,12 +92,8 @@
 (make-directory "~/.emacs_backups/" t)
 (make-directory "~/.emacs_autosave/" t)
 
-;; Emacs 29 specific
-(repeat-mode)
-
 ;; Disable warnings for native comp
 (setq native-comp-async-report-warnings-errors nil)
-(use-package page-break-lines)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
@@ -145,9 +141,6 @@
         (modus-themes-preset-overrides-faint))
       modus-themes-scale-headings t)
 
-;;    (setq modus-vivendi-tinted-palette-overrides
-;;            '((prose-macro "#2D3250")))
-
 (defun my-modus-themes-invisible-dividers (&rest _)
   "Make window dividers invisible.
     Add this to the `modus-themes-post-load-hook'."
@@ -176,7 +169,7 @@
 (setq x-underline-at-descent-line t)
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-(add-hook 'window-setup-hook #'(spacious-padding-mode 1))
+;; (add-hook 'window-setup-hook #'(spacious-padding-mode 1)) 
 
 (load-theme 'modus-vivendi-tinted t)
 
@@ -242,6 +235,10 @@
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
 
+(use-package page-break-lines
+  :init
+  (page-break-lines-mode))
+
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
@@ -270,8 +267,6 @@
 (use-package treemacs
   :bind
   (("C-c t" . treemacs)))
-(use-package treemacs-projectile
-  :after (treemacs projectile))
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 (use-package treemacs-magit
@@ -312,46 +307,28 @@
   :config
   (setq which-key-idle-delay 0.5))
 
-(defun dw/minibuffer-backward-kill (arg)
-  "When minibuffer is completing a file name delete up to parent
-folder, otherwise delete a character backward"
-  (interactive "p")
-  (if minibuffer-completing-file-name
-      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
-      (if (string-match-p "/." (minibuffer-contents))
-          (zap-up-to-char (- arg) ?/)
-        (delete-minibuffer-contents))
-    (delete-backward-char arg)))
-
 (use-package vertico
   :init
   (vertico-mode)
-  :bind (:map minibuffer-local-map
-              ("<backspace>" . dw/minibuffer-backward-kill))
   :config
   (setq vertico-resize -1)
   (setq vertico-count 15)
   (setq vertico-cycle t))
+
 (use-package consult
   :bind
   (("C-s"     . consult-line)
    ("C-x b"   . consult-buffer)
-   ("C-x r m" . counsult-bookmark)
+   ("C-x r m" . consult-bookmark)
    ("C-y"     . consult-yank-pop)))
 
 (use-package orderless
   :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :init
@@ -372,14 +349,12 @@ folder, otherwise delete a character backward"
   (("C-," . embark-act)
    ("C-." . embark-cycle))
   :config
-  ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
@@ -394,9 +369,10 @@ folder, otherwise delete a character backward"
   (setq mastodon-instance-url "https://emacs.ch")
   (setq mastodon-active-user "entilldaniel"))
 
-(use-package counsel-spotify)
-(setq counsel-spotfiy-client-id "590302fb731a455cb820da4b5aa0b250")
-(setq counsel-spotify-client-secret "78f30e787321411ca670a25f19d34e0f")
+(use-package consult-spotify
+  :config
+  (setq espotfiy-client-id "590302fb731a455cb820da4b5aa0b250"
+        espotify-client-secret "78f30e787321411ca670a25f19d34e0f"))
 
 (use-package markdown-mode
   :hook
@@ -597,20 +573,23 @@ folder, otherwise delete a character backward"
 (use-package eglot
   :ensure nil
   :defer t
-  :hook (elixir-mode . eglot-ensure)
+  :hook
+  ((elixir-mode rust-mode) . eglot-ensure)
   :config
   (add-to-list
-   'eglot-server-programs
-   '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh")))
+   'eglot-server-programs '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh"))
+  (add-to-list
+   'eglot-server-programs '(rust-mode "/home/hubbe/.local/opt/rust-analyzer")))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
 (add-to-list 'treesit-language-source-alist
- '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
-   (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")
-   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
+ '((heex       . "https://github.com/phoenixframework/tree-sitter-heex")
+   (elixir     . "https://github.com/elixir-lang/tree-sitter-elixir")
+   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")
+   (rust       . "https://github.com/tree-sitter/tree-sitter-rust")))
 
 (add-to-list 'major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)))
@@ -660,13 +639,13 @@ folder, otherwise delete a character backward"
          (clojure-mode . paredit-mode)
          (eval-expression-minibuffer . paredit-mode)))
 
+;; Someday
 
-
-;; (use-package rustic
-;;   :hook (rustic-mode . lsp-deferred)
-;;   :bind (:map rustic-mode-map
-;;               ("M-j" . lsp-ui-imenu)
-;;               ("M-?" . lsp-find-references)))
+(use-package rust-mode
+  :init
+  (setq rust-mode-treesitter-derive t))
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
 
 (use-package elpy
   :init
@@ -674,8 +653,7 @@ folder, otherwise delete a character backward"
   :config
   (setq elpy-rpc-virtualenv-path "~/.config/emacs/pyenv"))
 
-(use-package python-mode
-  :hook ((python-mode . lsp-deferred)))
+(use-package python-mode)
 
 (defun epoch-to-string (epoch)
   (interactive "insert epoch")
@@ -689,8 +667,6 @@ folder, otherwise delete a character backward"
   (interactive)
   (insert
    (format-time-string "%Y-%m-%d")))
-
-(load-file "~/.config/emacs/custom.el")
 
 (defun list-all-fonts ()
   (interactive)
