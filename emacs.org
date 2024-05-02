@@ -472,9 +472,7 @@ Enjoy!
 #+end_src
 ** Proced
 #+begin_src emacs-lisp
-  (use-package proced
-    :bind
-    (("C-x p" . proced)))
+  (use-package proced)
 #+end_src
 
 * Social
@@ -681,8 +679,8 @@ Enjoy!
     (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
     (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-    (setq eshell-history-size         10000
-          eshell-buffer-maximum-lines 10000
+    (setq eshell-history-size         300
+          eshell-buffer-maximum-lines 300
           eshell-hist-ignoredups t
           eshell-scroll-to-bottom-on-input t))
 
@@ -703,7 +701,7 @@ Enjoy!
   :commands vterm
   :config
   (setq vterm-shell "zsh")
-  (setq vterm-max-scrollback 10000))
+  (setq vterm-max-scrollback 5000))
 
   (use-package multi-vterm)
 #+end_src
@@ -712,32 +710,13 @@ Enjoy!
 ** Tools
 #+begin_src emacs-lisp
   (use-package restclient)
-
-  (use-package yasnippet)
-  (yas-global-mode 1)
-
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1))
   (use-package flycheck)
-
-  (use-package docker
-    :bind ("C-c d" . docker))
+  (use-package docker)
 #+end_src
 
-** Projectile
-#+begin_src emacs-lisp
-  (use-package projectile
-    :diminish projectile-mode
-    :config (projectile-mode)
-    :custom ((projectile-completion-system 'ivy))
-    :bind-keymap ("C-c p" . projectile-command-map)
-    :init
-    (setq projectile-project-search-path '("~/Projects"))
-    (setq projectile-switch-project-action #'projectile-dired)
-    (setq projectile-create-missing-test-files t))
-
-  (use-package counsel-projectile
-    :config (counsel-projectile-mode))
-
-#+end_src
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
@@ -766,12 +745,13 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Treesitter
 #+begin_src emacs-lisp
-  (add-to-list 'treesit-language-source-alist
-   '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
-     (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")))
+    (add-to-list 'treesit-language-source-alist
+     '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
+       (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")
+       (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
-  (add-to-list 'major-mode-remap-alist
-        '((elixir-mode . elixir-ts-mode)))
+    (add-to-list 'major-mode-remap-alist
+          '((elixir-mode . elixir-ts-mode)))
 #+end_src
 
 ** Languages
@@ -784,7 +764,10 @@ Eglot is the built in lsp client in emacs.
   (use-package toml-mode)
   (use-package markdown-mode)
 #+end_src
-
+*** Docker
+#+begin_src emacs-lisp
+    (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
+#+end_src
 *** Elixir
 #+begin_src emacs-lisp
 

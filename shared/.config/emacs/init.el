@@ -387,9 +387,7 @@ folder, otherwise delete a character backward"
   :config
   (setq kubel-log-tail-n 250))
 
-(use-package proced
-  :bind
-  (("C-x p" . proced)))
+(use-package proced)
 
 (use-package mastodon
   :config
@@ -558,8 +556,8 @@ folder, otherwise delete a character backward"
   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
 
-  (setq eshell-history-size         10000
-        eshell-buffer-maximum-lines 10000
+  (setq eshell-history-size         300
+        eshell-buffer-maximum-lines 300
         eshell-hist-ignoredups t
         eshell-scroll-to-bottom-on-input t))
 
@@ -580,32 +578,16 @@ folder, otherwise delete a character backward"
 :commands vterm
 :config
 (setq vterm-shell "zsh")
-(setq vterm-max-scrollback 10000))
+(setq vterm-max-scrollback 5000))
 
 (use-package multi-vterm)
 
 (use-package restclient)
-
-(use-package yasnippet)
-(yas-global-mode 1)
-
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
 (use-package flycheck)
-
-(use-package docker
-  :bind ("C-c d" . docker))
-
-(use-package projectile
-  :diminish projectile-mode
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ivy))
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :init
-  (setq projectile-project-search-path '("~/Projects"))
-  (setq projectile-switch-project-action #'projectile-dired)
-  (setq projectile-create-missing-test-files t))
-
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
+(use-package docker)
 
 (use-package magit
   :commands (magit-status magit-get-current-branch)
@@ -627,7 +609,8 @@ folder, otherwise delete a character backward"
 
 (add-to-list 'treesit-language-source-alist
  '((heex . "https://github.com/phoenixframework/tree-sitter-heex")
-   (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")))
+   (elixir . "https://github.com/elixir-lang/tree-sitter-elixir")
+   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
 (add-to-list 'major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)))
@@ -638,6 +621,8 @@ folder, otherwise delete a character backward"
 (use-package yaml-mode)
 (use-package toml-mode)
 (use-package markdown-mode)
+
+(add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
 (use-package mix)
 (use-package ob-elixir)
