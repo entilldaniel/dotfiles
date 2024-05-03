@@ -62,7 +62,6 @@
       global-auto-revert-non-file-buffers 1
       use-dialog-box nil
       kill-whole-line t
-      next-line-add-newlines t
       next-screen-context-lines 10
       kill-do-not-save-duplicates t)
 
@@ -465,6 +464,7 @@
 
 (setq calendar-week-start-day 1)
 (setq org-agenda-files (list "~/Documents/org/todo.org"
+                             "~/Documents/org/inbox.org"
                              "~/Documents/org/work.org"
                              "~/Documents/org/ideas.org"
                              "~/Documents/org/archive.org"))
@@ -478,12 +478,14 @@
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
          "* TODO %?\n %i\n")
+        ("b" "INBOX" entry (file+headline "~/Documents/org/inbox.org" "Tasks")
+         "**  %?\n %i\n")
         ("i" "IDEA" entry (file+headline "~/Documents/org/ideas.org" "Ideas")
-         "* IDEA: %?\n %i\n")
+         "** IDEA: %?\n %i\n")
         ("n" "NOTE" entry (file+headline "~/Documents/org/ideas.org" "Notes")
-         "* %?\n %i\n")
+         "** %?\n %i\n")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
-         "* OBSIDIAN: %?\n %i\n")))
+         "** ENTRY: %?\n %i\n")))
 
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -547,6 +549,7 @@
 
 (use-package exec-path-from-shell
   :config
+  (setq exec-path-from-shell-arguments '("-l"))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
 
@@ -560,8 +563,10 @@
 
 (use-package restclient)
 (use-package yasnippet
+  :init
+  (yas-global-mode 1)
   :config
-  (yas-global-mode 1))
+  (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
 (use-package flycheck)
 (use-package docker)
 
@@ -573,13 +578,13 @@
 (use-package eglot
   :ensure nil
   :defer t
-  :hook
-  ((elixir-mode rust-mode) . eglot-ensure)
+  :hook ((elixir-mode . eglot-ensure)
+         (rust-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh"))
+   'eglot-server-programs '(elixir-mode "~/.local/opt/elixir_ls/language_server.sh"))
   (add-to-list
-   'eglot-server-programs '(rust-mode "/home/hubbe/.local/opt/rust-analyzer")))
+   'eglot-server-programs '(rust-mode "rust-analyzer")))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -588,11 +593,10 @@
 (add-to-list 'treesit-language-source-alist
  '((heex       . "https://github.com/phoenixframework/tree-sitter-heex")
    (elixir     . "https://github.com/elixir-lang/tree-sitter-elixir")
-   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")
-   (rust       . "https://github.com/tree-sitter/tree-sitter-rust")))
+   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
 (add-to-list 'major-mode-remap-alist
-      '((elixir-mode . elixir-ts-mode)))
+      '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
@@ -600,6 +604,13 @@
 (use-package yaml-mode)
 (use-package toml-mode)
 (use-package markdown-mode)
+
+(use-package rust-mode
+  :init
+  (setq rust-mode-treesitter-derive t))
+
+  (use-package cargo
+    :hook (rust-mode . cargo-minor-mode))
 
 (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
@@ -621,7 +632,6 @@
      (push '("|>" . ?\u25B7) prettify-symbols-alist)))
   (before-save . eglot-format))
 
-
 (use-package exunit
   :diminish t
   :bind
@@ -630,6 +640,10 @@
   ("C-c e u a" . exunit-verify-all-in-umbrella)
   ("C-c e a" . exunit-verify-all)
   ("C-c e l" . exunit-rerun))
+
+(use-package flymake-easy)
+(use-package flymake-elixir
+  :hook (elixir-ts-mode . flymake-elixir-load))
 
 (use-package paredit
   :ensure t
@@ -640,12 +654,6 @@
          (eval-expression-minibuffer . paredit-mode)))
 
 ;; Someday
-
-(use-package rust-mode
-  :init
-  (setq rust-mode-treesitter-derive t))
-(use-package cargo
-  :hook (rust-mode . cargo-minor-mode))
 
 (use-package elpy
   :init

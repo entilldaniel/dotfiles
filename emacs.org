@@ -77,7 +77,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
         global-auto-revert-non-file-buffers 1
         use-dialog-box nil
         kill-whole-line t
-        next-line-add-newlines t
         next-screen-context-lines 10
         kill-do-not-save-duplicates t)
 
@@ -564,6 +563,7 @@ Enjoy!
 
   (setq calendar-week-start-day 1)
   (setq org-agenda-files (list "~/Documents/org/todo.org"
+                               "~/Documents/org/inbox.org"
                                "~/Documents/org/work.org"
                                "~/Documents/org/ideas.org"
                                "~/Documents/org/archive.org"))
@@ -581,12 +581,14 @@ Enjoy!
   (setq org-capture-templates
         '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
            "* TODO %?\n %i\n")
+          ("b" "INBOX" entry (file+headline "~/Documents/org/inbox.org" "Tasks")
+           "**  %?\n %i\n")
           ("i" "IDEA" entry (file+headline "~/Documents/org/ideas.org" "Ideas")
-           "* IDEA: %?\n %i\n")
+           "** IDEA: %?\n %i\n")
           ("n" "NOTE" entry (file+headline "~/Documents/org/ideas.org" "Notes")
-           "* %?\n %i\n")
+           "** %?\n %i\n")
           ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
-           "* OBSIDIAN: %?\n %i\n")))
+           "** ENTRY: %?\n %i\n")))
 
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
   (global-set-key (kbd "C-c c") 'org-capture)
@@ -665,6 +667,7 @@ Enjoy!
 
   (use-package exec-path-from-shell
     :config
+    (setq exec-path-from-shell-arguments '("-l"))
     (when (daemonp)
       (exec-path-from-shell-initialize)))
 
@@ -682,8 +685,10 @@ Enjoy!
 #+begin_src emacs-lisp
   (use-package restclient)
   (use-package yasnippet
+    :init
+    (yas-global-mode 1)
     :config
-    (yas-global-mode 1))
+    (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
   (use-package flycheck)
   (use-package docker)
 #+end_src
@@ -701,14 +706,13 @@ Eglot is the built in lsp client in emacs.
   (use-package eglot
     :ensure nil
     :defer t
-    :hook
-    (elixir-mode . eglot-ensure)
-    (rust-mode . eglot-ensure)
+    :hook ((elixir-mode . eglot-ensure)
+           (rust-mode . eglot-ensure))
     :config
     (add-to-list
-     'eglot-server-programs '(elixir-mode "/home/hubbe/.local/opt/elixir_ls/language_server.sh"))
+     'eglot-server-programs '(elixir-mode "~/.local/opt/elixir_ls/language_server.sh"))
     (add-to-list
-     'eglot-server-programs '(rust-mode "/home/hubbe/.local/opt/rust-analyzer")))
+     'eglot-server-programs '(rust-mode "rust-analyzer")))
 
 #+end_src
 ** Code
@@ -722,11 +726,10 @@ Eglot is the built in lsp client in emacs.
   (add-to-list 'treesit-language-source-alist
    '((heex       . "https://github.com/phoenixframework/tree-sitter-heex")
      (elixir     . "https://github.com/elixir-lang/tree-sitter-elixir")
-     (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")
-     (rust       . "https://github.com/tree-sitter/tree-sitter-rust")))
+     (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
   (add-to-list 'major-mode-remap-alist
-        '((elixir-mode . elixir-ts-mode)))
+        '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
 #+end_src
 
 ** Languages
@@ -739,6 +742,15 @@ Eglot is the built in lsp client in emacs.
   (use-package toml-mode)
   (use-package markdown-mode)
 #+end_src
+*** Rust
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :init
+    (setq rust-mode-treesitter-derive t))
+
+    (use-package cargo
+      :hook (rust-mode . cargo-minor-mode))
+#+end_src
 *** Docker
 #+begin_src emacs-lisp
     (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
@@ -746,33 +758,36 @@ Eglot is the built in lsp client in emacs.
 *** Elixir
 #+begin_src emacs-lisp
 
-  (use-package mix)
-  (use-package ob-elixir)
-  (use-package elixir-ts-mode
-    :hook (elixir-ts-mode . eglot-ensure)
-    (elixir-ts-mode
-     .
-     (lambda ()
-       (push '(">=" . ?\u2265) prettify-symbols-alist)
-       (push '("<=" . ?\u2264) prettify-symbols-alist)
-       (push '("!=" . ?\u2260) prettify-symbols-alist)
-       (push '("==" . ?\u2A75) prettify-symbols-alist)
-       (push '("=~" . ?\u2245) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("->" . ?\u2192) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-    (before-save . eglot-format))
+    (use-package mix)
+    (use-package ob-elixir)
+    (use-package elixir-ts-mode
+      :hook (elixir-ts-mode . eglot-ensure)
+      (elixir-ts-mode
+       .
+       (lambda ()
+         (push '(">=" . ?\u2265) prettify-symbols-alist)
+         (push '("<=" . ?\u2264) prettify-symbols-alist)
+         (push '("!=" . ?\u2260) prettify-symbols-alist)
+         (push '("==" . ?\u2A75) prettify-symbols-alist)
+         (push '("=~" . ?\u2245) prettify-symbols-alist)
+         (push '("<-" . ?\u2190) prettify-symbols-alist)
+         (push '("->" . ?\u2192) prettify-symbols-alist)
+         (push '("<-" . ?\u2190) prettify-symbols-alist)
+         (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+      (before-save . eglot-format))
 
+    (use-package exunit
+      :diminish t
+      :bind
+      ("C-c e ." . exunit-verify-single)
+      ("C-c e b" . exunit-verify)
+      ("C-c e u a" . exunit-verify-all-in-umbrella)
+      ("C-c e a" . exunit-verify-all)
+      ("C-c e l" . exunit-rerun))
 
-  (use-package exunit
-    :diminish t
-    :bind
-    ("C-c e ." . exunit-verify-single)
-    ("C-c e b" . exunit-verify)
-    ("C-c e u a" . exunit-verify-all-in-umbrella)
-    ("C-c e a" . exunit-verify-all)
-    ("C-c e l" . exunit-rerun))
+    (use-package flymake-easy)
+    (use-package flymake-elixir
+      :hook (elixir-ts-mode . flymake-elixir-load))
 #+end_src
 *** Lisps
 #+begin_src emacs-lisp
@@ -790,14 +805,6 @@ Eglot is the built in lsp client in emacs.
 ;; Someday
 #+end_src
 
-*** Rust
-#+begin_src emacs-lisp
-  (use-package rust-mode
-    :init
-    (setq rust-mode-treesitter-derive t))
-  (use-package cargo
-    :hook (rust-mode . cargo-minor-mode))
-#+end_src
 *** Python
 #+begin_src emacs-lisp
   (use-package elpy
