@@ -709,9 +709,7 @@ Eglot is the built in lsp client in emacs.
            (rust-mode . eglot-ensure))
     :config
     (add-to-list
-     'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
-    (add-to-list
-     'eglot-server-programs '(rust-ts-mode "rust-analyzer")))
+     'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh")))
 
 #+end_src
 ** Code

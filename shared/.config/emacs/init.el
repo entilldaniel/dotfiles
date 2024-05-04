@@ -581,9 +581,7 @@
          (rust-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
-  (add-to-list
-   'eglot-server-programs '(rust-ts-mode "rust-analyzer")))
+   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh")))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
