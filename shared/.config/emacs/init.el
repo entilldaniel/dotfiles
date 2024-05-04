@@ -48,7 +48,6 @@
 (blink-cursor-mode -1)
 (global-display-line-numbers-mode t)
 (recentf-mode 1)
-(set-default 'truncate-lines 1)
 (savehist-mode 1)
 (save-place-mode 1)
 (global-auto-revert-mode 1)
@@ -75,7 +74,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!"))
+                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
 
 (setq ring-bell-function 'ignore
       x-select-enable-clipboard t
@@ -549,7 +548,7 @@
 
 (use-package exec-path-from-shell
   :config
-  (setq exec-path-from-shell-arguments '("-l"))
+  (setq exec-path-from-shell-arguments '("-l" "-i"))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
 
@@ -582,20 +581,20 @@
          (rust-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-mode "~/.local/opt/elixir_ls/language_server.sh"))
+   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
   (add-to-list
-   'eglot-server-programs '(rust-mode "rust-analyzer")))
+   'eglot-server-programs '(rust-ts-mode "rust-analyzer")))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
-(add-to-list 'treesit-language-source-alist
- '((heex       . "https://github.com/phoenixframework/tree-sitter-heex")
-   (elixir     . "https://github.com/elixir-lang/tree-sitter-elixir")
-   (dockerfile . "https://github.com/camdencheek/tree-sitter-dockerfile")))
+(setq treesit-language-source-alist
+ '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
+   (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
+   (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
-(add-to-list 'major-mode-remap-alist
+(setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
 
 (use-package emmet-mode
