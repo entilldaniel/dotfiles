@@ -209,8 +209,8 @@
 
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-  ((equal "" "") (fontaine-set-preset 'regular)))
+      ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+      ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -568,6 +568,15 @@
   (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
 (use-package flycheck)
 (use-package docker)
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+(add-to-list 'load-path "~/.config/emacs/remote-packages/copilot/")
+(require 'copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 
 (use-package magit
   :commands (magit-status magit-get-current-branch)

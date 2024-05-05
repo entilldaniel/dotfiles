@@ -690,8 +690,19 @@ Enjoy!
     (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
   (use-package flycheck)
   (use-package docker)
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1))
 #+end_src
-
+** Github Copilot
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "~/.config/emacs/remote-packages/copilot/")
+  (require 'copilot)
+  (add-hook 'elixir-mode 'copilot-mode)
+  (add-hook 'elixir-ts-mode 'copilot-mode)
+  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+#+end_src
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
