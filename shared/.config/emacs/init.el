@@ -74,7 +74,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
+                               "\n;;; Happy Hacking!\n"))
 
 (setq ring-bell-function 'ignore
       x-select-enable-clipboard t
