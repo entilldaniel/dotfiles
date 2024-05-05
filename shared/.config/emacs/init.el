@@ -187,7 +187,8 @@
 (use-package smart-mode-line
   :config
   (sml/setup)
-  (setq sml/theme 'respectful))
+  (setq sml/theme 'respectful
+        sml/no-confirm-load-theme t))
 
 (use-package fontaine
   :config
@@ -209,8 +210,8 @@
 
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-      ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal "" "") (fontaine-set-preset 'regular)))
+  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+  ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -575,7 +576,8 @@
 
 (add-to-list 'load-path "~/.config/emacs/remote-packages/copilot/")
 (require 'copilot)
-(add-hook 'prog-mode-hook 'copilot-mode)
+(add-hook 'elixir-mode 'copilot-mode)
+(add-hook 'elixir-ts-mode 'copilot-mode)
 (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 
 (use-package magit

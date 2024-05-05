@@ -223,7 +223,8 @@ Configuration for modus themes and spacious padding.
   (use-package smart-mode-line
     :config
     (sml/setup)
-    (setq sml/theme 'respectful))
+    (setq sml/theme 'respectful
+          sml/no-confirm-load-theme t))
 #+end_src
 *** Font configuration
 Set the font and enable font ligatures.

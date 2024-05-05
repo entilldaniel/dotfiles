@@ -90,7 +90,3 @@ export SDKMAN_DIR="$HOME/.sdkman"
 eval "$(atuin init zsh)"
 #zprof
 
-
-# Fix vterm showing %
-#setopt PROMPT_SP
-
