@@ -187,7 +187,8 @@
 (use-package smart-mode-line
   :config
   (sml/setup)
-  (setq sml/theme 'respectful))
+  (setq sml/theme 'respectful
+        sml/no-confirm-load-theme t))
 
 (use-package fontaine
   :config
@@ -568,6 +569,16 @@
   (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
 (use-package flycheck)
 (use-package docker)
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+(add-to-list 'load-path "~/.config/emacs/remote-packages/copilot/")
+(require 'copilot)
+(add-hook 'elixir-mode 'copilot-mode)
+(add-hook 'elixir-ts-mode 'copilot-mode)
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 
 (use-package magit
   :commands (magit-status magit-get-current-branch)
