@@ -1,15 +1,17 @@
+;; -*- lexical-binding: t -*-
+
 (setq gc-cons-threshold 100000000
-      read-process-output-max (* 1024 1024)
-      load-prefer-newer t
-      user-full-name "Daniel Figueroa"
-      use-short-answers t)
+  read-process-output-max (* 1024 1024)
+  load-prefer-newer t
+  user-full-name "Daniel Figueroa"
+  use-short-answers t)
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-                   (float-time
-                    (time-subtract after-init-time before-init-time)))
-           gcs-done))
+	   (format "%.2f seconds"
+		   (float-time
+		    (time-subtract after-init-time before-init-time)))
+	   gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -193,7 +195,14 @@
 (use-package fontaine
   :config
   (setq fontaine-presets
-	'((regular
+	'((tight
+	   :default-family "FiraCode Nerd Font Mono"
+	   :default-height 110
+	   :fixed-pitch-family "FiraCode Nerd Font Mono"
+	   :variable-pitch-family "Iosevka"
+	   :italic-family "FiraCode Nerd Font Mono"
+	   :line-spacing 1)
+      (regular
 	   :default-family "FiraCode Nerd Font Mono"
 	   :default-height 140
 	   :fixed-pitch-family "FiraCode Nerd Font Mono"
@@ -208,10 +217,10 @@
 	   :italic-family "FiraCode Nerd Font Mono"
 	   :line-spacing 1))))
 
-
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-  ((equal "" "") (fontaine-set-preset 'regular)))
+	  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+	  ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -599,12 +608,13 @@
 (setq indent-line-function 'insert-tab)
 
 (setq treesit-language-source-alist
- '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
-   (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
-   (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
+      '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
+        (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
+        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
 (setq major-mode-remap-alist
-      '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
+      '((elixir-mode . elixir-ts-mode)
+        (rust-mode . rust-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
