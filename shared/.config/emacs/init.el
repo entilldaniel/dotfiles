@@ -74,7 +74,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n(spacious-padding-mode 1)"))
+                               "\n;;; Happy Hacking!\n"))
 
 (setq ring-bell-function 'ignore
       x-select-enable-clipboard t
@@ -210,8 +210,8 @@
 
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-      ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal "" "") (fontaine-set-preset 'regular)))
+  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+  ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -604,7 +604,7 @@
    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
 (setq major-mode-remap-alist
-      '((elixir-mode . elixir-ts-mode)
+  '((elixir-mode . elixir-ts-mode)
 	(rust-mode . rust-ts-mode)))
 
 (use-package emmet-mode
