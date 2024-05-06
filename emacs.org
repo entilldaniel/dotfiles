@@ -717,8 +717,8 @@ Eglot is the built in lsp client in emacs.
   (use-package eglot
     :ensure nil
     :defer t
-    :hook ((elixir-mode . eglot-ensure)
-           (rust-mode . eglot-ensure))
+    :hook ((elixir-ts-mode . eglot-ensure)
+           (rust-ts-mode . eglot-ensure))
     :config
     (add-to-list
      'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh")))
@@ -732,13 +732,14 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Treesitter
 #+begin_src emacs-lisp
-  (setq treesit-language-source-alist
-   '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
-     (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
-     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
+    (setq treesit-language-source-alist
+     '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
+       (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
+       (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
-  (setq major-mode-remap-alist
-        '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
+    (setq major-mode-remap-alist
+	  '((elixir-mode . elixir-ts-mode)
+	    (rust-mode . rust-ts-mode)))
 #+end_src
 
 ** Languages

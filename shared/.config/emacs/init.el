@@ -210,8 +210,8 @@
 
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-  ((equal "" "") (fontaine-set-preset 'regular)))
+      ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+      ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -588,8 +588,8 @@
 (use-package eglot
   :ensure nil
   :defer t
-  :hook ((elixir-mode . eglot-ensure)
-         (rust-mode . eglot-ensure))
+  :hook ((elixir-ts-mode . eglot-ensure)
+         (rust-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh")))
@@ -604,7 +604,8 @@
    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
 
 (setq major-mode-remap-alist
-      '((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode)))
+      '((elixir-mode . elixir-ts-mode)
+	(rust-mode . rust-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
