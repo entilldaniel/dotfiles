@@ -1,0 +1,9 @@
+[submodule "archies/.config/tmux/plugins/tmux-sensible"]
+	path = archies/.config/tmux/plugins/tmux-sensible
+	url = https://git::@github.com/tmux-plugins/tmux-sensible
+[submodule "archies/.config/tmux/plugins/tmux"]
+	path = archies/.config/tmux/plugins/tmux
+	url = https://git::git@github.com/catpuccin/tmux
+[submodule "archies/.config/tmux/plugins/tpm"]
+	path = archies/.config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

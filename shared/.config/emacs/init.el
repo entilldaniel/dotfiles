@@ -121,25 +121,27 @@
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-(use-package modus-themes)
-(setq modus-themes-region '(accented)
-      modus-themes-mode-line '(accented borderless)
-      modus-themes-org-blocks 'tinted-background
-      modus-themes-paren-match '(bold intense)
-      modus-themes-syntax '(faint)
-      modus-themes-completions
-      '((matches . (extrabold))
-        (selection . (italic)))
-      modus-themes-headings
-      '((1 . (rainbow overline background 1.4))
-        (2 . (rainbow background 1.3))
-        (3 . (rainbow bold 1.2))
-        (t . (semilight 1.1)))
-      modus-themes-common-palette-overrides
-      '((border-mode-line-active bg-mode-line-active)
-        (border-mode-line-inactive bg-mode-line-inactive)
-        (modus-themes-preset-overrides-faint))
-      modus-themes-scale-headings t)
+(use-package modus-themes
+  :config
+  (setq modus-themes-region '(accented)
+        modus-themes-mode-line '(accented borderless)
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(light)
+        modus-themes-syntax '(faint)
+        modus-themes-completions
+        '((matches . (extrabold))
+          (selection . (italic)))
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (t . (semilight 1.1)))
+        modus-themes-common-palette-overrides
+        '((border-mode-line-active bg-mode-line-active)
+          (border-mode-line-inactive bg-mode-line-inactive)
+          (modus-themes-preset-overrides-faint))
+        modus-themes-scale-headings t))
 
 (defun my-modus-themes-invisible-dividers (&rest _)
   "Make window dividers invisible.
