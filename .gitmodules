@@ -1,9 +1,12 @@
 [submodule "archies/.config/tmux/plugins/tmux-sensible"]
 	path = archies/.config/tmux/plugins/tmux-sensible
-	url = https://git::@github.com/tmux-plugins/tmux-sensible
+	url = git@github.com:tmux-plugins/tmux-sensible.git
 [submodule "archies/.config/tmux/plugins/tmux"]
 	path = archies/.config/tmux/plugins/tmux
-	url = https://git::git@github.com/catpuccin/tmux
+	url = git@github.com:catpuccin/tmux.git
 [submodule "archies/.config/tmux/plugins/tpm"]
 	path = archies/.config/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
+	url = git@github.com:tmux-plugins/tpm.git
+[submodule "shared/.config/emacs/remote-packages/copilot"]
+	path = shared/.config/emacs/remote-packages/copilot
+	url = git@github.com:copilot-emacs/copilot.el.git
