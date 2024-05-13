@@ -585,12 +585,6 @@
   :config
   (editorconfig-mode 1))
 
-(add-to-list 'load-path "~/.config/emacs/remote-packages/copilot/")
-(require 'copilot)
-(add-hook 'elixir-mode 'copilot-mode)
-(add-hook 'elixir-ts-mode 'copilot-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-
 (use-package magit
   :commands (magit-status magit-get-current-branch)
   :custom
