@@ -283,14 +283,13 @@
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode -1)))
 
-(use-package hydra)
-(defhydra hydra-text-scale (:timeout 4)
-  "scale text"
-  ("j" text-scale-increase "in")
-  ("k" text-scale-decrease "out")
-  ("f" nil "finished" :exit t))
+(transient-define-prefix transient-scale-text ()
+  "Scale Text in or out"
+  ["Actions"
+   ("j" "Increase scale" text-scale-increase)
+   ("k" "Decrease scale" text-scale-decrease)])
 
-(global-set-key (kbd "<f2>") 'hydra-text-scale/body)
+(global-set-key (kbd "<f2>") 'transient-scale-text)
 
 (use-package perspective
   :bind
