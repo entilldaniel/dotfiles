@@ -55,6 +55,7 @@
 (global-auto-revert-mode 1)
 (line-number-mode t)
 (repeat-mode)
+(electric-indent-mode -1)
 
 (setq-default cursor-type 'box)
 
@@ -153,25 +154,22 @@
      `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
      `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
 
-
 (defun my-modus-themes-custom-faces (&rest _)
   (modus-themes-with-colors
     (custom-set-faces
      ;; Add "padding" to the mode lines
      `(mode-line ((,c :underline ,border-mode-line-active
                       :overline ,border-mode-line-active
-                      :box (:line-width 10 :color ,bg-mode-line-active))))
+                      :box (:line-width 5 :color ,bg-mode-line-active))))
      `(mode-line-inactive ((,c :underline ,border-mode-line-inactive
                                :overline ,border-mode-line-inactive
-                               :box (:line-width 10 :color ,bg-mode-line-inactive)))))))
-
-
+                               :box (:line-width 5 :color ,bg-mode-line-inactive)))))))
 
 ;; ESSENTIAL to make the underline move to the bottom of the box:
 (setq x-underline-at-descent-line t)
+
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
-(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-;; (add-hook 'window-setup-hook #'(spacious-padding-mode 1)) 
+;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
 
 (load-theme 'modus-vivendi-tinted t)
 
@@ -291,6 +289,7 @@
   ("j" text-scale-increase "in")
   ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
+
 (global-set-key (kbd "<f2>") 'hydra-text-scale/body)
 
 (use-package perspective
@@ -456,7 +455,7 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (defun org-mode-visual-fill ()
-  (setq visual-fill-column-width 120
+  (setq visual-fill-column-width 140
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
@@ -632,6 +631,7 @@
 (use-package ob-elixir)
 (use-package elixir-ts-mode
   :hook (elixir-ts-mode . eglot-ensure)
+  (elixir-ts-mode . mix-minor-mode)
   (elixir-ts-mode
    .
    (lambda ()

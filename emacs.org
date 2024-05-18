@@ -69,7 +69,8 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (global-auto-revert-mode 1)
   (line-number-mode t)
   (repeat-mode)
-  
+  (electric-indent-mode -1)
+
   (setq-default cursor-type 'box)
 
   (setq next-line-add-newlines t
@@ -184,25 +185,22 @@ Configuration for modus themes and spacious padding.
        `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
        `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
 
-
   (defun my-modus-themes-custom-faces (&rest _)
     (modus-themes-with-colors
       (custom-set-faces
        ;; Add "padding" to the mode lines
        `(mode-line ((,c :underline ,border-mode-line-active
                         :overline ,border-mode-line-active
-                        :box (:line-width 10 :color ,bg-mode-line-active))))
+                        :box (:line-width 5 :color ,bg-mode-line-active))))
        `(mode-line-inactive ((,c :underline ,border-mode-line-inactive
                                  :overline ,border-mode-line-inactive
-                                 :box (:line-width 10 :color ,bg-mode-line-inactive)))))))
-
-
+                                 :box (:line-width 5 :color ,bg-mode-line-inactive)))))))
 
   ;; ESSENTIAL to make the underline move to the bottom of the box:
   (setq x-underline-at-descent-line t)
+
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
-  (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-  ;; (add-hook 'window-setup-hook #'(spacious-padding-mode 1)) 
+  ;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
 
   (load-theme 'modus-vivendi-tinted t)
 
@@ -346,6 +344,7 @@ Doesn't work with Hack Nerd Font.
     ("j" text-scale-increase "in")
     ("k" text-scale-decrease "out")
     ("f" nil "finished" :exit t))
+
   (global-set-key (kbd "<f2>") 'hydra-text-scale/body)
 
 #+end_src
@@ -549,7 +548,7 @@ Enjoy!
     (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
   (defun org-mode-visual-fill ()
-    (setq visual-fill-column-width 120
+    (setq visual-fill-column-width 140
           visual-fill-column-center-text t)
     (visual-fill-column-mode 1))
 
@@ -770,36 +769,37 @@ Eglot is the built in lsp client in emacs.
 *** Elixir
 #+begin_src emacs-lisp
 
-    (use-package mix)
-    (use-package ob-elixir)
-    (use-package elixir-ts-mode
-      :hook (elixir-ts-mode . eglot-ensure)
-      (elixir-ts-mode
-       .
-       (lambda ()
-         (push '(">=" . ?\u2265) prettify-symbols-alist)
-         (push '("<=" . ?\u2264) prettify-symbols-alist)
-         (push '("!=" . ?\u2260) prettify-symbols-alist)
-         (push '("==" . ?\u2A75) prettify-symbols-alist)
-         (push '("=~" . ?\u2245) prettify-symbols-alist)
-         (push '("<-" . ?\u2190) prettify-symbols-alist)
-         (push '("->" . ?\u2192) prettify-symbols-alist)
-         (push '("<-" . ?\u2190) prettify-symbols-alist)
-         (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-      (before-save . eglot-format))
+  (use-package mix)
+  (use-package ob-elixir)
+  (use-package elixir-ts-mode
+    :hook (elixir-ts-mode . eglot-ensure)
+    (elixir-ts-mode . mix-minor-mode)
+    (elixir-ts-mode
+     .
+     (lambda ()
+       (push '(">=" . ?\u2265) prettify-symbols-alist)
+       (push '("<=" . ?\u2264) prettify-symbols-alist)
+       (push '("!=" . ?\u2260) prettify-symbols-alist)
+       (push '("==" . ?\u2A75) prettify-symbols-alist)
+       (push '("=~" . ?\u2245) prettify-symbols-alist)
+       (push '("<-" . ?\u2190) prettify-symbols-alist)
+       (push '("->" . ?\u2192) prettify-symbols-alist)
+       (push '("<-" . ?\u2190) prettify-symbols-alist)
+       (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+    (before-save . eglot-format))
 
-    (use-package exunit
-      :diminish t
-      :bind
-      ("C-c e ." . exunit-verify-single)
-      ("C-c e b" . exunit-verify)
-      ("C-c e u a" . exunit-verify-all-in-umbrella)
-      ("C-c e a" . exunit-verify-all)
-      ("C-c e l" . exunit-rerun))
+  (use-package exunit
+    :diminish t
+    :bind
+    ("C-c e ." . exunit-verify-single)
+    ("C-c e b" . exunit-verify)
+    ("C-c e u a" . exunit-verify-all-in-umbrella)
+    ("C-c e a" . exunit-verify-all)
+    ("C-c e l" . exunit-rerun))
 
-    (use-package flymake-easy)
-    (use-package flymake-elixir
-      :hook (elixir-ts-mode . flymake-elixir-load))
+  (use-package flymake-easy)
+  (use-package flymake-elixir
+    :hook (elixir-ts-mode . flymake-elixir-load))
 #+end_src
 *** Lisps
 #+begin_src emacs-lisp
