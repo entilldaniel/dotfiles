@@ -11,8 +11,6 @@ source ~/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 #zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
-    nvm
-    git
     colorize
     history
 )
@@ -25,18 +23,8 @@ HISTSIZE=5000
 
 # append completions to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
-# initialise completions with ZSH's compinit
-
-# initialise completions with ZSH's compinit
-# autoload -Uz compinit 
-# if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-#     compinit; 
-# else
-#     compinit -C;
-# fi;
 
 # Test speeding up zsh shell
-
 DISABLE_UNTRACKED_FILES_DIRTY="true"  
 
 #disable caps lock

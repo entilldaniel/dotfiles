@@ -286,8 +286,8 @@
 (transient-define-prefix transient-scale-text ()
   "Scale Text in or out"
   ["Actions"
-   ("j" "Increase scale" text-scale-increase)
-   ("k" "Decrease scale" text-scale-decrease)])
+   ("j" "Increase scale" text-scale-increase :transient t)
+   ("k" "Decrease scale" text-scale-decrease :transient t)])
 
 (global-set-key (kbd "<f2>") 'transient-scale-text)
 
