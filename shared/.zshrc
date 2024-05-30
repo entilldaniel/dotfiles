@@ -33,6 +33,7 @@ setxkbmap -option ctrl:nocaps
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
 
+alias tmx="tmux new-session -s"
 alias edit='emacsclient -nw -a "" $(fzf)'
 alias cat="bat --no-pager"
 alias ls=exa
