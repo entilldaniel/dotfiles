@@ -595,7 +595,8 @@
          (rust-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh")))
+   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
+  (setq eglot-autoshutdown 1))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -643,7 +644,7 @@
      (push '("->" . ?\u2192) prettify-symbols-alist)
      (push '("<-" . ?\u2190) prettify-symbols-alist)
      (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-  (before-save . eglot-format))
+     (before-save . eglot-format))
 
 (use-package exunit
   :diminish t
