@@ -1,4 +1,5 @@
 #! /bin/bash
 
 upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | awk '/percentage/ {print $2}'
+upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk '/percentage/ {print $2}'
 
