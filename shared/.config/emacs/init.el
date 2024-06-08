@@ -484,6 +484,14 @@
 (setq org-refile-use-outline-path t)           ;; Show full paths for refiling
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
+(defun df/project-notes-path ()
+  "uses project.el project name to get the current path of the project"
+  (let ((path (concat (project-root (project-current)) "notes.org")))
+    (find-file path)
+    (unless (org-find-exact-headline-in-buffer "Notes")
+      (org-insert-heading nil nil t)
+      (insert "Notes"))))
+
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
          "* TODO %?\n %i\n")
@@ -493,6 +501,8 @@
          "** IDEA: %?\n %i\n")
         ("n" "NOTE" entry (file+headline "~/Documents/org/ideas.org" "Notes")
          "** %?\n %i\n")
+        ("p" "NOTE" entry (function df/project-notes-path)
+         "** NOTE: %?\n %i\n")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
          "** ENTRY: %?\n %i\n")))
 
