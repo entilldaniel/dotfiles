@@ -398,9 +398,9 @@ Enjoy!
      ("C-x r m" . consult-bookmark)
      ("C-y"     . consult-yank-pop)))
 
-  (use-package consult-project
+  (use-package consult-project-extra
     :bind
-    (("C-x x f" . consult-project-extra-find))
+    (("C-x p f" . consult-project-extra-find)))
 
   (use-package orderless
     :init
