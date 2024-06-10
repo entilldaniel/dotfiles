@@ -30,6 +30,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 #disable caps lock
 setxkbmap -option ctrl:nocaps
 
+export FLYCTL_INSTALL="/home/hubbe/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
 

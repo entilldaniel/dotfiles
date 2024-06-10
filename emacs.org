@@ -398,6 +398,10 @@ Enjoy!
      ("C-x r m" . consult-bookmark)
      ("C-y"     . consult-yank-pop)))
 
+  (use-package consult-project
+    :bind
+    (("C-x x f" . consult-project-extra-find))
+
   (use-package orderless
     :init
     (setq completion-styles '(orderless basic)
