@@ -2,6 +2,9 @@
 super + w
     al-browser
 
+super + e
+    emacsclient -c
+
 # terminal emulator
 super + Return
     al-terminal

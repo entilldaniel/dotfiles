@@ -2,3 +2,4 @@
 ^/.*\.org
 \.*.org
 .config/alacritty/themes
+**/*~undo-tree~

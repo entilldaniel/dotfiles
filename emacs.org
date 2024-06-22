@@ -2,7 +2,9 @@
 #+PROPERTY: header-args:emacs-lisp :tangle shared/.config/emacs/init.el
 * Initial Setup
 ** Handle GC and startup
+
 Increase garbage collection threshold so we can't start faster without GC'ing and display the startup time for emacs
+
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
   
@@ -21,7 +23,9 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 
   (add-hook 'emacs-startup-hook #'display-startup-time)
 #+end_src
+
 ** Package System Setup
+
 #+begin_src emacs-lisp
   (require 'package)
   (add-to-list 'package-archives
@@ -48,6 +52,7 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 #+end_src
 
 * Interface
+
 ** Initial configs
 Remove stuff like tool-bars and menus. Also set up some of the built in properties.
 
@@ -212,6 +217,7 @@ Configuration for modus themes and spacious padding.
     :init
     (spacious-padding-mode))
 #+end_src
+
 *** Rainbow delimiters
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
@@ -219,6 +225,7 @@ Configuration for modus themes and spacious padding.
   (use-package rainbow-mode
     :hook (prog-mode . rainbow-mode))
 #+end_src
+
 *** Mode Line
 #+begin_src emacs-lisp
   (use-package smart-mode-line
@@ -227,6 +234,7 @@ Configuration for modus themes and spacious padding.
     (setq sml/theme 'respectful
           sml/no-confirm-load-theme t))
 #+end_src
+
 *** Font configuration
 Set the font and enable font ligatures.
 **** Specify Fonts
@@ -285,13 +293,17 @@ Doesn't work with Hack Nerd Font.
     ;; per mode with `ligature-mode'.
     (global-ligature-mode t))
 #+end_src 
+
 *** Page Breaks
+
 #+begin_src emacs-lisp
   (use-package page-break-lines
     :init
-    (page-break-lines-mode))
+    (global-page-break-lines-mode))
 #+end_src
+
 ** Cursor and Window movement
+
 #+begin_src emacs-lisp
   (use-package multiple-cursors
     :bind (("C->" . mc/mark-next-like-this)
@@ -317,12 +329,15 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Moving Text like in other editors
+
 #+begin_src emacs-lisp
   (use-package move-text
     :bind (("M-<up>" . move-text-up)
            ("M-<down>" . move-text-down)))
 #+end_src
+
 ** Treemacs
+
 #+begin_src emacs-lisp
   (use-package treemacs
     :bind
@@ -336,7 +351,8 @@ Doesn't work with Hack Nerd Font.
   (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode -1)))
 #+end_src
 
-** Transient
+** Transient Windows
+
 #+begin_src emacs-lisp
   (transient-define-prefix transient-scale-text ()
     "Scale Text in or out"
@@ -349,6 +365,9 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Perspective
+
+Create different perspectives or work areas.
+
 #+begin_src emacs-lisp
   (use-package perspective
     :bind
@@ -361,7 +380,12 @@ Doesn't work with Hack Nerd Font.
     (persp-mode))
 
 #+end_src
+
 ** Helper Packages
+*** Diminish
+*** hl-line
+*** command-log-mode
+
 
 #+begin_src emacs-lisp
   (use-package diminish)
@@ -371,12 +395,28 @@ Doesn't work with Hack Nerd Font.
 
   (use-package command-log-mode
     :commands command-log-mode)
+#+end_src
 
+*** Which Key
+
+which-key is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command(a prefix) in a popup. 
+For example, after enabling the minor mode if you enter C-x and wait for the default of 1 second the minibuffer will expand with all 
+of the available key bindings that follow C-x (or as many as space allows given your settings). 
+This includes prefixes like C-x 8 which are shown in a different face.
+
+#+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
     :diminish which-key-mode
     :config
     (setq which-key-idle-delay 0.5))  
+#+end_src
+
+*** Undo Tree
+
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :config (global-undo-tree-mode))
 #+end_src
 
 ** Vertico, Consult, Orderless and Marginalia
@@ -415,19 +455,32 @@ Enjoy!
     (marginalia-mode))
 #+end_src
 
-** Company mode
+** Corfu
 #+begin_src emacs-lisp
-  (use-package company
-    :ensure t
-    :hook
-    (after-init . global-company-mode)
-    :config
-    (setq company-minimum-prefix-length 1
-          company-idle-delay 0.1))
+  (use-package corfu
+    ;; Optional customizations
+    :custom
+    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    (corfu-auto t)                 ;; Enable auto completion
+    (corfu-separator ?\s)          ;; Orderless field separator
+    (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    (corfu-preview-current nil)    ;; Disable current candidate preview
+    (corfu-preselect 'prompt)      ;; Preselect the prompt
+    (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+    (corfu-scroll-margin 5)        ;; Use scroll margin
 
-  (global-set-key (kbd "M-p") 'completion-at-point)
+    ;; Enable Corfu only for certain modes.
+    :hook ((prog-mode . corfu-mode)
+           (shell-mode . corfu-mode)
+           (eshell-mode . corfu-mode))
+
+    ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+    ;; be used globally (M-/).  See also the customization variable
+    ;; `global-corfu-modes' to exclude certain modes.
+    :init
+    (global-corfu-mode))
 #+end_src
-
 ** Embark
 #+begin_src emacs-lisp
   (use-package embark
@@ -644,6 +697,7 @@ Enjoy!
   (add-to-list 'org-structure-template-alist '("b"   . "src bash"))
   (add-to-list 'org-structure-template-alist '("py"  . "src python"))
   (add-to-list 'org-structure-template-alist '("exs" . "src elixir"))
+  (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
   (add-to-list 'org-structure-template-alist '("el"  . "src emacs-lisp"))
 #+end_src
 
@@ -653,7 +707,8 @@ Enjoy!
    'org-babel-load-languages
    '((emacs-lisp . t)
      (elixir . t)
-     (python . t)))
+     (python . t)
+     (sql . t)))
 
   (setq org-confirm-babel-evaluate nil)
 #+end_src
@@ -701,6 +756,7 @@ Enjoy!
 
   (use-package multi-vterm)
 #+end_src
+
 
 * Development
 ** Tools
