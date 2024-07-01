@@ -416,7 +416,9 @@ This includes prefixes like C-x 8 which are shown in a different face.
 
 #+begin_src emacs-lisp
   (use-package undo-tree
-    :config (global-undo-tree-mode))
+    :config 
+    (global-undo-tree-mode)
+    (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo"))))
 #+end_src
 
 ** Vertico, Consult, Orderless and Marginalia
