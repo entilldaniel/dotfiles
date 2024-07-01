@@ -114,6 +114,10 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 
   ;; Disable warnings for native comp
   (setq native-comp-async-report-warnings-errors nil)
+
+  ;;Enable Hippie Expand
+  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+
 #+end_src
 *** Custom keybindings
 #+begin_src emacs-lisp

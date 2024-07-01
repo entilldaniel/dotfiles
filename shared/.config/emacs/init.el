@@ -96,6 +96,9 @@
 ;; Disable warnings for native comp
 (setq native-comp-async-report-warnings-errors nil)
 
+;;Enable Hippie Expand
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
 
