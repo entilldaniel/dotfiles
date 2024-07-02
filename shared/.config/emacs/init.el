@@ -39,65 +39,65 @@
 (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
 
 (tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(delete-selection-mode t)
-(transient-mark-mode t)
-(show-paren-mode 1)
-(window-divider-mode)
-(column-number-mode t)
-(size-indication-mode t)
-(blink-cursor-mode -1)
-(global-display-line-numbers-mode t)
-(recentf-mode 1)
-(savehist-mode 1)
-(save-place-mode 1)
-(global-auto-revert-mode 1)
-(line-number-mode t)
-(repeat-mode)
-(electric-indent-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (delete-selection-mode t)
+  (transient-mark-mode t)
+  (show-paren-mode 1)
+  (window-divider-mode)
+  (column-number-mode t)
+  (size-indication-mode t)
+  (blink-cursor-mode -1)
+  (global-display-line-numbers-mode t)
+  (recentf-mode 1)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (global-auto-revert-mode 1)
+  (line-number-mode t)
+  (repeat-mode)
+;;  (electric-indent-mode -1)
 
-(setq-default cursor-type 'box)
+  (setq-default cursor-type 'box)
 
-(setq next-line-add-newlines t
-      history-length 25
-      global-auto-revert-non-file-buffers 1
-      use-dialog-box nil
-      kill-whole-line t
-      next-screen-context-lines 10
-      kill-do-not-save-duplicates t)
+  (setq next-line-add-newlines t
+        history-length 25
+        global-auto-revert-non-file-buffers 1
+        use-dialog-box nil
+        kill-whole-line t
+        next-screen-context-lines 10
+        kill-do-not-save-duplicates t)
 
-(dolist (mode '(org-mode-hook
-                treemacs-mode-hook
-                term-mode-hook
-                eshell-mode-hook
-                markdown-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode -1))))
+  (dolist (mode '(org-mode-hook
+                  treemacs-mode-hook
+                  term-mode-hook
+                  eshell-mode-hook
+                  markdown-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
-(setq initial-scratch-message (concat
-                               ";;; Emacs started: "
-                               (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n"))
+  (setq initial-scratch-message (concat
+                                 ";;; Emacs started: "
+                                 (format-time-string "%Y-%m-%d - %H:%m")
+                                 "\n;;; Happy Hacking!\n"))
 
-(setq ring-bell-function 'ignore
-      x-select-enable-clipboard t
-      inhibit-startup-screen t
-      confirm-kill-emacs 'y-or-n-p
-      dired-dwim-target t
-      delete-by-moving-to-thrash t
-      global-auto-revert-non-file-buffers t
-      auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
-      backup-directory-alist '(("." . "~/.emacs_backups"))
-      proced-enable-color-flag t
-      create-lockfiles nil)
-(make-directory "~/.emacs_backups/" t)
-(make-directory "~/.emacs_autosave/" t)
+  (setq ring-bell-function 'ignore
+        x-select-enable-clipboard t
+        inhibit-startup-screen t
+        confirm-kill-emacs 'y-or-n-p
+        dired-dwim-target t
+        delete-by-moving-to-thrash t
+        global-auto-revert-non-file-buffers t
+        auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
+        backup-directory-alist '(("." . "~/.emacs_backups"))
+        proced-enable-color-flag t
+        create-lockfiles nil)
+  (make-directory "~/.emacs_backups/" t)
+  (make-directory "~/.emacs_autosave/" t)
 
-;; Disable warnings for native comp
-(setq native-comp-async-report-warnings-errors nil)
+  ;; Disable warnings for native comp
+  (setq native-comp-async-report-warnings-errors nil)
 
-;;Enable Hippie Expand
-(global-set-key [remap dabbrev-expand] 'hippie-expand)
+  ;;Enable Hippie Expand
+  (global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))

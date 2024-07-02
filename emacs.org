@@ -74,7 +74,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (global-auto-revert-mode 1)
   (line-number-mode t)
   (repeat-mode)
-  (electric-indent-mode -1)
+;;  (electric-indent-mode -1)
 
   (setq-default cursor-type 'box)
 
