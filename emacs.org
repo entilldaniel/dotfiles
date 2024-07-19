@@ -74,7 +74,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (global-auto-revert-mode 1)
   (line-number-mode t)
   (repeat-mode)
-;;  (electric-indent-mode -1)
 
   (setq-default cursor-type 'box)
 
@@ -133,7 +132,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
         (delete-frame)))
   (if (daemonp)
       (global-set-key (kbd "C-x C-c") 'close-frame-p))
-
 #+end_src
 
 *** Scrolling
@@ -209,10 +207,12 @@ Configuration for modus themes and spacious padding.
   (setq x-underline-at-descent-line t)
 
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
-  ;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-
   (load-theme 'modus-vivendi-tinted t)
 
+#+end_src
+*** Spacious padding
+Add padding around emacs windows
+#+begin_src emacs-lisp
   (use-package spacious-padding
     :config
     (setq spacious-padding-subtle-mode-line
@@ -299,7 +299,7 @@ Doesn't work with Hack Nerd Font.
 #+end_src 
 
 *** Page Breaks
-
+Display page breaks as lines instead of ^L
 #+begin_src emacs-lisp
   (use-package page-break-lines
     :init
@@ -307,7 +307,6 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Cursor and Window movement
-
 #+begin_src emacs-lisp
   (use-package multiple-cursors
     :bind (("C->" . mc/mark-next-like-this)
@@ -333,7 +332,6 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Moving Text like in other editors
-
 #+begin_src emacs-lisp
   (use-package move-text
     :bind (("M-<up>" . move-text-up)
@@ -341,7 +339,7 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Treemacs
-
+A sidebar for navigating the file tree, gives a more IDE-like feeling.
 #+begin_src emacs-lisp
   (use-package treemacs
     :bind
@@ -356,8 +354,9 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Transient Windows
-
+Transient is for showing buffers that allow you to create more complex commands and visualize them.
 #+begin_src emacs-lisp
+  (use-package transient)
   (transient-define-prefix transient-scale-text ()
     "Scale Text in or out"
     ["Actions"
@@ -369,9 +368,7 @@ Doesn't work with Hack Nerd Font.
 #+end_src
 
 ** Perspective
-
 Create different perspectives or work areas.
-
 #+begin_src emacs-lisp
   (use-package perspective
     :bind
@@ -387,22 +384,24 @@ Create different perspectives or work areas.
 
 ** Helper Packages
 *** Diminish
-*** hl-line
-*** command-log-mode
-
-
+Hides minor modes in the modeline or shows them in a shortened format
 #+begin_src emacs-lisp
   (use-package diminish)
-
+#+end_src
+*** hl-line
+Highlight the current line...
+#+begin_src emacs-lisp
   (use-package hl-line
     :config (global-hl-line-mode))
-
+#+end_src
+*** command-log-mode
+Show the executed emacs commands in a separate buffer
+#+begin_src emacs-lisp
   (use-package command-log-mode
     :commands command-log-mode)
 #+end_src
 
 *** Which Key
-
 which-key is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command(a prefix) in a popup. 
 For example, after enabling the minor mode if you enter C-x and wait for the default of 1 second the minibuffer will expand with all 
 of the available key bindings that follow C-x (or as many as space allows given your settings). 
@@ -417,7 +416,7 @@ This includes prefixes like C-x 8 which are shown in a different face.
 #+end_src
 
 *** Undo Tree
-
+Visualize the emacs undo tree and navigate through it.
 #+begin_src emacs-lisp
   (use-package undo-tree
     :config 
@@ -425,9 +424,11 @@ This includes prefixes like C-x 8 which are shown in a different face.
     (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo"))))
 #+end_src
 
-** Vertico, Consult, Orderless and Marginalia
+** Vertico, Consult, Orderless, Marginalia and Corfu
 This is the new cool way that emacs users use emacs.
 Enjoy!
+*** Vertico
+Vertico provides a performant and minimalistic vertical completion UI based on the default completion system.
 #+begin_src emacs-lisp
   (use-package vertico
     :init
@@ -436,7 +437,11 @@ Enjoy!
     (setq vertico-resize -1)
     (setq vertico-count 15)
     (setq vertico-cycle t))
-
+#+end_src
+*** Consult
+Consult provides search and navigation commands based on the Emacs completion function completing-read.
+Completion allows you to quickly select an item from a list of candidates. 
+#+begin_src emacs-lisp
   (use-package consult
     :bind
     (("C-s"     . consult-line)
@@ -448,12 +453,21 @@ Enjoy!
     :bind
     (("C-x p f" . consult-project-extra-find)))
 
+  (use-package consult-flymake)
+  (use-package consult-eglot)
+#+end_src
+*** Orderless
+Show completions in a specified configureable order
+#+begin_src emacs-lisp
   (use-package orderless
     :init
     (setq completion-styles '(orderless basic)
           completion-category-defaults nil
           completion-category-overrides '((file (styles partial-completion)))))
-
+#+end_src
+*** Marginalia
+Annotate the minibuffer, for example when calling M-x or C-x f
+#+begin_src emacs-lisp
   (use-package marginalia
     :bind (:map minibuffer-local-map
                 ("M-A" . marginalia-cycle))
@@ -461,7 +475,8 @@ Enjoy!
     (marginalia-mode))
 #+end_src
 
-** Corfu
+*** Corfu
+Corfu enhances in-buffer completion with a small completion popup. 
 #+begin_src emacs-lisp
   (use-package corfu
     ;; Optional customizations
@@ -487,6 +502,8 @@ Enjoy!
     (global-corfu-mode))
 #+end_src
 ** Embark
+Embark makes it easy to choose a command to run based on what is near point,
+both during a minibuffer completion session and in normal buffers.
 #+begin_src emacs-lisp
   (use-package embark
     :bind
@@ -730,23 +747,6 @@ Enjoy!
 
 * Terminal Configuration
 #+begin_src emacs-lisp
-  (defun configure-eshell ()
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-    (setq eshell-history-size         300
-          eshell-buffer-maximum-lines 300
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t))
-
-  (use-package eshell-git-prompt)
-  (use-package eshell
-    :hook (eshell-first-time-mode . configure-eshell)
-    :config
-    (with-eval-after-load 'esh-opt
-      (setq eshell-destroy-buffer-when-process-dies t)
-      (setq eshell-visual-commands '("htop" "zsh"))))
-
   (use-package exec-path-from-shell
     :config
     (setq exec-path-from-shell-arguments '("-l" "-i"))
@@ -754,10 +754,10 @@ Enjoy!
       (exec-path-from-shell-initialize)))
 
   (use-package vterm
-  :commands vterm
-  :config
-  (setq vterm-shell "zsh")
-  (setq vterm-max-scrollback 5000))
+    :commands vterm
+    :config
+    (setq vterm-shell "zsh")
+    (setq vterm-max-scrollback 5000))
 
   (use-package multi-vterm)
 #+end_src
@@ -798,8 +798,6 @@ Eglot is the built in lsp client in emacs.
     (add-to-list
      'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
     (setq eglot-autoshutdown 1))
-
-
 #+end_src
 ** Code
 #+begin_src emacs-lisp

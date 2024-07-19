@@ -8,10 +8,10 @@
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-	   (format "%.2f seconds"
-		   (float-time
-		    (time-subtract after-init-time before-init-time)))
-	   gcs-done))
+       (format "%.2f seconds"
+  	     (float-time
+  	      (time-subtract after-init-time before-init-time)))
+       gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -39,65 +39,64 @@
 (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
 
 (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (delete-selection-mode t)
-  (transient-mark-mode t)
-  (show-paren-mode 1)
-  (window-divider-mode)
-  (column-number-mode t)
-  (size-indication-mode t)
-  (blink-cursor-mode -1)
-  (global-display-line-numbers-mode t)
-  (recentf-mode 1)
-  (savehist-mode 1)
-  (save-place-mode 1)
-  (global-auto-revert-mode 1)
-  (line-number-mode t)
-  (repeat-mode)
-;;  (electric-indent-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(delete-selection-mode t)
+(transient-mark-mode t)
+(show-paren-mode 1)
+(window-divider-mode)
+(column-number-mode t)
+(size-indication-mode t)
+(blink-cursor-mode -1)
+(global-display-line-numbers-mode t)
+(recentf-mode 1)
+(savehist-mode 1)
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+(line-number-mode t)
+(repeat-mode)
 
-  (setq-default cursor-type 'box)
+(setq-default cursor-type 'box)
 
-  (setq next-line-add-newlines t
-        history-length 25
-        global-auto-revert-non-file-buffers 1
-        use-dialog-box nil
-        kill-whole-line t
-        next-screen-context-lines 10
-        kill-do-not-save-duplicates t)
+(setq next-line-add-newlines t
+      history-length 25
+      global-auto-revert-non-file-buffers 1
+      use-dialog-box nil
+      kill-whole-line t
+      next-screen-context-lines 10
+      kill-do-not-save-duplicates t)
 
-  (dolist (mode '(org-mode-hook
-                  treemacs-mode-hook
-                  term-mode-hook
-                  eshell-mode-hook
-                  markdown-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode -1))))
+(dolist (mode '(org-mode-hook
+                treemacs-mode-hook
+                term-mode-hook
+                eshell-mode-hook
+                markdown-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
-  (setq initial-scratch-message (concat
-                                 ";;; Emacs started: "
-                                 (format-time-string "%Y-%m-%d - %H:%m")
-                                 "\n;;; Happy Hacking!\n"))
+(setq initial-scratch-message (concat
+                               ";;; Emacs started: "
+                               (format-time-string "%Y-%m-%d - %H:%m")
+                               "\n;;; Happy Hacking!\n"))
 
-  (setq ring-bell-function 'ignore
-        x-select-enable-clipboard t
-        inhibit-startup-screen t
-        confirm-kill-emacs 'y-or-n-p
-        dired-dwim-target t
-        delete-by-moving-to-thrash t
-        global-auto-revert-non-file-buffers t
-        auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
-        backup-directory-alist '(("." . "~/.emacs_backups"))
-        proced-enable-color-flag t
-        create-lockfiles nil)
-  (make-directory "~/.emacs_backups/" t)
-  (make-directory "~/.emacs_autosave/" t)
+(setq ring-bell-function 'ignore
+      x-select-enable-clipboard t
+      inhibit-startup-screen t
+      confirm-kill-emacs 'y-or-n-p
+      dired-dwim-target t
+      delete-by-moving-to-thrash t
+      global-auto-revert-non-file-buffers t
+      auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
+      backup-directory-alist '(("." . "~/.emacs_backups"))
+      proced-enable-color-flag t
+      create-lockfiles nil)
+(make-directory "~/.emacs_backups/" t)
+(make-directory "~/.emacs_autosave/" t)
 
-  ;; Disable warnings for native comp
-  (setq native-comp-async-report-warnings-errors nil)
+;; Disable warnings for native comp
+(setq native-comp-async-report-warnings-errors nil)
 
-  ;;Enable Hippie Expand
-  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+;;Enable Hippie Expand
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
@@ -172,8 +171,6 @@
 (setq x-underline-at-descent-line t)
 
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
-;;(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-invisible-dividers)
-
 (load-theme 'modus-vivendi-tinted t)
 
 (use-package spacious-padding
@@ -198,32 +195,32 @@
 (use-package fontaine
   :config
   (setq fontaine-presets
-	'((tight
-	   :default-family "FiraCode Nerd Font Mono"
-	   :default-height 110
-	   :fixed-pitch-family "FiraCode Nerd Font Mono"
-	   :variable-pitch-family "Iosevka"
-	   :italic-family "FiraCode Nerd Font Mono"
-	   :line-spacing 1)
+    '((tight
+       :default-family "FiraCode Nerd Font Mono"
+       :default-height 110
+       :fixed-pitch-family "FiraCode Nerd Font Mono"
+       :variable-pitch-family "Iosevka"
+       :italic-family "FiraCode Nerd Font Mono"
+       :line-spacing 1)
       (regular
-	   :default-family "FiraCode Nerd Font Mono"
-	   :default-height 140
-	   :fixed-pitch-family "FiraCode Nerd Font Mono"
-	   :variable-pitch-family "Iosevka"
-	   :italic-family "FiraCode Nerd Font Mono"
-	   :line-spacing 1)
-	  (large
-	   :default-family "FiraCode Nerd Font Mono"
-	   :default-height 180
-	   :fixed-pitch-family "FiraCode Nerd Font Mono"
-	   :variable-pitch-family "Iosevka"
-	   :italic-family "FiraCode Nerd Font Mono"
-	   :line-spacing 1))))
+       :default-family "FiraCode Nerd Font Mono"
+       :default-height 140
+       :fixed-pitch-family "FiraCode Nerd Font Mono"
+       :variable-pitch-family "Iosevka"
+       :italic-family "FiraCode Nerd Font Mono"
+       :line-spacing 1)
+      (large
+       :default-family "FiraCode Nerd Font Mono"
+       :default-height 180
+       :fixed-pitch-family "FiraCode Nerd Font Mono"
+       :variable-pitch-family "Iosevka"
+       :italic-family "FiraCode Nerd Font Mono"
+       :line-spacing 1))))
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-	  ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+      ((equal (system-name) "archie") (fontaine-set-preset 'regular))
       ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
-	  ((equal "" "") (fontaine-set-preset 'regular)))
+      ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
   :config
@@ -286,6 +283,7 @@
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode -1)))
 
+(use-package transient)
 (transient-define-prefix transient-scale-text ()
   "Scale Text in or out"
   ["Actions"
@@ -341,6 +339,9 @@
 (use-package consult-project-extra
   :bind
   (("C-x p f" . consult-project-extra-find)))
+
+(use-package consult-flymake)
+(use-package consult-eglot)
 
 (use-package orderless
   :init
@@ -576,23 +577,6 @@
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 
-(defun configure-eshell ()
-  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-  (setq eshell-history-size         300
-        eshell-buffer-maximum-lines 300
-        eshell-hist-ignoredups t
-        eshell-scroll-to-bottom-on-input t))
-
-(use-package eshell-git-prompt)
-(use-package eshell
-  :hook (eshell-first-time-mode . configure-eshell)
-  :config
-  (with-eval-after-load 'esh-opt
-    (setq eshell-destroy-buffer-when-process-dies t)
-    (setq eshell-visual-commands '("htop" "zsh"))))
-
 (use-package exec-path-from-shell
   :config
   (setq exec-path-from-shell-arguments '("-l" "-i"))
@@ -600,10 +584,10 @@
     (exec-path-from-shell-initialize)))
 
 (use-package vterm
-:commands vterm
-:config
-(setq vterm-shell "zsh")
-(setq vterm-max-scrollback 5000))
+  :commands vterm
+  :config
+  (setq vterm-shell "zsh")
+  (setq vterm-max-scrollback 5000))
 
 (use-package multi-vterm)
 
