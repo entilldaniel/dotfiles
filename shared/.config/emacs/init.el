@@ -340,7 +340,7 @@
   :bind
   (("C-x p f" . consult-project-extra-find)))
 
-(use-package consult-flymake)
+(use-package consult-flycheck)
 (use-package consult-eglot)
 
 (use-package orderless

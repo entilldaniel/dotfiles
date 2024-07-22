@@ -246,32 +246,32 @@ Set the font and enable font ligatures.
   (use-package fontaine
     :config
     (setq fontaine-presets
-	  '((tight
-	     :default-family "FiraCode Nerd Font Mono"
-	     :default-height 110
-	     :fixed-pitch-family "FiraCode Nerd Font Mono"
-	     :variable-pitch-family "Iosevka"
-	     :italic-family "FiraCode Nerd Font Mono"
-	     :line-spacing 1)
+      '((tight
+         :default-family "FiraCode Nerd Font Mono"
+         :default-height 110
+         :fixed-pitch-family "FiraCode Nerd Font Mono"
+         :variable-pitch-family "Iosevka"
+         :italic-family "FiraCode Nerd Font Mono"
+         :line-spacing 1)
         (regular
-	     :default-family "FiraCode Nerd Font Mono"
-	     :default-height 140
-	     :fixed-pitch-family "FiraCode Nerd Font Mono"
-	     :variable-pitch-family "Iosevka"
-	     :italic-family "FiraCode Nerd Font Mono"
-	     :line-spacing 1)
-	    (large
-	     :default-family "FiraCode Nerd Font Mono"
-	     :default-height 180
-	     :fixed-pitch-family "FiraCode Nerd Font Mono"
-	     :variable-pitch-family "Iosevka"
-	     :italic-family "FiraCode Nerd Font Mono"
-	     :line-spacing 1))))
+         :default-family "FiraCode Nerd Font Mono"
+         :default-height 140
+         :fixed-pitch-family "FiraCode Nerd Font Mono"
+         :variable-pitch-family "Iosevka"
+         :italic-family "FiraCode Nerd Font Mono"
+         :line-spacing 1)
+        (large
+         :default-family "FiraCode Nerd Font Mono"
+         :default-height 180
+         :fixed-pitch-family "FiraCode Nerd Font Mono"
+         :variable-pitch-family "Iosevka"
+         :italic-family "FiraCode Nerd Font Mono"
+         :line-spacing 1))))
 
   (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-	    ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+        ((equal (system-name) "archie") (fontaine-set-preset 'regular))
         ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
-	    ((equal "" "") (fontaine-set-preset 'regular)))
+        ((equal "" "") (fontaine-set-preset 'regular)))
 #+end_src
 ***** Ligature Mode
 Doesn't work with Hack Nerd Font.
@@ -453,7 +453,7 @@ Completion allows you to quickly select an item from a list of candidates.
     :bind
     (("C-x p f" . consult-project-extra-find)))
 
-  (use-package consult-flymake)
+  (use-package consult-flycheck)
   (use-package consult-eglot)
 #+end_src
 *** Orderless
