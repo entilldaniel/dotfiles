@@ -8,10 +8,10 @@
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-       (format "%.2f seconds"
-  	     (float-time
-  	      (time-subtract after-init-time before-init-time)))
-       gcs-done))
+	   (format "%.2f seconds"
+		   (float-time
+		    (time-subtract after-init-time before-init-time)))
+	   gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -274,7 +274,9 @@
 
 (use-package treemacs
   :bind
-  (("C-c t" . treemacs)))
+  (("C-c t" . treemacs))
+  :config
+  (setq treemacs-user-mode-line-format 'none))
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 (use-package treemacs-magit
@@ -345,7 +347,7 @@
 
 (use-package orderless
   :init
-  (setq completion-styles '(orderless basic)
+  (setq completion-styles '(orderless flex)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 

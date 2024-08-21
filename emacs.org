@@ -343,7 +343,9 @@ A sidebar for navigating the file tree, gives a more IDE-like feeling.
 #+begin_src emacs-lisp
   (use-package treemacs
     :bind
-    (("C-c t" . treemacs)))
+    (("C-c t" . treemacs))
+    :config
+    (setq treemacs-user-mode-line-format 'none))
   (use-package treemacs-icons-dired
     :hook (dired-mode . treemacs-icons-dired-enable-once))
   (use-package treemacs-magit
@@ -461,7 +463,7 @@ Show completions in a specified configureable order
 #+begin_src emacs-lisp
   (use-package orderless
     :init
-    (setq completion-styles '(orderless basic)
+    (setq completion-styles '(orderless flex)
           completion-category-defaults nil
           completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
