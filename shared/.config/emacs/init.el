@@ -146,16 +146,6 @@
           (modus-themes-preset-overrides-faint))
         modus-themes-scale-headings t))
 
-(defun my-modus-themes-invisible-dividers (&rest _)
-  "Make window dividers invisible.
-    Add this to the `modus-themes-post-load-hook'."
-  (let ((bg (face-background 'default)))
-    (custom-set-faces
-     `(fringe ((t :background ,bg :foreground ,bg)))
-     `(window-divider ((t :background ,bg :foreground ,bg)))
-     `(window-divider-first-pixel ((t :background ,bg :foreground ,bg)))
-     `(window-divider-last-pixel ((t :background ,bg :foreground ,bg))))))
-
 (defun my-modus-themes-custom-faces (&rest _)
   (modus-themes-with-colors
     (custom-set-faces
@@ -176,8 +166,8 @@
 (use-package spacious-padding
   :config
   (setq spacious-padding-subtle-mode-line
-        `( :mode-line-active 'default
-           :mode-line-inactive vertical-border))
+        `(:mode-line-active 'default
+          :mode-line-inactive vertical-border))
   :init
   (spacious-padding-mode))
 
