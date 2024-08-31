@@ -8,10 +8,10 @@
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-	   (format "%.2f seconds"
-		   (float-time
-		    (time-subtract after-init-time before-init-time)))
-	   gcs-done))
+       (format "%.2f seconds"
+  	     (float-time
+  	      (time-subtract after-init-time before-init-time)))
+       gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -161,6 +161,7 @@
 (setq x-underline-at-descent-line t)
 
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+
 (load-theme 'modus-vivendi-tinted t)
 
 (use-package spacious-padding

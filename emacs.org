@@ -197,6 +197,7 @@ Configuration for modus themes and spacious padding.
   (setq x-underline-at-descent-line t)
 
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
+  
   (load-theme 'modus-vivendi-tinted t)
 
 #+end_src

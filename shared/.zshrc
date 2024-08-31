@@ -28,7 +28,8 @@ fpath=(${ASDF_DIR}/completions $fpath)
 DISABLE_UNTRACKED_FILES_DIRTY="true"  
 
 #disable caps lock
-setxkbmap -option ctrl:nocaps
+setxkbmap -layout us -option ctrl:nocaps
+
 
 export FLYCTL_INSTALL="/home/hubbe/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
