@@ -187,9 +187,9 @@
   :config
   (setq fontaine-presets
     '((tight
-       :default-family "FiraCode Mono"
+       :default-family "JetBrains Mono"
        :default-height 110
-       :fixed-pitch-family "FiraCode Mono"
+       :fixed-pitch-family "JetBrains Mono"
        :variable-pitch-family "Iosevka"
        :italic-family "FiraCode Mono"
        :line-spacing 1)
