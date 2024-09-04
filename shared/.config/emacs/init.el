@@ -360,8 +360,9 @@
   (setq which-key-idle-delay 0.5))
 
 (use-package undo-tree
-  :config 
+  :init 
   (global-undo-tree-mode)
+  :config
   (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo"))))
 
 (use-package vertico
