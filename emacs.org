@@ -575,7 +575,7 @@ both during a minibuffer completion session and in normal buffers.
 #+begin_src emacs-lisp  
   (use-package mastodon
     :config
-    (setq mastodon-instance-url "https://emacs.ch")
+    (setq mastodon-instance-url "https://genserver.social")
     (setq mastodon-active-user "entilldaniel"))
 
 #+end_src   
@@ -692,6 +692,7 @@ both during a minibuffer completion session and in normal buffers.
                                "~/Documents/org/inbox.org"
                                "~/Documents/org/work.org"
                                "~/Documents/org/ideas.org"
+                               "~/Documents/org/project.org"
                                "~/Documents/org/archive.org"))
 
   (setq org-refile-targets '((nil :maxlevel . 9)
