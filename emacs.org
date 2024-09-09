@@ -462,8 +462,9 @@ This includes prefixes like C-x 8 which are shown in a different face.
 Visualize the emacs undo tree and navigate through it.
 #+begin_src emacs-lisp
   (use-package undo-tree
-    :config 
+    :init
     (global-undo-tree-mode)
+    :config 
     (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo"))))
 #+end_src
 
