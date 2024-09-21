@@ -378,7 +378,9 @@
   (("C-s"     . consult-line)
    ("C-x b"   . consult-buffer)
    ("C-x r m" . consult-bookmark)
-   ("C-y"     . consult-yank-pop)))
+   ("C-y"     . consult-yank-pop))
+  :config
+  (setq consult-fontify-max-size 1024))
 
 (use-package consult-project-extra
   :bind
