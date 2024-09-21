@@ -75,15 +75,15 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (line-number-mode t)
   (repeat-mode)
 
-  (setq-default cursor-type 'box)
-
   (setq next-line-add-newlines t
         history-length 25
         global-auto-revert-non-file-buffers 1
         use-dialog-box nil
         kill-whole-line t
         next-screen-context-lines 10
-        kill-do-not-save-duplicates t)
+        kill-do-not-save-duplicates t
+        cursor-type 'box
+        use-package-enable-imenu-support t)
 
   (dolist (mode '(org-mode-hook
                   treemacs-mode-hook
@@ -161,7 +161,7 @@ Configuration for modus themes and spacious padding.
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
   (use-package modus-themes
-    :config
+    :init
     (setq modus-themes-region '(accented)
           modus-themes-mode-line '(accented borderless)
           modus-themes-org-blocks 'tinted-background
@@ -221,122 +221,112 @@ Add padding around emacs windows
     :hook (prog-mode . rainbow-mode))
 #+end_src
 
-*** Mode Line
-#+begin_src emacs-lisp
-  (use-package smart-mode-line
-    :config
-    (sml/setup)
-    (setq sml/theme 'respectful
-          sml/no-confirm-load-theme t))
-#+end_src
-
 *** Font configuration
 Set the font and enable font ligatures.
 **** Specify Fonts
 #+begin_src emacs-lisp
-  (use-package fontaine
-    :config
-    (setq fontaine-presets
-      '((tight
-         :default-family "JetBrains Mono"
-         :default-height 110
-         :fixed-pitch-family "JetBrains Mono"
-         :variable-pitch-family "Iosevka"
-         :italic-family "FiraCode Mono"
-         :line-spacing 1)
-        (regular
-         :default-family "JetBrains Mono"
-         :default-height 140
-         :fixed-pitch-family "JetBrains Mono"
-         :variable-pitch-family "Iosevka"
-         :italic-family "JetBrains Mono"
-         :line-spacing 1)
-        (large
-         :default-family "FiraCode Nerd Font Mono"
-         :default-height 180
-         :fixed-pitch-family "FiraCode Nerd Font Mono"
-         :variable-pitch-family "Iosevka"
-         :italic-family "FiraCode Nerd Font Mono"
-         :line-spacing 1))))
+   (use-package fontaine
+     :config
+     (setq fontaine-presets
+       '((tight
+          :default-family "Fira Code Mono"
+          :default-height 110
+          :fixed-pitch-family "Fira Code Mono"
+          :variable-pitch-family "Iosevka"
+          :italic-family "Fira Code Mono"
+          :line-spacing 1)
+         (regular
+          :default-family "Fira Code Mono"
+          :default-height 140
+          :fixed-pitch-family "Fira Code Mono"
+          :variable-pitch-family "Iosevka"
+          :italic-family "Fira Code Mono"
+          :line-spacing 1)
+         (large
+          :default-family "FiraCode Nerd Font Mono"
+          :default-height 180
+          :fixed-pitch-family "FiraCode Nerd Font Mono"
+          :variable-pitch-family "Iosevka"
+          :italic-family "FiraCode Nerd Font Mono"
+          :line-spacing 1))))
 
-  (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
-        ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-        ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
-        ((equal "" "") (fontaine-set-preset 'regular)))
+   (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
+         ((equal (system-name) "archie") (fontaine-set-preset 'regular))
+         ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+         ((equal "" "") (fontaine-set-preset 'regular)))
 #+end_src
 ***** Ligature Mode
 Doesn't work with Hack Nerd Font.
 #+begin_src emacs-lisp  
-(use-package ligature
-  :load-path "path-to-ligature-repo"
-  :config
-  ;; Enable the "www" ligature in every possible major mode
-  (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia and Fira Code ligatures in programming modes
-  (ligature-set-ligatures 'prog-mode
-                        '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
-                          ;; =:= =!=
-                          ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                          ;; ;; ;;;
-                          (";" (rx (+ ";")))
-                          ;; && &&&
-                          ("&" (rx (+ "&")))
-                          ;; !! !!! !. !: !!. != !== !~
-                          ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                          ;; ?? ??? ?:  ?=  ?.
-                          ("?" (rx (or ":" "=" "\." (+ "?"))))
-                          ;; %% %%%
-                          ("%" (rx (+ "%")))
-                          ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
-                          ;; |->>-||-<<-| |- |== ||=||
-                          ;; |==>>==<<==<=>==//==/=!==:===>
-                          ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                          "-" "=" ))))
-                          ;; \\ \\\ \/
-                          ("\\" (rx (or "/" (+ "\\"))))
-                          ;; ++ +++ ++++ +>
-                          ("+" (rx (or ">" (+ "+"))))
-                          ;; :: ::: :::: :> :< := :// ::=
-                          (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                          ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
-                          ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                          "="))))
-                          ;; .. ... .... .= .- .? ..= ..<
-                          ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                          ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
-                          ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                          ;; *> */ *)  ** *** ****
-                          ("*" (rx (or ">" "/" ")" (+ "*"))))
-                          ;; www wwww
-                          ("w" (rx (+ "w")))
-                          ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
-                          ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
-                          ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
-                          ;; << <<< <<<<
-                          ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                          "-"  "/" "|" "="))))
-                          ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
-                          ;; >> >>> >>>>
-                          (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                          ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
-                          ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                       (+ "#"))))
-                          ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
-                          ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                          ;; __ ___ ____ _|_ __|____|_
-                          ("_" (rx (+ (or "_" "|"))))
-                          ;; Fira code: 0xFF 0x12
-                          ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                          ;; Fira code:
-                          "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                          ;; The few not covered by the regexps.
-                          "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
-  (global-ligature-mode t))
+ (use-package ligature
+   :config
+   ;; Enable the "www" ligature in every possible major mode
+   (ligature-set-ligatures 't '("www"))
+   ;; Enable traditional ligature support in eww-mode, if the
+   ;; `variable-pitch' face supports it
+   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+   ;; Enable all Cascadia and Fira Code ligatures in programming modes
+   (ligature-set-ligatures 'prog-mode
+                         '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+                           ;; =:= =!=
+                           ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+                           ;; ;; ;;;
+                           (";" (rx (+ ";")))
+                           ;; && &&&
+                           ("&" (rx (+ "&")))
+                           ;; !! !!! !. !: !!. != !== !~
+                           ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+                           ;; ?? ??? ?:  ?=  ?.
+                           ("?" (rx (or ":" "=" "\." (+ "?"))))
+                           ;; %% %%%
+                           ("%" (rx (+ "%")))
+                           ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+                           ;; |->>-||-<<-| |- |== ||=||
+                           ;; |==>>==<<==<=>==//==/=!==:===>
+                           ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+                                           "-" "=" ))))
+                           ;; \\ \\\ \/
+                           ("\\" (rx (or "/" (+ "\\"))))
+                           ;; ++ +++ ++++ +>
+                           ("+" (rx (or ">" (+ "+"))))
+                           ;; :: ::: :::: :> :< := :// ::=
+                           (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+                           ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+                           ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+                                           "="))))
+                           ;; .. ... .... .= .- .? ..= ..<
+                           ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+                           ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+                           ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+                           ;; *> */ *)  ** *** ****
+                           ("*" (rx (or ">" "/" ")" (+ "*"))))
+                           ;; www wwww
+                           ("w" (rx (+ "w")))
+                           ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+                           ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+                           ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+                           ;; << <<< <<<<
+                           ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+                                           "-"  "/" "|" "="))))
+                           ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+                           ;; >> >>> >>>>
+                           (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+                           ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+                           ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+                                        (+ "#"))))
+                           ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+                           ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+                           ;; __ ___ ____ _|_ __|____|_
+                           ("_" (rx (+ (or "_" "|"))))
+                           ;; Fira code: 0xFF 0x12
+                           ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+                           ;; Fira code:
+                           "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+                           ;; The few not covered by the regexps.
+                           "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
+   ;; Enables ligature checks globally in all buffers. You can also do it
+   ;; per mode with `ligature-mode'.
+   (global-ligature-mode t))
 #+end_src 
 
 *** Page Breaks
@@ -501,6 +491,7 @@ Completion allows you to quickly select an item from a list of candidates.
 
   (use-package consult-flycheck)
   (use-package consult-eglot)
+  (use-package consult-imenu)
 #+end_src
 *** Orderless
 Show completions in a specified configureable order
@@ -814,7 +805,7 @@ both during a minibuffer completion session and in normal buffers.
     :init
     (yas-global-mode 1)
     :config
-    (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
+    (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
   (use-package flycheck)
   (use-package docker)
   (use-package editorconfig

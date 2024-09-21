@@ -56,15 +56,15 @@
 (line-number-mode t)
 (repeat-mode)
 
-(setq-default cursor-type 'box)
-
 (setq next-line-add-newlines t
       history-length 25
       global-auto-revert-non-file-buffers 1
       use-dialog-box nil
       kill-whole-line t
       next-screen-context-lines 10
-      kill-do-not-save-duplicates t)
+      kill-do-not-save-duplicates t
+      cursor-type 'box
+      use-package-enable-imenu-support t)
 
 (dolist (mode '(org-mode-hook
                 treemacs-mode-hook
@@ -125,7 +125,7 @@
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package modus-themes
-  :config
+  :init
   (setq modus-themes-region '(accented)
         modus-themes-mode-line '(accented borderless)
         modus-themes-org-blocks 'tinted-background
@@ -177,28 +177,22 @@
 (use-package rainbow-mode
   :hook (prog-mode . rainbow-mode))
 
-(use-package smart-mode-line
-  :config
-  (sml/setup)
-  (setq sml/theme 'respectful
-        sml/no-confirm-load-theme t))
-
 (use-package fontaine
   :config
   (setq fontaine-presets
     '((tight
-       :default-family "JetBrains Mono"
+       :default-family "Fira Code Mono"
        :default-height 110
-       :fixed-pitch-family "JetBrains Mono"
+       :fixed-pitch-family "Fira Code Mono"
        :variable-pitch-family "Iosevka"
-       :italic-family "FiraCode Mono"
+       :italic-family "Fira Code Mono"
        :line-spacing 1)
       (regular
-       :default-family "JetBrains Mono"
+       :default-family "Fira Code Mono"
        :default-height 140
-       :fixed-pitch-family "JetBrains Mono"
+       :fixed-pitch-family "Fira Code Mono"
        :variable-pitch-family "Iosevka"
-       :italic-family "JetBrains Mono"
+       :italic-family "Fira Code Mono"
        :line-spacing 1)
       (large
        :default-family "FiraCode Nerd Font Mono"
@@ -214,7 +208,6 @@
       ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
-  :load-path "path-to-ligature-repo"
   :config
   ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
@@ -388,6 +381,7 @@
 
 (use-package consult-flycheck)
 (use-package consult-eglot)
+(use-package consult-imenu)
 
 (use-package orderless
   :init
@@ -639,7 +633,7 @@
   :init
   (yas-global-mode 1)
   :config
-  (setq yas-snippet-dirs '("~/.config/emacs/snippets" "~/.dotfiles/snippets")))
+  (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
 (use-package flycheck)
 (use-package docker)
 (use-package editorconfig
