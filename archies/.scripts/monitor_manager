@@ -20,6 +20,8 @@ case "$HOST" in
     archie)
         switch_monitor "eDP1" "DP1"
         ;;
+    slartibartfast)
+        switch_monitor "eDP-1" "DP-3"
 esac
 
 bspc wm -r

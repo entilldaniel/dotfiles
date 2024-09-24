@@ -669,11 +669,20 @@
 (setq treesit-language-source-alist
       '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
         (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
-        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
+        (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
-        (rust-mode . rust-ts-mode)))
+        (rust-mode . rust-ts-mode)
+        (js-mode . js-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
@@ -741,7 +750,9 @@
 
 (use-package python-mode)
 
-
+(use-package flymake-eslint
+  :config
+  (setq flymake-eslint-prefer-json-diagnostics t))
 
 (defun epoch-to-string (epoch)
   (interactive "insert epoch")
