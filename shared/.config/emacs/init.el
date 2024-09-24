@@ -650,10 +650,16 @@
   :ensure nil
   :defer t
   :hook ((elixir-mode . eglot-ensure)
-         (rust-mode . eglot-ensure))
+         (rust-mode . eglot-ensure)
+         (tsx-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
+  (add-to-list
+   'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
+  (add-to-list
+   'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
   (setq eglot-autoshutdown 1))
 
 (setq-default indent-tabs-mode nil)
@@ -734,6 +740,8 @@
   (setq elpy-rpc-virtualenv-path "~/.config/emacs/pyenv"))
 
 (use-package python-mode)
+
+
 
 (defun epoch-to-string (epoch)
   (interactive "insert epoch")
