@@ -132,6 +132,8 @@
         modus-themes-paren-match '(bold intense)
         modus-themes-prompts '(light)
         modus-themes-syntax '(faint)
+        modus-themes-mixed-fonts t
+        modus-themes-custom-auto-reload t
         modus-themes-completions
         '((matches . (extrabold))
           (selection . (italic)))
@@ -144,7 +146,8 @@
         '((border-mode-line-active bg-mode-line-active)
           (border-mode-line-inactive bg-mode-line-inactive)
           (modus-themes-preset-overrides-faint))
-        modus-themes-scale-headings t))
+        modus-themes-scale-headings t
+        modus-themes-mode-line '(borderless accented)))
 
 (defun my-modus-themes-custom-faces (&rest _)
   (modus-themes-with-colors
@@ -159,7 +162,6 @@
 
 ;; ESSENTIAL to make the underline move to the bottom of the box:
 (setq x-underline-at-descent-line t)
-
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
 (load-theme 'modus-vivendi-tinted t)
