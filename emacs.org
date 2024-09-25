@@ -865,7 +865,8 @@ Eglot is the built in lsp client in emacs.
   (setq major-mode-remap-alist
         '((elixir-mode . elixir-ts-mode)
           (rust-mode . rust-ts-mode)
-          (js-mode . js-ts-mode)))
+          (js-mode . js-ts-mode)
+          (js-json-mode . json-ts-mode)))
 #+end_src
 
 ** Languages
@@ -955,9 +956,10 @@ Eglot is the built in lsp client in emacs.
 
 *** JavaScript and TypeScript
 #+begin_src emacs-lisp
-      (use-package flymake-eslint
-        :config
-        (setq flymake-eslint-prefer-json-diagnostics t))
+  (use-package flymake-eslint
+    :config
+    (setq flymake-eslint-prefer-json-diagnostics t))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 #+end_src
 
 * Custom functions

@@ -684,7 +684,8 @@
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
         (rust-mode . rust-ts-mode)
-        (js-mode . js-ts-mode)))
+        (js-mode . js-ts-mode)
+        (js-json-mode . json-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
@@ -755,6 +756,7 @@
 (use-package flymake-eslint
   :config
   (setq flymake-eslint-prefer-json-diagnostics t))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (defun epoch-to-string (epoch)
   (interactive "insert epoch")
