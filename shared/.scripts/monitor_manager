@@ -1,10 +1,24 @@
 #! /bin/bash
 
+set -e
 
 # Send internal monitor as first param and external as second
 function switch_monitor () {
     if [[ $(xrandr -q | grep "^$2 connected") ]]; then
         xrandr --output "$2" --mode 3840x2160 --primary && xrandr --output "$1" --off
+        bspc desktop "$1" --to-monitor "$2"
+    else
+        xrandr --output "$1" --mode 1920x1080 --primary && xrandr --output "$2" --off
+        bspc desktop "$2" --to-monitor "$1"
+    fi
+}
+
+function handle_slartibartfast() {
+    if [[ $(xrandr -q | grep "^DP-3 connected") ]]; then
+        xrandr --output "$3" --mode 3840x2160 --primary && xrandr --output "$1" --off
+        bspc desktop "$1" --to-monitor "$3"
+    elif [[ $(xrandr -q | grep "^DP-2 connected") ]]; then
+        xrandr --output "$2" --mode 3440x1440 --primary && xrandr --output "$1" --off
         bspc desktop "$1" --to-monitor "$2"
     else
         xrandr --output "$1" --mode 1920x1080 --primary && xrandr --output "$2" --off
@@ -21,7 +35,8 @@ case "$HOST" in
         switch_monitor "eDP1" "DP1"
         ;;
     slartibartfast)
-        switch_monitor "eDP-1" "DP-3"
+        handle_slartibartfast "eDP-1" "DP-2" "DP-3"
+        ;;
 esac
 
 bspc wm -r
