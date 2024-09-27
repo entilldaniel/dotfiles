@@ -14,15 +14,18 @@ function switch_monitor () {
 }
 
 function handle_slartibartfast() {
-    if [[ $(xrandr -q | grep "^DP-3 connected") ]]; then
-        xrandr --output "$3" --mode 3840x2160 --primary && xrandr --output "$1" --off
-        bspc desktop "$1" --to-monitor "$3"
-    elif [[ $(xrandr -q | grep "^DP-2 connected") ]]; then
-        xrandr --output "$2" --mode 3440x1440 --primary && xrandr --output "$1" --off
-        bspc desktop "$1" --to-monitor "$2"
+    if [[ $(xrandr -q | grep "^DP-2 connected") ]]; then
+        RESOLUTION=$(xrandr | grep -A 1 "^DP-2 connected" | tail -n 1 | awk '{print $1}' | sort -Vr | head -n 1)
+        xrandr --output DP-2 --mode $RESOLUTION --primary && xrandr --output eDP-1 --off
+        bspc desktop eDP-1 --to-monitor DP-2
+    elif [[ $(xrandr -q | grep "^DP-3 connected") ]]; then
+        RESOLUTION=$(xrandr | grep -A 1 "^DP-3 connected" | tail -n 1 | awk '{print $1}' | sort -Vr | head -n 1)
+        xrandr --output DP-3 --mode $RESOLUTION --primary && xrandr --output eDP-1 --off
+        bspc desktop eDP-1 --to-monitor DP-3
     else
-        xrandr --output "$1" --mode 1920x1080 --primary && xrandr --output "$2" --off
-        bspc desktop "$2" --to-monitor "$1"
+        OLD=$(xrandr --query | grep " connected primary" | cut -d' ' -f1)
+        xrandr --output eDP-1 --mode 1920x1200 --primary && xrandr --output "$OLD" --off
+        bspc desktop "$OLD" --to-monitor eDP-1
     fi
 }
 
@@ -35,9 +38,10 @@ case "$HOST" in
         switch_monitor "eDP1" "DP1"
         ;;
     slartibartfast)
-        handle_slartibartfast "eDP-1" "DP-2" "DP-3"
+        handle_slartibartfast
         ;;
 esac
 
 bspc wm -r
+
 

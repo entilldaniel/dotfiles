@@ -17,6 +17,9 @@ super + space
 super + shift + r
     pkill -USR1 -x sxhkd
 
+super + shift + p
+    ~/.scripts/monitor_manager
+
 super + shift + w
     bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" -eval '(org-capture)'
 
