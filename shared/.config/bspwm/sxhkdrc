@@ -26,7 +26,7 @@ super + shift + w
 super + shift + u
     bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" --eval "(progn (call-interactively 'org-journal-new-entry) (delete-other-windows))"
     
-# quit bspwm normally
+# Show menu for locking and quitting
 super + x
     rofi_run -l
 

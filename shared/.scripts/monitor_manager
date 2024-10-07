@@ -5,10 +5,10 @@ set -e
 # Send internal monitor as first param and external as second
 function switch_monitor () {
     if [[ $(xrandr -q | grep "^$2 connected") ]]; then
-        xrandr --output "$2" --mode 3840x2160 --primary && xrandr --output "$1" --off
+        xrandr --output "$2" --mode 3840x2160 --fb 3840x2160 --primary && xrandr --output "$1" --off
         bspc desktop "$1" --to-monitor "$2"
     else
-        xrandr --output "$1" --mode 1920x1080 --primary && xrandr --output "$2" --off
+        xrandr --output "$1" --mode 1920x1080 --fb 1920x1080 --primary && xrandr --output "$2" --off
         bspc desktop "$2" --to-monitor "$1"
     fi
 }
@@ -24,7 +24,7 @@ function handle_slartibartfast() {
         bspc desktop eDP-1 --to-monitor DP-3
     else
         OLD=$(xrandr --query | grep " connected primary" | cut -d' ' -f1)
-        xrandr --output eDP-1 --mode 1920x1200 --primary && xrandr --output "$OLD" --off
+        xrandr --output eDP-1 --mode 1920x1200 --primary --fb 1920x1200 && xrandr --output "$OLD" --off
         bspc desktop "$OLD" --to-monitor eDP-1
     fi
 }
