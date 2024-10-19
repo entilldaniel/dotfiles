@@ -654,7 +654,8 @@
   :hook ((elixir-mode . eglot-ensure)
          (rust-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
-         (js-ts-mode . eglot-ensure))
+         (js-ts-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
@@ -662,6 +663,7 @@
    'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
+  
   (setq eglot-autoshutdown 1))
 
 (setq-default indent-tabs-mode nil)
@@ -678,14 +680,18 @@
         (json "https://github.com/tree-sitter/tree-sitter-json")
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (toml "https://github.com/tree-sitter/tree-sitter-toml")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
         (rust-mode . rust-ts-mode)
         (js-mode . js-ts-mode)
-        (js-json-mode . json-ts-mode)))
+        (js-json-mode . json-ts-mode)
+        (go-mode . go-ts-mode)))
 
 (use-package emmet-mode
   :bind ("M-/" . emmet-expand-line))
@@ -743,8 +749,6 @@
          (clojure-mode . paredit-mode)
          (eval-expression-minibuffer . paredit-mode)))
 
-;; Someday
-
 (use-package elpy
   :init
   (elpy-enable)
@@ -757,6 +761,22 @@
   :config
   (setq flymake-eslint-prefer-json-diagnostics t))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+
+(require 'project)
+
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+(add-hook 'project-find-functions #'project-find-go-module)
+
+(defun eglot-format-buffer-before-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
+(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 
 (defun epoch-to-string (epoch)
   (interactive "insert epoch")
