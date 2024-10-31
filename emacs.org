@@ -49,6 +49,9 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 
   (use-package no-littering)
   (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+  ;; Make sure we load files
+  (let ((default-directory "~/.config/emacs/elpa/"))
+    (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
 * Interface
@@ -232,7 +235,7 @@ Set the font and enable font ligatures.
      (setq fontaine-presets
        '((tight
           :default-family "JetBrains Mono"
-          :default-height 110
+          :default-height 90
           :fixed-pitch-family "JetBrains Mono"
           :variable-pitch-family "Iosevka"
           :italic-family "JetBrains Mono"
@@ -260,75 +263,75 @@ Set the font and enable font ligatures.
 ***** Ligature Mode
 Doesn't work with Hack Nerd Font.
 #+begin_src emacs-lisp  
- (use-package ligature
-   :config
-   ;; Enable the "www" ligature in every possible major mode
-   (ligature-set-ligatures 't '("www"))
-   ;; Enable traditional ligature support in eww-mode, if the
-   ;; `variable-pitch' face supports it
-   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-   ;; Enable all Cascadia and Fira Code ligatures in programming modes
-   (ligature-set-ligatures 'prog-mode
-                         '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
-                           ;; =:= =!=
-                           ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                           ;; ;; ;;;
-                           (";" (rx (+ ";")))
-                           ;; && &&&
-                           ("&" (rx (+ "&")))
-                           ;; !! !!! !. !: !!. != !== !~
-                           ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                           ;; ?? ??? ?:  ?=  ?.
-                           ("?" (rx (or ":" "=" "\." (+ "?"))))
-                           ;; %% %%%
-                           ("%" (rx (+ "%")))
-                           ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
-                           ;; |->>-||-<<-| |- |== ||=||
-                           ;; |==>>==<<==<=>==//==/=!==:===>
-                           ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                           "-" "=" ))))
-                           ;; \\ \\\ \/
-                           ("\\" (rx (or "/" (+ "\\"))))
-                           ;; ++ +++ ++++ +>
-                           ("+" (rx (or ">" (+ "+"))))
-                           ;; :: ::: :::: :> :< := :// ::=
-                           (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                           ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
-                           ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                           "="))))
-                           ;; .. ... .... .= .- .? ..= ..<
-                           ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                           ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
-                           ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                           ;; *> */ *)  ** *** ****
-                           ("*" (rx (or ">" "/" ")" (+ "*"))))
-                           ;; www wwww
-                           ("w" (rx (+ "w")))
-                           ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
-                           ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
-                           ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
-                           ;; << <<< <<<<
-                           ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                           "-"  "/" "|" "="))))
-                           ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
-                           ;; >> >>> >>>>
-                           (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                           ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
-                           ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                        (+ "#"))))
-                           ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
-                           ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                           ;; __ ___ ____ _|_ __|____|_
-                           ("_" (rx (+ (or "_" "|"))))
-                           ;; Fira code: 0xFF 0x12
-                           ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                           ;; Fira code:
-                           "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                           ;; The few not covered by the regexps.
-                           "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-   ;; Enables ligature checks globally in all buffers. You can also do it
-   ;; per mode with `ligature-mode'.
-   (global-ligature-mode t))
+  ;; (use-package ligature
+  ;;   :config
+  ;;   ;; Enable the "www" ligature in every possible major mode
+  ;;   (ligature-set-ligatures 't '("www"))
+  ;;   ;; Enable traditional ligature support in eww-mode, if the
+  ;;   ;; `variable-pitch' face supports it
+  ;;   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;;   ;; Enable all Cascadia and Fira Code ligatures in programming modes
+  ;;   (ligature-set-ligatures 'prog-mode
+  ;;                           '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+  ;;                             ;; =:= =!=
+  ;;                             ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+  ;;                             ;; ;; ;;;
+  ;;                             (";" (rx (+ ";")))
+  ;;                             ;; && &&&
+  ;;                             ("&" (rx (+ "&")))
+  ;;                             ;; !! !!! !. !: !!. != !== !~
+  ;;                             ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+  ;;                             ;; ?? ??? ?:  ?=  ?.
+  ;;                             ("?" (rx (or ":" "=" "\." (+ "?"))))
+  ;;                             ;; %% %%%
+  ;;                             ("%" (rx (+ "%")))
+  ;;                             ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+  ;;                             ;; |->>-||-<<-| |- |== ||=||
+  ;;                             ;; |==>>==<<==<=>==//==/=!==:===>
+  ;;                             ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+  ;;                                             "-" "=" ))))
+  ;;                             ;; \\ \\\ \/
+  ;;                             ("\\" (rx (or "/" (+ "\\"))))
+  ;;                             ;; ++ +++ ++++ +>
+  ;;                             ("+" (rx (or ">" (+ "+"))))
+  ;;                             ;; :: ::: :::: :> :< := :// ::=
+  ;;                             (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+  ;;                             ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+  ;;                             ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+  ;;                                             "="))))
+  ;;                             ;; .. ... .... .= .- .? ..= ..<
+  ;;                             ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+  ;;                             ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+  ;;                             ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+  ;;                             ;; *> */ *)  ** *** ****
+  ;;                             ("*" (rx (or ">" "/" ")" (+ "*"))))
+  ;;                             ;; www wwww
+  ;;                             ("w" (rx (+ "w")))
+  ;;                             ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+  ;;                             ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+  ;;                             ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+  ;;                             ;; << <<< <<<<
+  ;;                             ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+  ;;                                             "-"  "/" "|" "="))))
+  ;;                             ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+  ;;                             ;; >> >>> >>>>
+  ;;                             (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+  ;;                             ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+  ;;                             ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+  ;;                                          (+ "#"))))
+  ;;                             ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+  ;;                             ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+  ;;                             ;; __ ___ ____ _|_ __|____|_
+  ;;                             ("_" (rx (+ (or "_" "|"))))
+  ;;                             ;; Fira code: 0xFF 0x12
+  ;;                             ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+  ;;                             ;; Fira code:
+  ;;                             "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+  ;;                             ;; The few not covered by the regexps.
+  ;;                             "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
+  ;;   ;; Enables ligature checks globally in all buffers. You can also do it
+  ;;   ;; per mode with `ligature-mode'.
+  ;;   (global-ligature-mode t))
 #+end_src 
 
 *** Page Breaks
@@ -493,7 +496,6 @@ Completion allows you to quickly select an item from a list of candidates.
 
   (use-package consult-flycheck)
   (use-package consult-eglot)
-  (use-package consult-imenu)
 #+end_src
 *** Orderless
 Show completions in a specified configureable order
@@ -555,12 +557,6 @@ both during a minibuffer completion session and in normal buffers.
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 * Tools
-** Kubernetes
-#+begin_src emacs-lisp
-  (use-package kubel
-    :config
-    (setq kubel-log-tail-n 250))
-#+end_src
 ** Proced
 #+begin_src emacs-lisp
   (use-package proced)
@@ -794,8 +790,6 @@ both during a minibuffer completion session and in normal buffers.
     :config
     (setq vterm-shell "zsh")
     (setq vterm-max-scrollback 5000))
-
-  (use-package multi-vterm)
 #+end_src
 
 
@@ -887,12 +881,12 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Rust
 #+begin_src emacs-lisp
-  (use-package rust-mode
-    :init
-    (setq rust-mode-treesitter-derive t))
+  ;; (use-package rust-mode
+  ;;   :init
+  ;;   (setq rust-mode-treesitter-derive t))
 
-    (use-package cargo
-      :hook (rust-mode . cargo-minor-mode))
+  ;;   (use-package cargo
+  ;;     :hook (rust-mode . cargo-minor-mode))
 #+end_src
 *** Docker
 #+begin_src emacs-lisp

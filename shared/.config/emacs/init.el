@@ -37,6 +37,9 @@
 
 (use-package no-littering)
 (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+;; Make sure we load files
+(let ((default-directory "~/.config/emacs/elpa/"))
+  (normal-top-level-add-subdirs-to-load-path))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -184,7 +187,7 @@
   (setq fontaine-presets
     '((tight
        :default-family "JetBrains Mono"
-       :default-height 110
+       :default-height 90
        :fixed-pitch-family "JetBrains Mono"
        :variable-pitch-family "Iosevka"
        :italic-family "JetBrains Mono"
@@ -209,75 +212,75 @@
       ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
       ((equal "" "") (fontaine-set-preset 'regular)))
 
-(use-package ligature
-  :config
-  ;; Enable the "www" ligature in every possible major mode
-  (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia and Fira Code ligatures in programming modes
-  (ligature-set-ligatures 'prog-mode
-                        '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
-                          ;; =:= =!=
-                          ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                          ;; ;; ;;;
-                          (";" (rx (+ ";")))
-                          ;; && &&&
-                          ("&" (rx (+ "&")))
-                          ;; !! !!! !. !: !!. != !== !~
-                          ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                          ;; ?? ??? ?:  ?=  ?.
-                          ("?" (rx (or ":" "=" "\." (+ "?"))))
-                          ;; %% %%%
-                          ("%" (rx (+ "%")))
-                          ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
-                          ;; |->>-||-<<-| |- |== ||=||
-                          ;; |==>>==<<==<=>==//==/=!==:===>
-                          ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                          "-" "=" ))))
-                          ;; \\ \\\ \/
-                          ("\\" (rx (or "/" (+ "\\"))))
-                          ;; ++ +++ ++++ +>
-                          ("+" (rx (or ">" (+ "+"))))
-                          ;; :: ::: :::: :> :< := :// ::=
-                          (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                          ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
-                          ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                          "="))))
-                          ;; .. ... .... .= .- .? ..= ..<
-                          ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                          ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
-                          ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                          ;; *> */ *)  ** *** ****
-                          ("*" (rx (or ">" "/" ")" (+ "*"))))
-                          ;; www wwww
-                          ("w" (rx (+ "w")))
-                          ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
-                          ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
-                          ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
-                          ;; << <<< <<<<
-                          ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                          "-"  "/" "|" "="))))
-                          ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
-                          ;; >> >>> >>>>
-                          (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                          ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
-                          ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                       (+ "#"))))
-                          ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
-                          ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                          ;; __ ___ ____ _|_ __|____|_
-                          ("_" (rx (+ (or "_" "|"))))
-                          ;; Fira code: 0xFF 0x12
-                          ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                          ;; Fira code:
-                          "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                          ;; The few not covered by the regexps.
-                          "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
-  (global-ligature-mode t))
+;; (use-package ligature
+;;   :config
+;;   ;; Enable the "www" ligature in every possible major mode
+;;   (ligature-set-ligatures 't '("www"))
+;;   ;; Enable traditional ligature support in eww-mode, if the
+;;   ;; `variable-pitch' face supports it
+;;   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+;;   ;; Enable all Cascadia and Fira Code ligatures in programming modes
+;;   (ligature-set-ligatures 'prog-mode
+;;                           '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
+;;                             ;; =:= =!=
+;;                             ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
+;;                             ;; ;; ;;;
+;;                             (";" (rx (+ ";")))
+;;                             ;; && &&&
+;;                             ("&" (rx (+ "&")))
+;;                             ;; !! !!! !. !: !!. != !== !~
+;;                             ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
+;;                             ;; ?? ??? ?:  ?=  ?.
+;;                             ("?" (rx (or ":" "=" "\." (+ "?"))))
+;;                             ;; %% %%%
+;;                             ("%" (rx (+ "%")))
+;;                             ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
+;;                             ;; |->>-||-<<-| |- |== ||=||
+;;                             ;; |==>>==<<==<=>==//==/=!==:===>
+;;                             ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
+;;                                             "-" "=" ))))
+;;                             ;; \\ \\\ \/
+;;                             ("\\" (rx (or "/" (+ "\\"))))
+;;                             ;; ++ +++ ++++ +>
+;;                             ("+" (rx (or ">" (+ "+"))))
+;;                             ;; :: ::: :::: :> :< := :// ::=
+;;                             (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
+;;                             ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
+;;                             ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
+;;                                             "="))))
+;;                             ;; .. ... .... .= .- .? ..= ..<
+;;                             ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
+;;                             ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
+;;                             ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
+;;                             ;; *> */ *)  ** *** ****
+;;                             ("*" (rx (or ">" "/" ")" (+ "*"))))
+;;                             ;; www wwww
+;;                             ("w" (rx (+ "w")))
+;;                             ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
+;;                             ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
+;;                             ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
+;;                             ;; << <<< <<<<
+;;                             ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
+;;                                             "-"  "/" "|" "="))))
+;;                             ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
+;;                             ;; >> >>> >>>>
+;;                             (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
+;;                             ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
+;;                             ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
+;;                                          (+ "#"))))
+;;                             ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
+;;                             ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
+;;                             ;; __ ___ ____ _|_ __|____|_
+;;                             ("_" (rx (+ (or "_" "|"))))
+;;                             ;; Fira code: 0xFF 0x12
+;;                             ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
+;;                             ;; Fira code:
+;;                             "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
+;;                             ;; The few not covered by the regexps.
+;;                             "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
+;;   ;; Enables ligature checks globally in all buffers. You can also do it
+;;   ;; per mode with `ligature-mode'.
+;;   (global-ligature-mode t))
 
 (use-package page-break-lines
   :init
@@ -383,7 +386,6 @@
 
 (use-package consult-flycheck)
 (use-package consult-eglot)
-(use-package consult-imenu)
 
 (use-package orderless
   :init
@@ -429,10 +431,6 @@
 (use-package embark-consult
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package kubel
-  :config
-  (setq kubel-log-tail-n 250))
 
 (use-package proced)
 
@@ -628,8 +626,6 @@
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 5000))
 
-(use-package multi-vterm)
-
 (use-package restclient)
 (use-package yasnippet
   :init
@@ -700,12 +696,12 @@
 (use-package toml-mode)
 (use-package markdown-mode)
 
-(use-package rust-mode
-  :init
-  (setq rust-mode-treesitter-derive t))
+;; (use-package rust-mode
+;;   :init
+;;   (setq rust-mode-treesitter-derive t))
 
-  (use-package cargo
-    :hook (rust-mode . cargo-minor-mode))
+;;   (use-package cargo
+;;     :hook (rust-mode . cargo-minor-mode))
 
 (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
