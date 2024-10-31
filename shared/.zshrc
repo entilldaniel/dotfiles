@@ -6,13 +6,11 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
-# ZSH Autocomplete https://github.com/marlonrichert/zsh-autocomplete
-source ~/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh 
-
 #zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
     colorize
     history
+    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -31,7 +29,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 setxkbmap -layout us -option ctrl:nocaps
 
 
-export FLYCTL_INSTALL="/home/hubbe/.fly"
+export FLYCTL_INSTALL="~/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
