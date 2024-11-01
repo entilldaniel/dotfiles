@@ -187,21 +187,21 @@
   (setq fontaine-presets
     '((tight
        :default-family "JetBrains Mono"
-       :default-height 90
+       :default-height 140
        :fixed-pitch-family "JetBrains Mono"
        :variable-pitch-family "Iosevka"
        :italic-family "JetBrains Mono"
        :line-spacing 1)
       (regular
        :default-family "JetBrains Mono"
-       :default-height 140
+       :default-height 180
        :fixed-pitch-family "JetBrains Mono"
        :variable-pitch-family "Iosevka"
        :italic-family "JetBrains Mono"
        :line-spacing 1)
       (large
        :default-family "JetBrains Mono"
-       :default-height 180
+       :default-height 210
        :fixed-pitch-family "JetBrains Mono"
        :variable-pitch-family "Iosevka"
        :italic-family "JetBrains Mono"
@@ -209,7 +209,7 @@
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'large))
       ((equal "" "") (fontaine-set-preset 'regular)))
 
 ;; (use-package ligature

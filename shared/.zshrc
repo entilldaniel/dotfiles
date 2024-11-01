@@ -6,6 +6,9 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 
+# ZSH Autocomplete https://github.com/marlonrichert/zsh-autocomplete
+#source ~/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
 #zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
     colorize
