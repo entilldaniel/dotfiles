@@ -32,7 +32,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 setxkbmap -layout us -option ctrl:nocaps
 
 
-export FLYCTL_INSTALL="~/.fly"
+export FLYCTL_INSTALL=~/.fly
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
