@@ -185,27 +185,34 @@
 (use-package fontaine
   :config
   (setq fontaine-presets
-    '((tight
-       :default-family "JetBrains Mono"
-       :default-height 90
-       :fixed-pitch-family "JetBrains Mono"
-       :variable-pitch-family "Iosevka"
-       :italic-family "JetBrains Mono"
-       :line-spacing 1)
-      (regular
-       :default-family "JetBrains Mono"
-       :default-height 120
-       :fixed-pitch-family "JetBrains Mono"
-       :variable-pitch-family "Iosevka"
-       :italic-family "JetBrains Mono"
-       :line-spacing 1)
-      (large
-       :default-family "JetBrains Mono"
-       :default-height 140
-       :fixed-pitch-family "JetBrains Mono"
-       :variable-pitch-family "Iosevka"
-       :italic-family "JetBrains Mono"
-       :line-spacing 1))))
+        '((tight
+           :default-family "JetBrains Mono"
+           :default-height 110
+           :fixed-pitch-family "JetBrains Mono"
+           :variable-pitch-family "Iosevka"
+           :italic-family "JetBrains Mono"
+           :line-spacing 1)
+          (regular
+           :default-family "JetBrains Mono"
+           :default-height 130
+           :fixed-pitch-family "JetBrains Mono"
+           :variable-pitch-family "Iosevka"
+           :italic-family "JetBrains Mono"
+           :line-spacing 1)
+          (large
+           :default-family "JetBrains Mono"
+           :default-height 210
+           :fixed-pitch-family "JetBrains Mono"
+           :variable-pitch-family "Iosevka"
+           :italic-family "JetBrains Mono"
+           :line-spacing 1)
+          (work-from-home
+           :default-family "JetBrains Mono"
+           :default-height 260
+           :fixed-pitch-family "JetBrains Mono"
+           :variable-pitch-family "Iosevka"
+           :italic-family "JetBrains Mono"
+           :line-spacing 1))))
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
