@@ -801,3 +801,9 @@
   (dolist (font (x-list-fonts "*"))
     (insert (format "%s\n" font)))
   (beginning-of-buffer))
+
+(load-file "~/.config/emacs/custom/emafig/emafig.el")
+(setq emafig-token
+      "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
+(setq emafig-host
+      "https://figueroa.se")

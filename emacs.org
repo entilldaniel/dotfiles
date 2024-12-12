@@ -1012,4 +1012,14 @@ On ice for now.
 
 #+end_src
 
+** Personal Modes
+#+begin_src emacs-lisp
+  (load-file "~/.config/emacs/custom/emafig/emafig.el")
+  (setq emafig-token
+        "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
+  (setq emafig-host
+        "https://figueroa.se")
+
+#+end_src
+
 
