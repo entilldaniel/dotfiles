@@ -545,7 +545,6 @@
                              "~/Documents/org/inbox.org"
                              "~/Documents/org/work.org"
                              "~/Documents/org/ideas.org"
-                             "~/Documents/org/project.org"
                              "~/Documents/org/archive.org"))
 
 (setq org-refile-targets '((nil :maxlevel . 9)
