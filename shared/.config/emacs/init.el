@@ -669,8 +669,8 @@
   (setq eglot-autoshutdown 1))
 
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq indent-line-function 'insert-tab)
+;;  (setq-default tab-width 4)
+  (setq indent-line-function 'insert-tab)
 
 (setq treesit-language-source-alist
       '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
