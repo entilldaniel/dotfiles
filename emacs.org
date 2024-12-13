@@ -848,7 +848,7 @@ Eglot is the built in lsp client in emacs.
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
 ;;  (setq-default tab-width 4)
-  (setq indent-line-function 'insert-tab)
+;;  (setq indent-line-function 'insert-tab)
 #+end_src
 *** Treesitter
 #+begin_src emacs-lisp
