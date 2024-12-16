@@ -1014,10 +1014,24 @@ On ice for now.
 ** Personal Modes
 #+begin_src emacs-lisp
   (load-file "~/.config/emacs/custom/emafig/emafig.el")
-  (setq emafig-token
-        "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
-  (setq emafig-host
-        "https://figueroa.se")
+  (defun use-remote-emafig ()
+    "configure emacs to use remote emafig"
+    (interactivel)
+    (setq emafig-token
+          "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
+    (setq emafig-host
+          "https://figueroa.se"))
+
+  (defun use-local-emafig ()
+    "configure emafig for local development"
+    (interactive)
+    (setq emafig-token
+          "hltc8L1x6NCusoHqkUJUmmhdHbN8Hwfkzu5XRTKWiEqQym5n")
+    (setq emafig-host
+          "http://localhost:4000"))
+
+  ;; Set default to remote
+  (use-remote-emafig)
 
 #+end_src
 
