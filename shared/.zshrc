@@ -46,6 +46,9 @@ alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t
 alias tree='exa --long --tree -a'
 alias gbuild='./gradlew clean build'
 
+export ERL_AFLAGS="-kernel shell_history enabled"
+
+
 # For emacs vterm support
 vterm_printf(){
     if [ -n "$TMUX" ]; then
