@@ -36,7 +36,7 @@ export FLYCTL_INSTALL=~/.fly
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -nw"
-
+export ELIXIR_EDITOR="emacsclient __FILE__"
 alias tmx="tmux new-session -s"
 alias edit='emacsclient -nw -a "" $(fzf)'
 alias cat="bat --no-pager"
