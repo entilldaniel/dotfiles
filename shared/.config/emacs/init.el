@@ -67,7 +67,9 @@
       next-screen-context-lines 10
       kill-do-not-save-duplicates t
       cursor-type 'box
-      use-package-enable-imenu-support t)
+      use-package-enable-imenu-support t
+      mark-ring-max 20
+      set-mark-command-repeat-pop t)
 
 (dolist (mode '(org-mode-hook
                 treemacs-mode-hook
