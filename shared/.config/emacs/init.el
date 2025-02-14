@@ -1,17 +1,17 @@
 ;; -*- lexical-binding: t -*-
 
 (setq gc-cons-threshold 100000000
-  read-process-output-max (* 1024 1024)
-  load-prefer-newer t
-  user-full-name "Daniel Figueroa"
-  use-short-answers t)
+      read-process-output-max (* 1024 1024)
+      load-prefer-newer t
+      user-full-name "Daniel Figueroa"
+      use-short-answers t)
 
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
-       (format "%.2f seconds"
-  	     (float-time
-  	      (time-subtract after-init-time before-init-time)))
-       gcs-done))
+           (format "%.2f seconds"
+      	     (float-time
+      	      (time-subtract after-init-time before-init-time)))
+           gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
@@ -660,7 +660,7 @@
          (go-ts-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
+   'eglot-server-programs '(elixir-ts-mode "~/.asdf/shims/elixir-ls"))
   (add-to-list
    'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list

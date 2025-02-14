@@ -836,7 +836,7 @@ Eglot is the built in lsp client in emacs.
            (go-ts-mode . eglot-ensure))
     :config
     (add-to-list
-     'eglot-server-programs '(elixir-ts-mode "~/.local/opt/elixir_ls/language_server.sh"))
+     'eglot-server-programs '(elixir-ts-mode "~/.asdf/shims/elixir-ls"))
     (add-to-list
      'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
     (add-to-list
