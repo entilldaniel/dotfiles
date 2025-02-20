@@ -419,13 +419,35 @@
   (corfu-preselect 'prompt)      ;; Preselect the prompt
   (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   (corfu-scroll-margin 5)        ;; Use scroll margin
-  :hook ((prog-mode . corfu-mode))
-
+  (corfu-min-width 80)
+  (corfu-echo-documentation t)
+  (corfu-preselect-first t)
+  (corfu-popupinfo-direction 'right)
+  :hook ((prog-mode . corfu-mode)
+         (prog-mode . corfu-popupinfo-mode))
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
+
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
+  (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
+  (kind-icon-blend-frac 0.08)
+
+  ;; NOTE 2022-02-05: `kind-icon' depends `svg-lib' which creates a cache
+  ;; directory that defaults to the `user-emacs-directory'. Here, I change that
+  ;; directory to a location appropriate to `no-littering' conventions, a
+  ;; package which moves directories of other packages to sane locations.
+  (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
+)
 
 (use-package embark
   :bind
