@@ -423,8 +423,8 @@
   (corfu-echo-documentation t)
   (corfu-preselect-first t)
   (corfu-popupinfo-direction 'right)
-  :hook ((prog-mode . corfu-mode)
-         (prog-mode . corfu-popupinfo-mode))
+  (corfu-popupinfo-delay 0.3)
+  :hook ((prog-mode . corfu-mode))
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
