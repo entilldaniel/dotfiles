@@ -237,28 +237,28 @@ Set the font and enable font ligatures.
     (setq fontaine-presets
           '((tight
              :default-family "JetBrains Mono"
-             :default-height 110
+             :default-height 100
              :fixed-pitch-family "JetBrains Mono"
              :variable-pitch-family "Iosevka"
              :italic-family "JetBrains Mono"
              :line-spacing 1)
             (regular
              :default-family "JetBrains Mono"
-             :default-height 130
+             :default-height 110
              :fixed-pitch-family "JetBrains Mono"
              :variable-pitch-family "Iosevka"
              :italic-family "JetBrains Mono"
              :line-spacing 1)
             (large
              :default-family "JetBrains Mono"
-             :default-height 210
+             :default-height 140
              :fixed-pitch-family "JetBrains Mono"
              :variable-pitch-family "Iosevka"
              :italic-family "JetBrains Mono"
              :line-spacing 1)
             (work-from-home
              :default-family "JetBrains Mono"
-             :default-height 260
+             :default-height 80
              :fixed-pitch-family "JetBrains Mono"
              :variable-pitch-family "Iosevka"
              :italic-family "JetBrains Mono"
