@@ -698,7 +698,7 @@
          (go-ts-mode . eglot-ensure))
   :config
   (add-to-list
-   'eglot-server-programs '(elixir-ts-mode "~/.asdf/shims/elixir-ls"))
+   'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
   (add-to-list
    'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
@@ -724,7 +724,6 @@
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (toml "https://github.com/tree-sitter/tree-sitter-toml")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
 
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
