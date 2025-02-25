@@ -208,6 +208,13 @@
            :variable-pitch-family "Iosevka"
            :italic-family "JetBrains Mono"
            :line-spacing 1)
+          (huge
+           :default-family "JetBrains Mono"
+           :default-height 260
+           :fixed-pitch-family "JetBrains Mono"
+           :variable-pitch-family "Iosevka"
+           :italic-family "JetBrains Mono"
+           :line-spacing 1)
           (work-from-home
            :default-family "JetBrains Mono"
            :default-height 80
@@ -315,6 +322,10 @@
   (cl-letf (((symbol-function 'delete-other-windows)
              (lambda () nil)))
     ad-do-it))
+
+(use-package pulsar
+  :config
+  (pulsar-global-mode))
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
@@ -828,7 +839,7 @@
 (load-file "~/.config/emacs/custom/emafig/emafig.el")
 (defun use-remote-emafig ()
   "configure emacs to use remote emafig"
-  (interactivel)
+  (interactive)
   (setq emafig-token
         "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
   (setq emafig-host
