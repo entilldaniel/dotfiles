@@ -327,6 +327,9 @@
   :config
   (pulsar-global-mode))
 
+(use-package ace-jump-mode
+  :bind (("C-c SPC" . ace-jump-mode)))
+
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))

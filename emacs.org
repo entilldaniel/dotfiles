@@ -362,30 +362,33 @@ Display page breaks as lines instead of ^L
 
 ** Cursor and Window movement
 #+begin_src emacs-lisp
-      (use-package multiple-cursors
-        :bind (("C->" . mc/mark-next-like-this)
-               ("C-<" . mc/mark-previous-like-this)
-               ("C-c a" . mc/mark-all-like-this)))
+    (use-package multiple-cursors
+      :bind (("C->" . mc/mark-next-like-this)
+             ("C-<" . mc/mark-previous-like-this)
+             ("C-c a" . mc/mark-all-like-this)))
 
-      (use-package windmove
-        :config
-        (windmove-default-keybindings 'ctrl))
+    (use-package windmove
+      :config
+      (windmove-default-keybindings 'ctrl))
 
-      (use-package ace-window
-        :bind
-        (("M-o" . ace-window)))
+    (use-package ace-window
+      :bind
+      (("M-o" . ace-window)))
 
-      ;; Make it so keyboard-escape-quit doesn't delete-other-windows
-      (require 'cl-lib)
-      (defadvice keyboard-escape-quit
-          (around keyboard-escape-quit-dont-delete-other-windows activate)
-        (cl-letf (((symbol-function 'delete-other-windows)
-                   (lambda () nil)))
-          ad-do-it))
+    ;; Make it so keyboard-escape-quit doesn't delete-other-windows
+    (require 'cl-lib)
+    (defadvice keyboard-escape-quit
+        (around keyboard-escape-quit-dont-delete-other-windows activate)
+      (cl-letf (((symbol-function 'delete-other-windows)
+                 (lambda () nil)))
+        ad-do-it))
 
-      (use-package pulsar
-        :config
-        (pulsar-global-mode))
+    (use-package pulsar
+      :config
+      (pulsar-global-mode))
+
+    (use-package ace-jump-mode
+      :bind (("C-c SPC" . ace-jump-mode)))
 
 #+end_src
 
