@@ -227,7 +227,7 @@
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'huge))
+      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
       ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
