@@ -77,6 +77,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
   (global-auto-revert-mode 1)
   (line-number-mode t)
   (repeat-mode)
+  (winner-mode)
 
   (setq next-line-add-newlines t
         history-length 25
@@ -113,6 +114,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
         backup-directory-alist '(("." . "~/.emacs_backups"))
         proced-enable-color-flag t
         create-lockfiles nil)
+
   (make-directory "~/.emacs_backups/" t)
   (make-directory "~/.emacs_autosave/" t)
 
@@ -206,8 +208,8 @@ Configuration for modus themes and spacious padding.
   (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
   (load-theme 'modus-vivendi-tinted t)
-
 #+end_src
+
 *** Spacious padding
 Add padding around emacs windows
 #+begin_src emacs-lisp
@@ -221,6 +223,7 @@ Add padding around emacs windows
 #+end_src
 
 *** Rainbow delimiters
+Doesn't work that well with advanced regexes.
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
@@ -274,7 +277,7 @@ Set the font and enable font ligatures.
 
   (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
         ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-        ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+        ((equal (system-name) "slartibartfast") (fontaine-set-preset 'huge))
         ((equal "" "") (fontaine-set-preset 'regular)))
 
 #+end_src
@@ -435,7 +438,7 @@ Create different perspectives or work areas.
 #+begin_src emacs-lisp
   (use-package perspective
     :bind
-    (("C-x C-b" . persp-buffer-menu)
+    (("C-x C-b" . persp-ibuffer)
      ("C-x b"   . persp-switch-to-buffer*)
      ("C-x k"   . persp-kill-buffer*))
     :custom
@@ -842,21 +845,6 @@ both during a minibuffer completion session and in normal buffers.
 
 
 * Development
-** Tools
-#+begin_src emacs-lisp
-  (use-package restclient)
-  (use-package yasnippet
-    :init
-    (yas-global-mode 1)
-    :config
-    (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
-  (use-package flycheck)
-  (use-package docker)
-  (use-package editorconfig
-    :ensure t
-    :config
-    (editorconfig-mode 1))
-#+end_src
 ** Magit
 #+begin_src emacs-lisp
   (use-package magit
@@ -874,6 +862,8 @@ Eglot is the built in lsp client in emacs.
            (rust-mode . eglot-ensure)
            (tsx-ts-mode . eglot-ensure)
            (js-ts-mode . eglot-ensure)
+           (bash-ts-mode . eglot-ensure)
+           (markdown-ts-mode . eglot-ensure)
            (go-ts-mode . eglot-ensure))
     :config
     (add-to-list
@@ -885,7 +875,21 @@ Eglot is the built in lsp client in emacs.
     
     (setq eglot-autoshutdown 1))
 #+end_src
-
+** Tools
+#+begin_src emacs-lisp
+  (use-package restclient)
+  (use-package yasnippet
+    :init
+    (yas-global-mode 1)
+    :config
+    (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
+  (use-package flycheck)
+  (use-package docker)
+  (use-package editorconfig
+    :ensure t
+    :config
+    (editorconfig-mode 1))
+#+end_src
 ** Code
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
@@ -907,6 +911,8 @@ Eglot is the built in lsp client in emacs.
           (go "https://github.com/tree-sitter/tree-sitter-go")
           (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
           (toml "https://github.com/tree-sitter/tree-sitter-toml")
+          (bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
           (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
   (setq major-mode-remap-alist

@@ -20,11 +20,15 @@ super + shift + r
 super + shift + p
     ~/.scripts/monitor_manager
 
+# scratchpads
+super + alt + {i,o,p}
+    scratch {ranger,terminal,htop}
+
 super + shift + w
     bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" -eval '(org-capture)'
 
-super + shift + u
-    bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" --eval "(progn (call-interactively 'org-journal-new-entry) (delete-other-windows))"
+#super + shift + u
+#    bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" --eval "(progn (call-interactively 'org-journal-new-entry) (delete-other-windows))"
     
 # Show menu for locking and quitting
 super + x

@@ -30,8 +30,8 @@ clipmenud &
 # set some bsp specific
 bspc monitor -d 1 2 3 4 5
 
-bspc config window_gap 8
-bspc config border_width 4 
+bspc config window_gap 16
+bspc config border_width 2
 
 bspc config split_ratio 0.5
 bspc config borderless_monocle false
@@ -57,5 +57,4 @@ bspc subscribe desktop_layout |
            picom-trans --reset;; tiled)
         esac;
     done
-
 

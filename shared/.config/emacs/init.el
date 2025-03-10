@@ -58,6 +58,7 @@
 (global-auto-revert-mode 1)
 (line-number-mode t)
 (repeat-mode)
+(winner-mode)
 
 (setq next-line-add-newlines t
       history-length 25
@@ -94,6 +95,7 @@
       backup-directory-alist '(("." . "~/.emacs_backups"))
       proced-enable-color-flag t
       create-lockfiles nil)
+
 (make-directory "~/.emacs_backups/" t)
 (make-directory "~/.emacs_autosave/" t)
 
@@ -225,7 +227,7 @@
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'huge))
       ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
@@ -358,7 +360,7 @@
 
 (use-package perspective
   :bind
-  (("C-x C-b" . persp-buffer-menu)
+  (("C-x C-b" . persp-ibuffer)
    ("C-x b"   . persp-switch-to-buffer*)
    ("C-x k"   . persp-kill-buffer*))
   :custom
@@ -670,19 +672,6 @@
   (setq vterm-shell "zsh")
   (setq vterm-max-scrollback 5000))
 
-(use-package restclient)
-(use-package yasnippet
-  :init
-  (yas-global-mode 1)
-  :config
-  (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
-(use-package flycheck)
-(use-package docker)
-(use-package editorconfig
-  :ensure t
-  :config
-  (editorconfig-mode 1))
-
 (use-package magit
   :commands (magit-status magit-get-current-branch)
   :custom
@@ -695,6 +684,8 @@
          (rust-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
+         (bash-ts-mode . eglot-ensure)
+         (markdown-ts-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure))
   :config
   (add-to-list
@@ -705,6 +696,19 @@
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
   
   (setq eglot-autoshutdown 1))
+
+(use-package restclient)
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  :config
+  (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
+(use-package flycheck)
+(use-package docker)
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
 
 (setq-default indent-tabs-mode nil)
 ;;  (setq-default tab-width 4)
@@ -723,6 +727,8 @@
         (go "https://github.com/tree-sitter/tree-sitter-go")
         (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
         (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        (bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (setq major-mode-remap-alist

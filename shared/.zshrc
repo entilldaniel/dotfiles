@@ -5,6 +5,7 @@ export ZSH="$HOME/.oh-my-zsh"
 #zmodload zsh/zprof  
 ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
+DEFAULT_USER="$USER"
 
 # ZSH Autocomplete https://github.com/marlonrichert/zsh-autocomplete
 #source ~/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh
