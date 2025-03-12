@@ -22,7 +22,10 @@ super + shift + p
 
 # scratchpads
 super + alt + {i,o,p}
-    scratch {ranger,terminal,htop}
+    scratch {obsidian,terminal,htop}
+
+# super + alt + /
+#      bspc rule -a terf -o state=floating rectangle=$(slop) && alacritty --class="terf","terf"
 
 super + shift + w
     bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" -eval '(org-capture)'

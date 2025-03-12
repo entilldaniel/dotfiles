@@ -34,15 +34,19 @@ create_terminal(){
     alacritty --class="$name","$name" -e $1 &
 }
 
+create_obsidian() {
+    ~/.local/bin/Obsidian-1.7.4.AppImage --no-sandbox --class="$name","$name" -e $1 &
+}
+
 if ! ps -ef | grep -q "[c]lass=$name"
 then
-    bspc rule -a "$name" --one-shot state=floating rectangle=1980x1040+0+0 center=true sticky=on hidden=on
+    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
     case "$name" in
         "htop")
             create_terminal htop
             ;;
-        "ranger")
-            create_terminal ranger
+        "obsidian")
+            create_obsidian obsidian
             ;;
         "terminal")
             create_terminal $SHELL
