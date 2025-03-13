@@ -31,22 +31,28 @@ toggle_hidden() {
 }
 
 create_terminal(){
+    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
     alacritty --class="$name","$name" -e $1 &
 }
 
 create_obsidian() {
-    ~/.local/bin/Obsidian-1.7.4.AppImage --no-sandbox --class="$name","$name" -e $1 &
+    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
+    ~/.local/bin/Obsidian-1.7.4.AppImage --no-sandbox --class="$name","$name" &
+}
+
+create_emacs() {
+    bspc rule -a Emacs --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
+    emacsclient -c --eval '(progn (switch-to-buffer (get-buffer-create "scratchpad.org")) (org-mode))' &
 }
 
 if ! ps -ef | grep -q "[c]lass=$name"
 then
-    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
     case "$name" in
         "htop")
             create_terminal htop
             ;;
         "obsidian")
-            create_obsidian obsidian
+            create_obsidian
             ;;
         "terminal")
             create_terminal $SHELL
@@ -60,3 +66,4 @@ then
 else
     toggle_hidden
 fi
+

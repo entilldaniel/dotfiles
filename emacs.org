@@ -1,9 +1,10 @@
-#+TITLE: Emacs Configuration
+e#+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle shared/.config/emacs/init.el
 * Initial Setup
 ** Handle GC and startup
 
-Increase garbage collection threshold so we can't start faster without GC'ing and display the startup time for emacs
+Increase garbage collection threshold so we can't start faster without GC'ing
+and display the startup time for emacs
 
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
@@ -57,13 +58,13 @@ Increase garbage collection threshold so we can't start faster without GC'ing an
 * Interface
 
 ** Initial configs
-Remove stuff like tool-bars and menus. Also set up some of the built in properties.
+Remove stuff like tool-bars and menus. Also set up some of the built in
+properties.
 
 #+begin_src emacs-lisp
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
-  (delete-selection-mode t)
   (transient-mark-mode t)
   (show-paren-mode 1)
   (window-divider-mode)
@@ -88,12 +89,12 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
         kill-do-not-save-duplicates t
         cursor-type 'box
         use-package-enable-imenu-support t
-        mark-ring-max 20
+        mark-ring-max 30
         set-mark-command-repeat-pop t)
 
   (dolist (mode '(org-mode-hook
-                  treemacs-mode-hook
                   term-mode-hook
+                  treemacs-mode-hook
                   eshell-mode-hook
                   markdown-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode -1))))
@@ -102,7 +103,7 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
                                  ";;; Emacs started: "
                                  (format-time-string "%Y-%m-%d - %H:%m")
                                  "\n;;; Happy Hacking!\n"))
-
+  
   (setq ring-bell-function 'ignore
         x-select-enable-clipboard t
         inhibit-startup-screen t
@@ -159,7 +160,6 @@ Remove stuff like tool-bars and menus. Also set up some of the built in properti
 #+end_src
 ** Theeming
 *** Modus Theme
-Configuration for modus themes and spacious padding.
 #+begin_src emacs-lisp
 
   (use-package all-the-icons)
@@ -401,7 +401,7 @@ Display page breaks as lines instead of ^L
     :bind (("M-<up>" . move-text-up)
            ("M-<down>" . move-text-down)))
 #+end_src
-
+e
 ** Treemacs
 A sidebar for navigating the file tree, gives a more IDE-like feeling.
 #+begin_src emacs-lisp
@@ -468,10 +468,12 @@ Show the executed emacs commands in a separate buffer
 #+end_src
 
 *** Which Key
-which-key is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command(a prefix) in a popup. 
-For example, after enabling the minor mode if you enter C-x and wait for the default of 1 second the minibuffer will expand with all 
-of the available key bindings that follow C-x (or as many as space allows given your settings). 
-This includes prefixes like C-x 8 which are shown in a different face.
+which-key is a minor mode for Emacs that displays the key bindings following
+your currently entered incomplete command(a prefix) in a popup.  For example,
+after enabling the minor mode if you enter C-x and wait for the default of 1
+second the minibuffer will expand with all of the available key bindings that
+follow C-x (or as many as space allows given your settings).  This includes
+prefixes like C-x 8 which are shown in a different face.
 
 #+begin_src emacs-lisp
   (use-package which-key
@@ -495,7 +497,8 @@ Visualize the emacs undo tree and navigate through it.
 This is the new cool way that emacs users use emacs.
 Enjoy!
 *** Vertico
-Vertico provides a performant and minimalistic vertical completion UI based on the default completion system.
+Vertico provides a performant and minimalistic vertical completion UI based on
+the default completion system.
 #+begin_src emacs-lisp
   (use-package vertico
     :init
@@ -506,8 +509,9 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
     (setq vertico-cycle t))
 #+end_src
 *** Consult
-Consult provides search and navigation commands based on the Emacs completion function completing-read.
-Completion allows you to quickly select an item from a list of candidates. 
+Consult provides search and navigation commands based on the Emacs completion
+function completing-read.  Completion allows you to quickly select an item from
+a list of candidates.
 #+begin_src emacs-lisp
   (use-package consult
     :bind
@@ -545,7 +549,7 @@ Annotate the minibuffer, for example when calling M-x or C-x f
 #+end_src
 
 *** Corfu
-Corfu enhances in-buffer completion with a small completion popup. 
+Corfu enhances in-buffer completion with a small completion popup.
 #+begin_src emacs-lisp
   (use-package corfu
     :custom
@@ -1081,10 +1085,6 @@ On ice for now.
   (use-remote-emafig)
 
 #+end_src
-
-
-
-
 
 
 

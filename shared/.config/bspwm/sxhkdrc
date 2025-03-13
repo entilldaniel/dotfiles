@@ -21,14 +21,11 @@ super + shift + p
     ~/.scripts/monitor_manager
 
 # scratchpads
-super + alt + {i,o,p}
-    scratch {obsidian,terminal,htop}
+super + alt + {i,p}
+    scratch {obsidian,terminal}
 
-# super + alt + /
-#      bspc rule -a terf -o state=floating rectangle=$(slop) && alacritty --class="terf","terf"
-
-super + shift + w
-    bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" -eval '(org-capture)'
+super + alt + o
+    bspc rule -a \* --one-shot center=true sticky=on state=floating rectangle=1700x1000+0+0 center=true && emacsclient -c --eval '(progn (switch-to-buffer (get-buffer-create "scratchpad.org")) (org-mode))'
 
 #super + shift + u
 #    bspc rule -a \* -o state=floating && emacsclient -c -F "((width . 60) (height . 20))" --eval "(progn (call-interactively 'org-journal-new-entry) (delete-other-windows))"

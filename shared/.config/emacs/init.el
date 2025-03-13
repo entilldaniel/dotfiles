@@ -44,7 +44,6 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(delete-selection-mode t)
 (transient-mark-mode t)
 (show-paren-mode 1)
 (window-divider-mode)
@@ -69,12 +68,12 @@
       kill-do-not-save-duplicates t
       cursor-type 'box
       use-package-enable-imenu-support t
-      mark-ring-max 20
+      mark-ring-max 30
       set-mark-command-repeat-pop t)
 
 (dolist (mode '(org-mode-hook
-                treemacs-mode-hook
                 term-mode-hook
+                treemacs-mode-hook
                 eshell-mode-hook
                 markdown-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode -1))))
