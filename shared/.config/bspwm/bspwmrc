@@ -50,6 +50,12 @@ bspc config remove_unplugged_monitors true
 bspc config merge_overlapping_monitors true
 
 bspc rule -a Emacs state=tiled
+bspc rule -a firefox desktop=^1
+bspc rule -a Slack desktop=^5 focus=off
+bspc rule -a Spotify desktop=^5 focus=off
+bspc rule -a jetbrains-idea desktop=^2 focus=off
+bspc rule -a pavucontrol state=floating
+
 
 bspc subscribe desktop_layout |
     while read -r _ _ _ l; do
