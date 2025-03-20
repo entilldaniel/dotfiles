@@ -50,7 +50,7 @@ bspc config remove_unplugged_monitors true
 bspc config merge_overlapping_monitors true
 
 bspc rule -a Emacs state=tiled
-bspc rule -a firefox desktop=^1
+bspc rule -a firefox desktop=^1 focus=off
 bspc rule -a Slack desktop=^5 focus=off
 bspc rule -a Spotify desktop=^5 focus=off
 bspc rule -a jetbrains-idea desktop=^2 focus=off

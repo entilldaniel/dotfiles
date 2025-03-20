@@ -771,6 +771,9 @@ both during a minibuffer completion session and in normal buffers.
            "** %?\n %i\n")
           ("p" "Project Note" entry (function df/project-notes-path)
            "** %?\n %i\n")
+          ("j" "Training Journal Entry" entry
+           (file+headline "~/Documents/org/training.org" "Training Journal")
+           "* %<%Y-%m-%d> Training Session\n:PROPERTIES:\n:Effort: %^{Effort (1-10)|10}\n:END:\n\n** What I Did\n%?\n\n** Weights Used\n- \n\n** Notes\n- ")
           ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
            "** %?\n %i\n")))
 

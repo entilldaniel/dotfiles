@@ -42,68 +42,67 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (transient-mark-mode t)
-  (show-paren-mode 1)
-  (window-divider-mode)
-  (column-number-mode t)
-  (size-indication-mode t)
-  (blink-cursor-mode -1)
-  (global-display-line-numbers-mode t)
-  (recentf-mode 1)
-  (savehist-mode 1)
-  (save-place-mode 1)
-  (global-auto-revert-mode 1)
-  (line-number-mode t)
-  (repeat-mode)
-  (winner-mode)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(transient-mark-mode t)
+(show-paren-mode 1)
+(window-divider-mode)
+(column-number-mode t)
+(size-indication-mode t)
+(blink-cursor-mode -1)
+(global-display-line-numbers-mode t)
+(recentf-mode 1)
+(savehist-mode 1)
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+(line-number-mode t)
+(repeat-mode)
+(winner-mode)
 
-  (setq next-line-add-newlines t
-        history-length 25
-        global-auto-revert-non-file-buffers 1
-        use-dialog-box nil
-        kill-whole-line t
-        next-screen-context-lines 10
-        kill-do-not-save-duplicates t
-        cursor-type 'box
-        use-package-enable-imenu-support t
-        mark-ring-max 30
-        set-mark-command-repeat-pop t)
+(setq next-line-add-newlines t
+      history-length 25
+      global-auto-revert-non-file-buffers 1
+      use-dialog-box nil
+      kill-whole-line t
+      next-screen-context-lines 10
+      kill-do-not-save-duplicates t
+      cursor-type 'box
+      use-package-enable-imenu-support t
+      mark-ring-max 30
+      set-mark-command-repeat-pop t)
 
-  (dolist (mode '(org-mode-hook
-                  term-mode-hook
-                  treemacs-mode-hook
-                  eshell-mode-hook
-                  markdown-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode -1))))
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook
+                markdown-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode -1))))
 
-  (setq initial-scratch-message
-(concat
-                                 ";;; Emacs started: "
-                                 (format-time-string "%Y-%m-%d - %H:%m")
-                                 "\n;;; Happy Hacking!\n"))
-  
-  (setq ring-bell-function 'ignore
-        x-select-enable-clipboard t
-        inhibit-startup-screen t
-        confirm-kill-emacs 'y-or-n-p
-        dired-dwim-target t
-        delete-by-moving-to-thrash t
-        global-auto-revert-non-file-buffers t
-        auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
-        backup-directory-alist '(("." . "~/.emacs_backups"))
-        proced-enable-color-flag t
-        create-lockfiles nil)
+(setq initial-scratch-message (concat
+                               ";;; Emacs started: "
+                               (format-time-string "%Y-%m-%d - %H:%m")
+                               "\n;;; Happy Hacking!\n"))
 
-  (make-directory "~/.emacs_backups/" t)
-  (make-directory "~/.emacs_autosave/" t)
+(setq ring-bell-function 'ignore
+      x-select-enable-clipboard t
+      inhibit-startup-screen t
+      confirm-kill-emacs 'y-or-n-p
+      dired-dwim-target t
+      delete-by-moving-to-thrash t
+      global-auto-revert-non-file-buffers t
+      auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
+      backup-directory-alist '(("." . "~/.emacs_backups"))
+      proced-enable-color-flag t
+      create-lockfiles nil)
 
-  ;; Disable warnings for native comp
-  (setq native-comp-async-report-warnings-errors nil)
+(make-directory "~/.emacs_backups/" t)
+(make-directory "~/.emacs_autosave/" t)
 
-  ;;Enable Hippie Expand
-  (global-set-key [remap dabbrev-expand] 'hippie-expand)
+;; Disable warnings for native comp
+(setq native-comp-async-report-warnings-errors nil)
+
+;;Enable Hippie Expand
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
@@ -612,6 +611,9 @@
          "** %?\n %i\n")
         ("p" "Project Note" entry (function df/project-notes-path)
          "** %?\n %i\n")
+        ("j" "Training Journal Entry" entry
+         (file+headline "~/Documents/org/training.org" "Training Journal")
+         "* %<%Y-%m-%d> Training Session\n:PROPERTIES:\n:Effort: %^{Effort (1-10)|10}\n:END:\n\n** What I Did\n%?\n\n** Weights Used\n- \n\n** Notes\n- ")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
          "** %?\n %i\n")))
 
