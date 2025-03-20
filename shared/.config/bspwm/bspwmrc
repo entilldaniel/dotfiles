@@ -63,4 +63,3 @@ bspc subscribe desktop_layout |
            picom-trans --reset;; tiled)
         esac;
     done
-

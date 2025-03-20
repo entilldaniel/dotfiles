@@ -29,7 +29,7 @@ configuration {
 /*	sorting-method: "normal";*/
 /*	case-sensitive: false;*/
 /*	cycle: true;*/
-/*  sidebar-mode: true; */
+/*      sidebar-mode: true; */
 /*	hover-select: false;*/
 /*	eh: 1;*/
 /*	auto-select: false;*/

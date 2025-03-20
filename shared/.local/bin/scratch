@@ -37,12 +37,17 @@ create_terminal(){
 
 create_obsidian() {
     bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
-    ~/.local/bin/Obsidian-1.7.4.AppImage --no-sandbox --class="$name","$name" &
+    ~/.local/bin/Obsidian-1.8.9.AppImage --no-sandbox --class="$name","$name" &
 }
 
 create_emacs() {
-    bspc rule -a Emacs --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
-    emacsclient -c --eval '(progn (switch-to-buffer (get-buffer-create "scratchpad.org")) (org-mode))' &
+    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
+    alacritty --class="$name","$name" -e emacsclient -nw  &
+}
+
+create_emacs_old() {
+    bspc rule -a "scemacs" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
+    emacsclient -c  -F '((name . "scemacs") (title . "ScratchMacs"))' --eval '(progn (switch-to-buffer (get-buffer-create "scratchpad.org")) (org-mode))' &
 }
 
 if ! ps -ef | grep -q "[c]lass=$name"
@@ -56,6 +61,9 @@ then
             ;;
         "terminal")
             create_terminal $SHELL
+            ;;
+        "scemacs")
+            create_emacs
             ;;
         *)
             exit 1

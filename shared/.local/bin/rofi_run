@@ -54,7 +54,7 @@ else
 				exit 0
 				;;
 			-d|--drun)
-				rofi -modi drun -show drun -columns 2 "${OPTS[@]}" -show-icons -drun-icon-theme "ArchLabs-Dark"
+				rofi -modi drun -show drun -columns 2 "${OPTS[@]}" -show-icons -drun-icon-theme "Adwaita"
 				;;
 			-r|--run)
 				rofi -show run -columns 2 "${OPTS[@]}"
@@ -77,9 +77,8 @@ else
 						-dmenu -mesg 'Tab for Autocomplete' -i -p 'Web Search')"
 				;;
 			-l|--logout)
-				case "$(rofi -sep "|" -dmenu -i -p 'System' -width 20 -hide-scrollbar \
-					-line-padding 15 -padding 50 -lines 4 <<< " Lock|󰈆 Logout| Reboot| Shutdown")" in
-					*Lock) i3lock-fancy ;;
+				case "$(rofi -sep "|" -dmenu -i -p 'System' <<< " Lock|󰈆 Logout| Reboot| Shutdown|")" in
+					*Lock) i3lock-fancy -p -t "What Is The Magic Word?";;
 					*Reboot) systemctl reboot ;;
 					*Shutdown) systemctl -i poweroff ;;
 					*Logout) session-logout >/dev/null 2>&1 || pkill -15 -t tty"$XDG_VTNR" Xorg ;;
