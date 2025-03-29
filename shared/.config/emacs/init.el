@@ -125,6 +125,12 @@
   :config
   (setq dired-open-extensions '(("mp4" . "vlc"))))
 
+(use-package remember
+  :config
+  (setq remember-data-directory "~/.config/emacs/var/remember/notes")
+  :bind (("C-x M-r" . remember)
+         ("C-x M-R" . remember-clipboard)))
+
 (use-package all-the-icons)
 (use-package all-the-icons-dired
   :config
@@ -700,13 +706,17 @@
   (setq eglot-autoshutdown 1))
 
 (use-package restclient)
+
 (use-package yasnippet
   :init
   (yas-global-mode 1)
   :config
   (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
+
 (use-package flycheck)
+
 (use-package docker)
+
 (use-package editorconfig
   :ensure t
   :config
@@ -720,18 +730,18 @@
       '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
         (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
         (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-        (go "https://github.com/tree-sitter/tree-sitter-go")
-        (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+        (json       "https://github.com/tree-sitter/tree-sitter-json")
+        (css        "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp      "https://github.com/Wilfred/tree-sitter-elisp")
+        (go         "https://github.com/tree-sitter/tree-sitter-go")
+        (gomod      "https://github.com/camdencheek/tree-sitter-go-mod")
+        (toml       "https://github.com/tree-sitter/tree-sitter-toml")
+        (bash       "https://github.com/tree-sitter/tree-sitter-bash")
+        (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
+        (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
