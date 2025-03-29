@@ -37,7 +37,7 @@ create_terminal(){
 
 create_obsidian() {
     bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
-    ~/.local/bin/Obsidian-1.8.9.AppImage --no-sandbox --class="$name","$name" &
+    obsidian --no-sandbox --class="$name","$name" &
 }
 
 create_emacs() {
