@@ -69,7 +69,8 @@
       cursor-type 'box
       use-package-enable-imenu-support t
       mark-ring-max 30
-      set-mark-command-repeat-pop t)
+      set-mark-command-repeat-pop t
+      initial-buffer-choice 'remember-notes)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -127,9 +128,14 @@
 
 (use-package remember
   :config
-  (setq remember-data-directory "~/.config/emacs/var/remember/notes")
+  (setq remember-data-directory "~/.config/emacs/var/remember/notes"
+        remember-notes-initial-major-mode 'org-mode
+        remember-time-format "%Y-%m-%d %H:%M")
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
+
+(add-hook 'after-make-frame-functions
+        (lambda (f) (with-selected-frame f (remember-notes t))))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -531,10 +537,10 @@
     (add-hook 'post-command-hook #'nb/refontify-on-linemove nil t))
   :custom-face
   (markdown-header-delimiter-face ((t (:foreground "#616161" :height 0.9))))
-  (markdown-header-face-1 ((t (:height 1.6  :foreground "#A3BE8C" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-2 ((t (:height 1.4  :foreground "#EBCB8B" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-3 ((t (:height 1.2  :foreground "#D08770" :weight extra-bold :inherit markdown-header-face))))
-  (markdown-header-face-4 ((t (:height 1.15 :foreground "#BF616A" :weight bold :inherit markdown-header-face))))
+  (markdown-header-face-1 ((t (:height 1.2  :foreground "#A3BE8C" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-2 ((t (:height 1.15  :foreground "#EBCB8B" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-3 ((t (:height 1.1  :foreground "#D08770" :weight extra-bold :inherit markdown-header-face))))
+  (markdown-header-face-4 ((t (:height 1.1 :foreground "#BF616A" :weight bold :inherit markdown-header-face))))
   (markdown-header-face-5 ((t (:height 1.1  :foreground "#b48ead" :weight bold :inherit markdown-header-face))))
   (markdown-header-face-6 ((t (:height 1.05 :foreground "#5e81ac" :weight semi-bold :inherit markdown-header-face))))
   :hook
