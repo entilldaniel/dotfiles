@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: piped IO.inspect
+# key: >iois
+# --
+|> IO.inspect(label: "$1")
