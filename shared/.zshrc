@@ -39,6 +39,7 @@ export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -c"
 export ELIXIR_EDITOR="emacsclient __FILE__"
 alias tmx="tmux new-session -s"
+
 alias edit='emacsclient -nw -a "" $(fzf)'
 alias cat="bat --no-pager"
 alias ls=exa
@@ -46,6 +47,7 @@ alias ks=kubectl
 alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
 alias tree='exa --long --tree -a'
 alias gbuild='./gradlew clean build'
+alias bwm='bspc wm -r' 
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
