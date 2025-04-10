@@ -130,7 +130,8 @@
   :config
   (setq remember-data-directory "~/.config/emacs/var/remember/notes"
         remember-notes-initial-major-mode 'org-mode
-        remember-time-format "%Y-%m-%d %H:%M")
+        remember-time-format "%Y-%m-%d %H:%M"
+        remember-annotation "")
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
 
