@@ -239,7 +239,7 @@
 
 (cond ((equal (system-name) "endive") (fontaine-set-preset 'large))
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
-      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'tight))
+      ((equal (system-name) "slartibartfast") (fontaine-set-preset 'huge))
       ((equal "" "") (fontaine-set-preset 'regular)))
 
 (use-package ligature
@@ -607,7 +607,7 @@
 
 (defun df/project-notes-path ()
   "uses project.el project name to get the current path of the project"
-  (let ((path (concat (project-root (project-current)) "notes.org")))
+  (let ((path (concat (project-root (project-current)) ".notes.org")))
     (find-file path)
     (unless (org-find-exact-headline-in-buffer "Notes")
       (org-insert-heading nil nil t)
