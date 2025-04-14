@@ -710,6 +710,8 @@
   (add-to-list
    'eglot-server-programs '((typescript-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
+   'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
+  (add-to-list
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
    (add-to-list
     'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
