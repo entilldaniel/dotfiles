@@ -699,17 +699,24 @@
          (rust-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
          (js-ts-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
          (bash-ts-mode . eglot-ensure)
          (markdown-ts-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure))
+         (go-ts-mode . eglot-ensure)
+         (html-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
   (add-to-list
-   'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
+   'eglot-server-programs '((typescript-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
-  
+   (add-to-list
+    'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
+   (add-to-list
+    'eglot-server-programs '((css-mode) "vscode-css-language-server"))
+   (add-to-list
+      'eglot-server-programs '((json-mode) "vscode-json-language-server"))
   (setq eglot-autoshutdown 1))
 
 (use-package restclient)
