@@ -18,7 +18,7 @@ volumeicon &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 #set screen resolution
-xrandr -s 1920x1080
+autorandr mobile
 
 # set display timeout, sleep, and poweroff
 xset dpms 600 900 1200

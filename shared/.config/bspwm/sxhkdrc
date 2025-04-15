@@ -34,6 +34,10 @@ super + alt + {i,o,p}
 super + x
     rofi_run -l
 
+# Show menu for changing screens
+super + @Escape
+   rofi_run -a
+
 # close and kill
 super + {_,shift + }q
     bspc node -{c,k}
