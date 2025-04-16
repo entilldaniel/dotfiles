@@ -85,12 +85,13 @@ else
 				esac
 				;;
                         -a|--alternatives)
-				case "$(rofi -sep "|" -dmenu -i -p 'System' <<< "Mobile|Work|Home|US_keymap|SE_keymap|")" in
+				case "$(rofi -sep "|" -dmenu -i -p 'Alternatives' <<< "Mobile|Work|Home||refresh|US_keymap|SE_keymap|")" in
 					*Mobile) autorandr mobile;;
 					*Work) autorandr work;;
 					*Home) autorandr home;;
                                         *SE_keymap) setxkbmap se;;
                                         *US_keymap) setxkbmap us;;
+                                        *refresh) bspc wm -r;;
 				esac
 				;;
 			*)
