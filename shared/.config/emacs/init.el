@@ -105,6 +105,8 @@
 ;;Enable Hippie Expand
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 
+(put 'narrow-to-region 'disabled nil)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
 
