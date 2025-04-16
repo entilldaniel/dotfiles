@@ -84,11 +84,13 @@ else
 					*Logout) session-logout >/dev/null 2>&1 || pkill -15 -t tty"$XDG_VTNR" Xorg ;;
 				esac
 				;;
-                        -a|--autorandr)
-				case "$(rofi -sep "|" -dmenu -i -p 'System' <<< "Mobile|Work|Home|")" in
+                        -a|--alternatives)
+				case "$(rofi -sep "|" -dmenu -i -p 'System' <<< "Mobile|Work|Home|US_keymap|SE_keymap|")" in
 					*Mobile) autorandr mobile;;
 					*Work) autorandr work;;
 					*Home) autorandr home;;
+                                        *SE_keymap) setxkbmap se;;
+                                        *US_keymap) setxkbmap us;;
 				esac
 				;;
 			*)
