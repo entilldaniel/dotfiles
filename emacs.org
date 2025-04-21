@@ -9,21 +9,22 @@ and display the startup time for emacs
 
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
-  
+
   (setq gc-cons-threshold 100000000
-	read-process-output-max (* 1024 1024)
-	load-prefer-newer t
-	user-full-name "Daniel Figueroa"
-	use-short-answers t)
+        read-process-output-max (* 1024 1024)
+        load-prefer-newer t
+        user-full-name "Daniel Figueroa"
+        use-short-answers t)
 
   (defun display-startup-time ()
     (message "Emacs loaded in %s with %d garbage collections."
-	     (format "%.2f seconds"
-		     (float-time
-		      (time-subtract after-init-time before-init-time)))
-	     gcs-done))
+             (format "%.2f seconds"
+        	     (float-time
+        	      (time-subtract after-init-time before-init-time)))
+             gcs-done))
 
   (add-hook 'emacs-startup-hook #'display-startup-time)
+
 #+end_src
 
 ** Package System Setup
@@ -911,6 +912,12 @@ Eglot is the built in lsp client in emacs.
      (add-to-list
         'eglot-server-programs '((json-mode) "vscode-json-language-server"))
     (setq eglot-autoshutdown 1))
+
+  (use-package flycheck-eglot
+    :ensure t
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
 #+end_src
 ** Tools
 #+begin_src emacs-lisp
@@ -922,7 +929,8 @@ Eglot is the built in lsp client in emacs.
     :config
     (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
 
-  (use-package flycheck)
+  (use-package flycheck
+    :hook (after-init . global-flycheck-mode))
 
   (use-package docker)
 
@@ -1018,9 +1026,9 @@ Eglot is the built in lsp client in emacs.
     ("C-c e a" . exunit-verify-all)
     ("C-c e l" . exunit-rerun))
 
-  (use-package flymake-easy)
-  (use-package flymake-elixir
-    :hook (elixir-ts-mode . flymake-elixir-load))
+
+  (use-package flycheck-elixir
+    :hook elixir-ts-mode)
 #+end_src
 *** Lisps
 #+begin_src emacs-lisp
@@ -1049,10 +1057,12 @@ On ice for now.
 
 *** JavaScript and TypeScript
 #+begin_src emacs-lisp
-  (use-package flymake-eslint
-    :config
-    (setq flymake-eslint-prefer-json-diagnostics t))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+
+
+  ;; (use-package flymake-eslint
+  ;;   :config
+  ;;   (setq flymake-eslint-prefer-json-diagnostics t))
+  ;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 #+end_src
 
 *** Go language settings.

@@ -723,6 +723,12 @@
       'eglot-server-programs '((json-mode) "vscode-json-language-server"))
   (setq eglot-autoshutdown 1))
 
+(use-package flycheck-eglot
+  :ensure t
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
 (use-package restclient)
 
 (use-package yasnippet
@@ -731,7 +737,8 @@
   :config
   (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
 
-(use-package flycheck)
+(use-package flycheck
+  :hook (after-init . global-flycheck-mode))
 
 (use-package docker)
 
@@ -812,9 +819,9 @@
   ("C-c e a" . exunit-verify-all)
   ("C-c e l" . exunit-rerun))
 
-(use-package flymake-easy)
-(use-package flymake-elixir
-  :hook (elixir-ts-mode . flymake-elixir-load))
+
+(use-package flycheck-elixir
+  :hook elixir-ts-mode)
 
 (use-package paredit
   :ensure t
@@ -832,10 +839,10 @@
 
 (use-package python-mode)
 
-(use-package flymake-eslint
-  :config
-  (setq flymake-eslint-prefer-json-diagnostics t))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+;; (use-package flymake-eslint
+;;   :config
+;;   (setq flymake-eslint-prefer-json-diagnostics t))
+;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (require 'project)
 
