@@ -36,13 +36,13 @@ create_terminal(){
 }
 
 create_obsidian() {
-    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
+    bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on focus=on
     obsidian --no-sandbox --class="$name","$name" &
 }
 
 create_emacs() {
     bspc rule -a "$name" --one-shot state=floating rectangle=1700x1000+0+0 center=true sticky=on hidden=on
-    alacritty --class="$name","$name" -e emacsclient -nw  &
+    alacritty --class="$name","$name" -e emacsclient -nw &
 }
 
 create_emacs_old() {

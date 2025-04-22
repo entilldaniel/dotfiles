@@ -500,11 +500,6 @@
   (setq mastodon-instance-url "https://genserver.social")
   (setq mastodon-active-user "entilldaniel"))
 
-(use-package consult-spotify
-  :config
-  (setq espotfiy-client-id "590302fb731a455cb820da4b5aa0b250"
-        espotify-client-secret "78f30e787321411ca670a25f19d34e0f"))
-
 (use-package markdown-mode
   :hook
   (markdown-mode . nb/markdown-unhighlight)
