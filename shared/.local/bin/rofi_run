@@ -85,13 +85,16 @@ else
 				esac
 				;;
                         -a|--alternatives)
-				case "$(rofi -sep "|" -dmenu -i -p 'Alternatives' <<< "Mobile|Work|Home||refresh|US_keymap|SE_keymap|")" in
+				case "$(rofi -sep "|" -dmenu -i -p 'Alternatives' <<< "Mobile|Work|Home|Refresh|US keymap|SE keymap|Power Saver|Balanced|Performance|")" in
 					*Mobile) autorandr mobile;;
 					*Work) autorandr work;;
 					*Home) autorandr home;;
-                                        *SE_keymap) setxkbmap se;;
-                                        *US_keymap) setxkbmap us;;
-                                        *refresh) bspc wm -r;;
+                                        *Refresh) bspc wm -r;;
+                                        *SE\ keymap) setxkbmap se;;
+                                        *US\ keymap) setxkbmap us;;
+                                        *Power\ Saver) powerprofilesctl set power-saver;;
+                                        *Balanced) powerprofilesctl set balanced;;
+                                        *Performance) powerprofilesctl set performance;;
 				esac
 				;;
 			*)
