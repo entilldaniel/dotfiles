@@ -70,7 +70,8 @@
       use-package-enable-imenu-support t
       mark-ring-max 30
       set-mark-command-repeat-pop t
-      initial-buffer-choice 'remember-notes)
+      initial-buffer-choice 'remember-notes
+      tab-bar-mode 1)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -771,7 +772,7 @@
         (go-mode . go-ts-mode)))
 
 (use-package emmet-mode
-  :bind ("M-/" . emmet-expand-line))
+  :bind ("M-'" . emmet-expand-line))
 
 (use-package yaml-mode)
 (use-package toml-mode)
