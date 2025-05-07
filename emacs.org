@@ -15,7 +15,6 @@ and display the startup time for emacs
         load-prefer-newer t
         user-full-name "Daniel Figueroa"
         use-short-answers t)
-
   (defun display-startup-time ()
     (message "Emacs loaded in %s with %d garbage collections."
              (format "%.2f seconds"
@@ -623,8 +622,11 @@ both during a minibuffer completion session and in normal buffers.
 #+begin_src emacs-lisp
   (use-package embark
     :bind
-    (("C-," . embark-act)
-     ("C-." . embark-cycle))
+    (("C-." . embark-act)
+     ("C-;" . embark-dwim))
+    :init
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
     :config
     (add-to-list 'display-buffer-alist
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -635,6 +637,8 @@ both during a minibuffer completion session and in normal buffers.
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
+
+
 * Tools
 ** Proced
 #+begin_src emacs-lisp
@@ -865,7 +869,6 @@ both during a minibuffer completion session and in normal buffers.
     (setq vterm-shell "zsh")
     (setq vterm-max-scrollback 5000))
 #+end_src
-
 
 * Development
 ** Magit

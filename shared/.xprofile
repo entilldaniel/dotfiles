@@ -32,3 +32,4 @@ xset r rate 350 60
 
 #disable beep
 xset -b
+

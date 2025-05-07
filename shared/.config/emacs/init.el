@@ -5,7 +5,6 @@
       load-prefer-newer t
       user-full-name "Daniel Figueroa"
       use-short-answers t)
-
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
@@ -482,8 +481,11 @@
 
 (use-package embark
   :bind
-  (("C-," . embark-act)
-   ("C-." . embark-cycle))
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim))
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
   :config
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
