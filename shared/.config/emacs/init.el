@@ -323,6 +323,8 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C-c a" . mc/mark-all-like-this)))
 
+(use-package iedit)
+
 (use-package windmove
   :config
   (windmove-default-keybindings 'ctrl))
@@ -330,6 +332,7 @@
 (use-package ace-window
   :bind
   (("M-o" . ace-window)))
+
 
 ;; Make it so keyboard-escape-quit doesn't delete-other-windows
 (require 'cl-lib)
@@ -727,6 +730,16 @@
   :config
   (global-flycheck-eglot-mode 1))
 
+(defun eglot-open-link ()
+  (interactive)
+  (if-let* ((url (get-text-property (point) 'help-echo)))
+      (browse-url url)
+    (user-error "No URL at point")))
+
+(define-advice eldoc-display-in-buffer (:after (&rest _) update-keymap)
+  (with-current-buffer eldoc--doc-buffer
+    (keymap-local-set "RET" #'eglot-open-link)))
+
 (use-package restclient)
 
 (use-package yasnippet
@@ -736,7 +749,10 @@
   (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
 
 (use-package flycheck
-  :hook (after-init . global-flycheck-mode))
+  :hook (after-init . global-flycheck-mode)
+  :config
+  (flymake-mode nil)
+  (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t)))
 
 (use-package docker)
 
@@ -773,8 +789,7 @@
         (js-json-mode . json-ts-mode)
         (go-mode . go-ts-mode)))
 
-(use-package emmet-mode
-  :bind ("M-'" . emmet-expand-line))
+(use-package emmet-mode)
 
 (use-package yaml-mode)
 (use-package toml-mode)
@@ -790,36 +805,36 @@
 (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
 (use-package mix)
-(use-package ob-elixir)
-(use-package elixir-ts-mode
-  :hook (elixir-ts-mode . eglot-ensure)
-  (elixir-ts-mode . mix-minor-mode)
-  (elixir-ts-mode
-   .
-   (lambda ()
-     (push '(">=" . ?\u2265) prettify-symbols-alist)
-     (push '("<=" . ?\u2264) prettify-symbols-alist)
-     (push '("!=" . ?\u2260) prettify-symbols-alist)
-     (push '("==" . ?\u2A75) prettify-symbols-alist)
-     (push '("=~" . ?\u2245) prettify-symbols-alist)
-     (push '("<-" . ?\u2190) prettify-symbols-alist)
-     (push '("->" . ?\u2192) prettify-symbols-alist)
-     (push '("<-" . ?\u2190) prettify-symbols-alist)
-     (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-     (before-save . eglot-format))
+  (use-package ob-elixir)
+  (use-package elixir-ts-mode
+    :hook (elixir-ts-mode . eglot-ensure)
+    (elixir-ts-mode . mix-minor-mode)
+    (elixir-ts-mode
+     .
+     (lambda ()
+       (push '(">=" . ?\u2265) prettify-symbols-alist)
+       (push '("<=" . ?\u2264) prettify-symbols-alist)
+       (push '("!=" . ?\u2260) prettify-symbols-alist)
+       (push '("==" . ?\u2A75) prettify-symbols-alist)
+       (push '("=~" . ?\u2245) prettify-symbols-alist)
+       (push '("<-" . ?\u2190) prettify-symbols-alist)
+       (push '("->" . ?\u2192) prettify-symbols-alist)
+       (push '("<-" . ?\u2190) prettify-symbols-alist)
+       (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+       (before-save . eglot-format))
 
-(use-package exunit
-  :diminish t
-  :bind
-  ("C-c e ." . exunit-verify-single)
-  ("C-c e b" . exunit-verify)
-  ("C-c e u a" . exunit-verify-all-in-umbrella)
-  ("C-c e a" . exunit-verify-all)
-  ("C-c e l" . exunit-rerun))
+  (use-package exunit
+    :diminish t
+    :bind
+    ("C-c e ." . exunit-verify-single)
+    ("C-c e b" . exunit-verify)
+    ("C-c e u a" . exunit-verify-all-in-umbrella)
+    ("C-c e a" . exunit-verify-all)
+    ("C-c e l" . exunit-rerun))
 
 
-(use-package flycheck-elixir
-  :hook elixir-ts-mode)
+;;  (use-package flycheck-elixir
+;;    :hook elixir-ts-mode)
 
 (use-package paredit
   :ensure t
@@ -829,6 +844,14 @@
          (clojure-mode . paredit-mode)
          (eval-expression-minibuffer . paredit-mode)))
 
+(use-package geiser)
+(use-package ac-geiser
+  :hook
+  (geiser-repl-mode-hook . ac-geiser-setup)
+  (geiser-mode-hook . ac-geiser-setup)
+  :config
+  (add-to-list 'ac-modes 'geiser-repl-mode))
+
 (use-package elpy
   :init
   (elpy-enable)
@@ -836,6 +859,12 @@
   (setq elpy-rpc-virtualenv-path "~/.config/emacs/pyenv"))
 
 (use-package python-mode)
+
+(setq js-indent-level 2)
+
+(use-package apheleia
+  :config
+  (apheleia-global-mode 1))
 
 ;; (use-package flymake-eslint
 ;;   :config

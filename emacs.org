@@ -130,6 +130,8 @@ properties.
 
     (put 'narrow-to-region 'disabled nil)
 #+end_src
+
+
 *** Custom keybindings
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -385,35 +387,38 @@ Display page breaks as lines instead of ^L
     (global-page-break-lines-mode))
 #+end_src
 
-** Cursor and Window movement
+** Cursor, Editing  and Window movement
 #+begin_src emacs-lisp
-    (use-package multiple-cursors
-      :bind (("C->" . mc/mark-next-like-this)
-             ("C-<" . mc/mark-previous-like-this)
-             ("C-c a" . mc/mark-all-like-this)))
+  (use-package multiple-cursors
+    :bind (("C->" . mc/mark-next-like-this)
+           ("C-<" . mc/mark-previous-like-this)
+           ("C-c a" . mc/mark-all-like-this)))
 
-    (use-package windmove
-      :config
-      (windmove-default-keybindings 'ctrl))
+  (use-package iedit)
 
-    (use-package ace-window
-      :bind
-      (("M-o" . ace-window)))
+  (use-package windmove
+    :config
+    (windmove-default-keybindings 'ctrl))
 
-    ;; Make it so keyboard-escape-quit doesn't delete-other-windows
-    (require 'cl-lib)
-    (defadvice keyboard-escape-quit
-        (around keyboard-escape-quit-dont-delete-other-windows activate)
-      (cl-letf (((symbol-function 'delete-other-windows)
-                 (lambda () nil)))
-        ad-do-it))
+  (use-package ace-window
+    :bind
+    (("M-o" . ace-window)))
 
-    (use-package pulsar
-      :config
-      (pulsar-global-mode))
 
-    (use-package ace-jump-mode
-      :bind (("C-c SPC" . ace-jump-mode)))
+  ;; Make it so keyboard-escape-quit doesn't delete-other-windows
+  (require 'cl-lib)
+  (defadvice keyboard-escape-quit
+      (around keyboard-escape-quit-dont-delete-other-windows activate)
+    (cl-letf (((symbol-function 'delete-other-windows)
+               (lambda () nil)))
+      ad-do-it))
+
+  (use-package pulsar
+    :config
+    (pulsar-global-mode))
+
+  (use-package ace-jump-mode
+    :bind (("C-c SPC" . ace-jump-mode)))
 
 #+end_src
 
@@ -916,6 +921,24 @@ Eglot is the built in lsp client in emacs.
     :config
     (global-flycheck-eglot-mode 1))
 #+end_src
+
+*** Eldoc workaround for non-clickable links
+There's an issue when looking at documentation for elixir in eldoc, since the documentation is in markdown and markdown-mode and eldoc-mode
+apparently 
+#+begin_src emacs-lisp
+  (defun eglot-open-link ()
+    (interactive)
+    (if-let* ((url (get-text-property (point) 'help-echo)))
+        (browse-url url)
+      (user-error "No URL at point")))
+
+  (define-advice eldoc-display-in-buffer (:after (&rest _) update-keymap)
+    (with-current-buffer eldoc--doc-buffer
+      (keymap-local-set "RET" #'eglot-open-link)))
+
+#+end_src
+
+
 ** Tools
 #+begin_src emacs-lisp
   (use-package restclient)
@@ -927,7 +950,10 @@ Eglot is the built in lsp client in emacs.
     (setq yas-snippet-dirs '("~/.config/emacs/snippets")))
 
   (use-package flycheck
-    :hook (after-init . global-flycheck-mode))
+    :hook (after-init . global-flycheck-mode)
+    :config
+    (flymake-mode nil)
+    (advice-add 'flycheck-eslint-config-exists-p :override (lambda() t)))
 
   (use-package docker)
 
@@ -973,9 +999,8 @@ Eglot is the built in lsp client in emacs.
 *** HTML and other Markup languages
 
 #+begin_src emacs-lisp
-  (use-package emmet-mode
-    :bind ("M-'" . emmet-expand-line))
-  
+  (use-package emmet-mode)
+
   (use-package yaml-mode)
   (use-package toml-mode)
   (use-package markdown-mode)
@@ -1025,8 +1050,8 @@ Eglot is the built in lsp client in emacs.
     ("C-c e l" . exunit-rerun))
 
 
-  (use-package flycheck-elixir
-    :hook elixir-ts-mode)
+;;  (use-package flycheck-elixir
+;;    :hook elixir-ts-mode)
 #+end_src
 *** Lisps
 #+begin_src emacs-lisp
@@ -1041,6 +1066,16 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Clojure
 On ice for now.
+*** Guile
+#+begin_src emacs-lisp
+  (use-package geiser)
+  (use-package ac-geiser
+    :hook
+    (geiser-repl-mode-hook . ac-geiser-setup)
+    (geiser-mode-hook . ac-geiser-setup)
+    :config
+    (add-to-list 'ac-modes 'geiser-repl-mode))
+#+end_src
 
 *** Python
 #+begin_src emacs-lisp
@@ -1055,7 +1090,11 @@ On ice for now.
 
 *** JavaScript and TypeScript
 #+begin_src emacs-lisp
-
+  (setq js-indent-level 2)
+  
+  (use-package apheleia
+    :config
+    (apheleia-global-mode 1))
 
   ;; (use-package flymake-eslint
   ;;   :config
