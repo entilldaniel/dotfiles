@@ -908,6 +908,11 @@
     (insert (format "%s\n" font)))
   (beginning-of-buffer))
 
+(defun df/copy-buffer-path-to-kill-ring ()
+  "Copy the file path of a buffer to the clipboard"
+  (interactive)
+  (kill-new (buffer-file-name)))
+
 (load-file "~/.config/emacs/custom/emafig/emafig.el")
 (defun use-remote-emafig ()
   "configure emacs to use remote emafig"

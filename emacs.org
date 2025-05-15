@@ -1144,6 +1144,11 @@ On ice for now.
       (insert (format "%s\n" font)))
     (beginning-of-buffer))
 
+  (defun df/copy-buffer-path-to-kill-ring ()
+    "Copy the file path of a buffer to the clipboard"
+    (interactive)
+    (kill-new (buffer-file-name)))
+
 #+end_src
 
 ** Personal Modes
