@@ -85,7 +85,7 @@ else
 				esac
 				;;
                         -a|--alternatives)
-				case "$(rofi -sep "|" -dmenu -i -p 'Alternatives' <<< "Mobile|Work|Home|Refresh|US keymap|SE keymap|Power Saver|Balanced|Performance|")" in
+				case "$(rofi -sep "|" -dmenu -i -p 'Alternatives' <<< "Mobile|Work|Home|Refresh|US keymap|SE keymap|Power Saver|Balanced|Performance|Pause Notifications|Enable Notifications|")" in
 					*Mobile) autorandr mobile;;
 					*Work) autorandr work;;
 					*Home) autorandr home;;
@@ -95,6 +95,8 @@ else
                                         *Power\ Saver) powerprofilesctl set power-saver;;
                                         *Balanced) powerprofilesctl set balanced;;
                                         *Performance) powerprofilesctl set performance;;
+                                        *Pause\ Notifications) dunstctl set-paused true;;
+                                        *Enable\ Notifications) dunstctl set-paused false;;
 				esac
 				;;
 			*)
