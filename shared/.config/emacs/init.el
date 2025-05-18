@@ -777,6 +777,7 @@
         (elisp      "https://github.com/Wilfred/tree-sitter-elisp")
         (go         "https://github.com/tree-sitter/tree-sitter-go")
         (gomod      "https://github.com/camdencheek/tree-sitter-go-mod")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
         (toml       "https://github.com/tree-sitter/tree-sitter-toml")
         (bash       "https://github.com/tree-sitter/tree-sitter-bash")
         (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
