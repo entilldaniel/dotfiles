@@ -788,7 +788,8 @@
         (rust-mode . rust-ts-mode)
         (js-mode . js-ts-mode)
         (js-json-mode . json-ts-mode)
-        (go-mode . go-ts-mode)))
+        (go-mode . go-ts-mode)
+        (python-mode . python-ts-mode)))
 
 (use-package emmet-mode)
 
