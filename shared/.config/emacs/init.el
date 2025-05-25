@@ -722,6 +722,8 @@
     'eglot-server-programs '((css-mode) "vscode-css-language-server"))
    (add-to-list
       'eglot-server-programs '((json-mode) "vscode-json-language-server"))
+   (add-to-list
+        'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
   (setq eglot-autoshutdown 1))
 
 (use-package flycheck-eglot
@@ -781,6 +783,7 @@
         (toml       "https://github.com/tree-sitter/tree-sitter-toml")
         (bash       "https://github.com/tree-sitter/tree-sitter-bash")
         (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
+        (java       "https://github.com/tree-sitter/tree-sitter-java")
         (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (setq major-mode-remap-alist

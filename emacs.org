@@ -886,40 +886,42 @@ both during a minibuffer completion session and in normal buffers.
 ** Eglot
 Eglot is the built in lsp client in emacs.
 #+begin_src emacs-lisp
-    (use-package eglot
-      :ensure nil
-      :defer t
-      :hook ((elixir-mode . eglot-ensure)
-             (rust-mode . eglot-ensure)
-             (tsx-ts-mode . eglot-ensure)
-             (js-ts-mode . eglot-ensure)
-             (typescript-ts-mode . eglot-ensure)
-             (bash-ts-mode . eglot-ensure)
-             (markdown-ts-mode . eglot-ensure)
-             (go-ts-mode . eglot-ensure)
-             (html-mode . eglot-ensure))
-      :config
-      (add-to-list
-       'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
-      (add-to-list
-       'eglot-server-programs '((typescript-ts-mode) "typescript-language-server" "--stdio"))
-      (add-to-list
-       'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
-      (add-to-list
-       'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
-       (add-to-list
-        'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
-       (add-to-list
-        'eglot-server-programs '((css-mode) "vscode-css-language-server"))
-       (add-to-list
-          'eglot-server-programs '((json-mode) "vscode-json-language-server"))
-      (setq eglot-autoshutdown 1))
+  (use-package eglot
+    :ensure nil
+    :defer t
+    :hook ((elixir-mode . eglot-ensure)
+           (rust-mode . eglot-ensure)
+           (tsx-ts-mode . eglot-ensure)
+           (js-ts-mode . eglot-ensure)
+           (typescript-ts-mode . eglot-ensure)
+           (bash-ts-mode . eglot-ensure)
+           (markdown-ts-mode . eglot-ensure)
+           (go-ts-mode . eglot-ensure)
+           (html-mode . eglot-ensure))
+    :config
+    (add-to-list
+     'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
+    (add-to-list
+     'eglot-server-programs '((typescript-ts-mode) "typescript-language-server" "--stdio"))
+    (add-to-list
+     'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
+    (add-to-list
+     'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
+     (add-to-list
+      'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
+     (add-to-list
+      'eglot-server-programs '((css-mode) "vscode-css-language-server"))
+     (add-to-list
+        'eglot-server-programs '((json-mode) "vscode-json-language-server"))
+     (add-to-list
+          'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
+    (setq eglot-autoshutdown 1))
 
-    (use-package flycheck-eglot
-      :ensure t
-      :after (flycheck eglot)
-      :config
-      (global-flycheck-eglot-mode 1))
+  (use-package flycheck-eglot
+    :ensure t
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
 #+end_src
 
 *** Eldoc workaround for non-clickable links
@@ -986,6 +988,7 @@ apparently
           (toml       "https://github.com/tree-sitter/tree-sitter-toml")
           (bash       "https://github.com/tree-sitter/tree-sitter-bash")
           (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
+          (java       "https://github.com/tree-sitter/tree-sitter-java")
           (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
 
   (setq major-mode-remap-alist
@@ -996,6 +999,9 @@ apparently
           (go-mode . go-ts-mode)
           (python-mode . python-ts-mode)))
 #+end_src
+
+#+RESULTS:
+: ((elixir-mode . elixir-ts-mode) (rust-mode . rust-ts-mode) (js-mode . js-ts-mode) (js-json-mode . json-ts-mode) (go-mode . go-ts-mode) (python-mode . python-ts-mode))
 
 ** Languages
 *** HTML and other Markup languages
