@@ -698,6 +698,7 @@
 (use-package eglot
   :ensure nil
   :defer t
+  :bind (("C-x |" . eglot-code-actions))
   :hook ((elixir-mode . eglot-ensure)
          (rust-mode . eglot-ensure)
          (tsx-ts-mode . eglot-ensure)
@@ -706,7 +707,8 @@
          (bash-ts-mode . eglot-ensure)
          (markdown-ts-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
-         (html-mode . eglot-ensure))
+         (html-mode . eglot-ensure)
+         (java-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
@@ -764,7 +766,7 @@
   (editorconfig-mode 1))
 
 (setq-default indent-tabs-mode nil)
-;;  (setq-default tab-width 4)
+  (setq-default tab-width 4)
 ;;  (setq indent-line-function 'insert-tab)
 
 (setq treesit-language-source-alist
@@ -792,7 +794,8 @@
         (js-mode . js-ts-mode)
         (js-json-mode . json-ts-mode)
         (go-mode . go-ts-mode)
-        (python-mode . python-ts-mode)))
+        (python-mode . python-ts-mode)
+        (java-mode . java-ts-mode)))
 
 (use-package emmet-mode)
 
@@ -848,6 +851,16 @@
          (lisp-mode . paredit-mode)
          (clojure-mode . paredit-mode)
          (eval-expression-minibuffer . paredit-mode)))
+
+;; (use-package eglot-java)
+;; (add-hook 'java-ts-mode-hook 'eglot-java-mode)
+;; (with-eval-after-load 'eglot-java
+;;   (define-key eglot-java-mode-map (kbd "C-c l n") #'eglot-java-file-new)
+;;   (define-key eglot-java-mode-map (kbd "C-c l x") #'eglot-java-run-main)
+;;   (define-key eglot-java-mode-map (kbd "C-c l t") #'eglot-java-run-test)
+;;   (define-key eglot-java-mode-map (kbd "C-c l N") #'eglot-java-project-new)
+;;   (define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
+;;   (define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh))
 
 (use-package geiser)
 (use-package ac-geiser

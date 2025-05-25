@@ -889,6 +889,7 @@ Eglot is the built in lsp client in emacs.
   (use-package eglot
     :ensure nil
     :defer t
+    :bind (("C-x |" . eglot-code-actions))
     :hook ((elixir-mode . eglot-ensure)
            (rust-mode . eglot-ensure)
            (tsx-ts-mode . eglot-ensure)
@@ -897,7 +898,8 @@ Eglot is the built in lsp client in emacs.
            (bash-ts-mode . eglot-ensure)
            (markdown-ts-mode . eglot-ensure)
            (go-ts-mode . eglot-ensure)
-           (html-mode . eglot-ensure))
+           (html-mode . eglot-ensure)
+           (java-ts-mode . eglot-ensure))
     :config
     (add-to-list
      'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
@@ -966,38 +968,39 @@ apparently
 #+end_src
 ** Code
 #+begin_src emacs-lisp
-  (setq-default indent-tabs-mode nil)
-;;  (setq-default tab-width 4)
-;;  (setq indent-line-function 'insert-tab)
+    (setq-default indent-tabs-mode nil)
+    (setq-default tab-width 4)
+  ;;  (setq indent-line-function 'insert-tab)
 #+end_src
 *** Treesitter
 #+begin_src emacs-lisp
-  (setq treesit-language-source-alist
-        '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
-          (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
-          (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-          (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-          (json       "https://github.com/tree-sitter/tree-sitter-json")
-          (css        "https://github.com/tree-sitter/tree-sitter-css")
-          (elisp      "https://github.com/Wilfred/tree-sitter-elisp")
-          (go         "https://github.com/tree-sitter/tree-sitter-go")
-          (gomod      "https://github.com/camdencheek/tree-sitter-go-mod")
-          (python     "https://github.com/tree-sitter/tree-sitter-python")
-          (toml       "https://github.com/tree-sitter/tree-sitter-toml")
-          (bash       "https://github.com/tree-sitter/tree-sitter-bash")
-          (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
-          (java       "https://github.com/tree-sitter/tree-sitter-java")
-          (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
+    (setq treesit-language-source-alist
+          '((heex       "https://github.com/phoenixframework/tree-sitter-heex")
+            (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
+            (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+            (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+            (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+            (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+            (json       "https://github.com/tree-sitter/tree-sitter-json")
+            (css        "https://github.com/tree-sitter/tree-sitter-css")
+            (elisp      "https://github.com/Wilfred/tree-sitter-elisp")
+            (go         "https://github.com/tree-sitter/tree-sitter-go")
+            (gomod      "https://github.com/camdencheek/tree-sitter-go-mod")
+            (python     "https://github.com/tree-sitter/tree-sitter-python")
+            (toml       "https://github.com/tree-sitter/tree-sitter-toml")
+            (bash       "https://github.com/tree-sitter/tree-sitter-bash")
+            (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
+            (java       "https://github.com/tree-sitter/tree-sitter-java")
+            (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
 
-  (setq major-mode-remap-alist
-        '((elixir-mode . elixir-ts-mode)
-          (rust-mode . rust-ts-mode)
-          (js-mode . js-ts-mode)
-          (js-json-mode . json-ts-mode)
-          (go-mode . go-ts-mode)
-          (python-mode . python-ts-mode)))
+    (setq major-mode-remap-alist
+          '((elixir-mode . elixir-ts-mode)
+            (rust-mode . rust-ts-mode)
+            (js-mode . js-ts-mode)
+            (js-json-mode . json-ts-mode)
+            (go-mode . go-ts-mode)
+            (python-mode . python-ts-mode)
+            (java-mode . java-ts-mode)))
 #+end_src
 
 #+RESULTS:
@@ -1070,6 +1073,27 @@ apparently
            (lisp-mode . paredit-mode)
            (clojure-mode . paredit-mode)
            (eval-expression-minibuffer . paredit-mode)))
+
+#+end_src
+
+*** Java
+
+Happily using eglot-java which seems to be dead for now.
+https://github.com/yveszoundi/eglot-java.
+
+
+
+
+#+begin_src emacs-lisp
+  ;; (use-package eglot-java)
+  ;; (add-hook 'java-ts-mode-hook 'eglot-java-mode)
+  ;; (with-eval-after-load 'eglot-java
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l n") #'eglot-java-file-new)
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l x") #'eglot-java-run-main)
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l t") #'eglot-java-run-test)
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l N") #'eglot-java-project-new)
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
+  ;;   (define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh))
 
 #+end_src
 *** Clojure
