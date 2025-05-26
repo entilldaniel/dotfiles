@@ -765,7 +765,7 @@
   :config
   (editorconfig-mode 1))
 
-;;  (setq indent-line-function 'insert-tab)
+;; (setq indent-line-function 'insert-tab)
 (setq-default tab-width 4)
 (custom-set-variables
  '(tab-stop-list '(4 8 12)))
