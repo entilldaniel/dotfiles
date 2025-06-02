@@ -914,7 +914,9 @@ Eglot is the built in lsp client in emacs.
      (add-to-list
       'eglot-server-programs '((css-mode) "vscode-css-language-server"))
      (add-to-list
-        'eglot-server-programs '((json-mode) "vscode-json-language-server"))
+        'eglot-server-programs '((json-ts-mode) "vscode-json-language-server"))
+     (add-to-list
+        'eglot-server-programs '((python-ts-mode) "pylsp"))
      (add-to-list
           'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
     (setq eglot-autoshutdown 1))
