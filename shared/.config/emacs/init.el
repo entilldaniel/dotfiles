@@ -36,6 +36,7 @@
 
 (use-package no-littering)
 (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+(load custom-file)
 ;; Make sure we load files
 (let ((default-directory "~/.config/emacs/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -325,7 +326,7 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C-c a" . mc/mark-all-like-this)))
 
-(use-package iedit)
+;;(use-package iedit)
 
 (use-package windmove
   :config
@@ -955,3 +956,22 @@
 
 ;; Set default to remote
 (use-remote-emafig)
+
+(defun figge/my-joiner ()
+(interactive)
+(copy-region-as-kill (region-beginning) (region-end))
+(let ((my-current-buffer (current-buffer)))
+	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
+	  (yank)
+	  (switch-to-buffer (current-buffer))
+	  (goto-char (point-min))
+	  (while (not (eobp))
+		(goto-char (pos-eol))
+		(insert ",")
+		(forward-line 1)
+		(c-hungry-backspace))
+	  (goto-char (pos-bol))
+	  (insert "(")
+	  (goto-char (pos-eol))
+	  (insert ")")
+	  )))
