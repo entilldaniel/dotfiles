@@ -326,8 +326,6 @@
          ("C-<" . mc/mark-previous-like-this)
          ("C-c a" . mc/mark-all-like-this)))
 
-;;(use-package iedit)
-
 (use-package windmove
   :config
   (windmove-default-keybindings 'ctrl))
@@ -957,8 +955,9 @@
 ;; Set default to remote
 (use-remote-emafig)
 
-(defun figge/my-joiner (start end delimiter)
-  (interactive "M\nDelimiter:M\nStart:M\nEnd")
+
+(defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
+  (interactive "sDelimiter: \nsStart: \nsEnd")
   ;;  (copy-region-as-kill (region-beginning) (region-end))
   (kill-region (region-beginning) (region-end))
   (let ((my-current-buffer (current-buffer)))
@@ -968,13 +967,13 @@
 	  (goto-char (point-min))
 	  (while (not (eobp))
 		(goto-char (pos-eol))
-		(insert ",")
+		(insert joiner-delimiter)
 		(forward-line 1)
 		(delete-backward-char 1))
 	  (goto-char (pos-bol))
-	  (insert "(")
+	  (insert joiner-start)
 	  (goto-char (pos-eol))
-	  (insert ")")
+	  (insert joiner-end)
 	  (mark-whole-buffer)
 	  (copy-region-as-kill (region-beginning) (region-end))
 	  (kill-buffer)
