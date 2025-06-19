@@ -935,30 +935,6 @@
   (interactive)
   (kill-new (buffer-file-name)))
 
-(load-file "~/.config/emacs/custom/emafig/emafig.el")
-(defun use-remote-emafig ()
-  "configure emacs to use remote emafig"
-  (interactive)
-  (setq emafig-token
-        "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
-  (setq emafig-host
-        "https://figueroa.se"))
-
-(defun use-local-emafig ()
-  "configure emafig for local development"
-  (interactive)
-  (setq emafig-token
-        "hltc8L1x6NCusoHqkUJUmmhdHbN8Hwfkzu5XRTKWiEqQym5n")
-  (setq emafig-host
-        "http://localhost:4000"))
-
-;; Set default to remote
-(use-remote-emafig)
-
-
-
-;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-
 (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
   (interactive "sDelimiter: \nsStart: \nsEnd")
   ;;  (copy-region-as-kill (region-beginning) (region-end))
@@ -982,3 +958,31 @@
 	  (copy-region-as-kill (region-beginning) (region-end))
 	  (kill-buffer)
 	  (yank))))
+
+(load-file "~/.config/emacs/custom/emafig/emafig.el")
+(defun use-remote-emafig ()
+  "configure emacs to use remote emafig"
+  (interactive)
+  (setq emafig-token
+        "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
+  (setq emafig-host
+        "https://figueroa.se"))
+
+(defun use-local-emafig ()
+  "configure emafig for local development"
+  (interactive)
+  (setq emafig-token
+        "hltc8L1x6NCusoHqkUJUmmhdHbN8Hwfkzu5XRTKWiEqQym5n")
+  (setq emafig-host
+        "http://localhost:4000"))
+
+;; Set default to remote
+(use-remote-emafig)
+
+;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
+(use-package gptel)
+(setq
+ gptel-model 'gemini-2.5-flash
+ gptel-backend (gptel-make-gemini "Gemini"
+				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
+				 :stream t))

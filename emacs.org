@@ -1186,6 +1186,30 @@ On ice for now.
     (interactive)
     (kill-new (buffer-file-name)))
 
+  (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
+    (interactive "sDelimiter: \nsStart: \nsEnd")
+    ;;  (copy-region-as-kill (region-beginning) (region-end))
+    (kill-region (region-beginning) (region-end))
+    (let ((my-current-buffer (current-buffer)))
+  	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
+  	  (yank)
+  	  (switch-to-buffer (current-buffer))
+  	  (goto-char (point-min))
+  	  (while (not (eobp))
+  		(goto-char (pos-eol))
+  		(if (not (eq (pos-eol) (point-max)))
+  			(insert joiner-delimiter))
+  		(forward-line 1)
+  		(delete-backward-char 1))
+  	  (goto-char (pos-bol))
+  	  (insert joiner-start)
+  	  (goto-char (pos-eol))
+  	  (insert joiner-end)
+  	  (mark-whole-buffer)
+  	  (copy-region-as-kill (region-beginning) (region-end))
+  	  (kill-buffer)
+  	  (yank))))
+  
 #+end_src
 
 ** Personal Modes
@@ -1210,33 +1234,18 @@ On ice for now.
   ;; Set default to remote
   (use-remote-emafig)
 
+#+end_src
 
+** Emacs AI setup.
+
+#+begin_src emacs-lisp
 
   ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-
-  (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
-    (interactive "sDelimiter: \nsStart: \nsEnd")
-    ;;  (copy-region-as-kill (region-beginning) (region-end))
-    (kill-region (region-beginning) (region-end))
-    (let ((my-current-buffer (current-buffer)))
-  	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
-  	  (yank)
-  	  (switch-to-buffer (current-buffer))
-  	  (goto-char (point-min))
-  	  (while (not (eobp))
-  		(goto-char (pos-eol))
-  		(if (not (eq (pos-eol) (point-max)))
-  			(insert joiner-delimiter))
-  		(forward-line 1)
-  		(delete-backward-char 1))
-  	  (goto-char (pos-bol))
-  	  (insert joiner-start)
-  	  (goto-char (pos-eol))
-  	  (insert joiner-end)
-  	  (mark-whole-buffer)
-  	  (copy-region-as-kill (region-beginning) (region-end))
-  	  (kill-buffer)
-  	  (yank))))
-
+  (use-package gptel)
+  (setq
+   gptel-model 'gemini-2.5-flash
+   gptel-backend (gptel-make-gemini "Gemini"
+  				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
+  				 :stream t))
 #+end_src
 
