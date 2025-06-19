@@ -1211,6 +1211,9 @@ On ice for now.
   (use-remote-emafig)
 
 
+
+  ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
+
   (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
     (interactive "sDelimiter: \nsStart: \nsEnd")
     ;;  (copy-region-as-kill (region-beginning) (region-end))
