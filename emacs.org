@@ -407,7 +407,8 @@ A sidebar for navigating the file tree, gives a more IDE-like feeling.
 #+end_src
 
 ** Transient Windows
-Transient is for showing buffers that allow you to create more complex commands and visualize them.
+Transient is for showing buffers that allow you to create more complex
+commands and visualize them.
 #+begin_src emacs-lisp
   (use-package transient)
   (transient-define-prefix transient-scale-text ()
@@ -1168,6 +1169,26 @@ On ice for now.
   	  (copy-region-as-kill (region-beginning) (region-end))
   	  (kill-buffer)
   	  (yank))))
+
+(defhydra df/funs (:hint nil :color blue)
+	   "
+_h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
+\tThe epoch must be in a region for this        
+\tto work.                                   _l_: Join lines
+
+_k_:\tCopy buffer path to kill ring
+
+_q_:\tQuit
+
+
+"
+	   ("h" epoch-to-string)
+	   ("j" insert-current-date)
+	   ("k" df/copy-buffer-path-to-kill-ring)
+	   ("l" figge/my-joiner)
+	   ("q" nil "quit"))
+
+(keymap-global-set "C-x m" 'df/funs/body)
   
 #+end_src
 

@@ -869,54 +869,74 @@
 (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 
 (defun epoch-to-string (epoch)
-  (interactive "insert epoch")
-  (message (format-time-string
-            "%Y-%m-%d %H:%M:%S"
-            (seconds-to-time (string-to-number
-                              (buffer-substring-no-properties (region-beginning) (region-end))
-                              )))))
+    (interactive "insert epoch")
+    (message (format-time-string
+              "%Y-%m-%d %H:%M:%S"
+              (seconds-to-time (string-to-number
+                                (buffer-substring-no-properties (region-beginning) (region-end))
+                                )))))
 
-(defun insert-current-date ()
-  (interactive)
-  (insert
-   (format-time-string "%Y-%m-%d")))
+  (defun insert-current-date ()
+    (interactive)
+    (insert
+     (format-time-string "%Y-%m-%d")))
 
-(defun list-all-fonts ()
-  (interactive)
-  (get-buffer-create "fonts")
-  (switch-to-buffer "fonts")
-  (dolist (font (x-list-fonts "*"))
-    (insert (format "%s\n" font)))
-  (beginning-of-buffer))
+  (defun list-all-fonts ()
+    (interactive)
+    (get-buffer-create "fonts")
+    (switch-to-buffer "fonts")
+    (dolist (font (x-list-fonts "*"))
+      (insert (format "%s\n" font)))
+    (beginning-of-buffer))
 
-(defun df/copy-buffer-path-to-kill-ring ()
-  "Copy the file path of a buffer to the clipboard"
-  (interactive)
-  (kill-new (buffer-file-name)))
+  (defun df/copy-buffer-path-to-kill-ring ()
+    "Copy the file path of a buffer to the clipboard"
+    (interactive)
+    (kill-new (buffer-file-name)))
 
-(defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
-  (interactive "sDelimiter: \nsStart: \nsEnd")
-  ;;  (copy-region-as-kill (region-beginning) (region-end))
-  (kill-region (region-beginning) (region-end))
-  (let ((my-current-buffer (current-buffer)))
-	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
-	  (yank)
-	  (switch-to-buffer (current-buffer))
-	  (goto-char (point-min))
-	  (while (not (eobp))
-		(goto-char (pos-eol))
-		(if (not (eq (pos-eol) (point-max)))
-			(insert joiner-delimiter))
-		(forward-line 1)
-		(delete-backward-char 1))
-	  (goto-char (pos-bol))
-	  (insert joiner-start)
-	  (goto-char (pos-eol))
-	  (insert joiner-end)
-	  (mark-whole-buffer)
-	  (copy-region-as-kill (region-beginning) (region-end))
-	  (kill-buffer)
-	  (yank))))
+  (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
+    (interactive "sDelimiter: \nsStart: \nsEnd")
+    ;;  (copy-region-as-kill (region-beginning) (region-end))
+    (kill-region (region-beginning) (region-end))
+    (let ((my-current-buffer (current-buffer)))
+  	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
+  	  (yank)
+  	  (switch-to-buffer (current-buffer))
+  	  (goto-char (point-min))
+  	  (while (not (eobp))
+  		(goto-char (pos-eol))
+  		(if (not (eq (pos-eol) (point-max)))
+  			(insert joiner-delimiter))
+  		(forward-line 1)
+  		(delete-backward-char 1))
+  	  (goto-char (pos-bol))
+  	  (insert joiner-start)
+  	  (goto-char (pos-eol))
+  	  (insert joiner-end)
+  	  (mark-whole-buffer)
+  	  (copy-region-as-kill (region-beginning) (region-end))
+  	  (kill-buffer)
+  	  (yank))))
+
+(defhydra df/funs (:hint nil :color blue)
+	   "
+_h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
+\tThe epoch must be in a region for this        
+\tto work.                                   _l_: Join lines
+
+_k_:\tCopy buffer path to kill ring
+
+_q_:\tQuit
+
+
+"
+	   ("h" epoch-to-string)
+	   ("j" insert-current-date)
+	   ("k" df/copy-buffer-path-to-kill-ring)
+	   ("l" figge/my-joiner)
+	   ("q" nil "quit"))
+
+(keymap-global-set "C-x m" 'df/funs/body)
 
 (load-file "~/.config/emacs/custom/emafig/emafig.el")
 (defun use-remote-emafig ()
