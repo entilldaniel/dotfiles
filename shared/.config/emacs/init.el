@@ -8,8 +8,8 @@
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
-      	     (float-time
-      	      (time-subtract after-init-time before-init-time)))
+      			   (float-time
+      				(time-subtract after-init-time before-init-time)))
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
@@ -139,7 +139,7 @@
          ("C-x M-R" . remember-clipboard)))
 
 (add-hook 'after-make-frame-functions
-        (lambda (f) (with-selected-frame f (remember-notes t))))
+          (lambda (f) (with-selected-frame f (remember-notes t))))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -153,7 +153,7 @@
   :config
   (setq spacious-padding-subtle-mode-line
         `(:mode-line-active 'default
-          :mode-line-inactive vertical-border))
+							:mode-line-inactive vertical-border))
   :init
   (spacious-padding-mode))
 
@@ -440,7 +440,7 @@
   (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
-)
+  )
 
 (use-package embark
   :bind
@@ -678,16 +678,16 @@
    'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
-   (add-to-list
-    'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
-   (add-to-list
-    'eglot-server-programs '((css-mode) "vscode-css-language-server"))
-   (add-to-list
-      'eglot-server-programs '((json-ts-mode) "vscode-json-language-server"))
-   (add-to-list
-      'eglot-server-programs '((python-ts-mode) "pylsp"))
-   (add-to-list
-        'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
+  (add-to-list
+   'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
+  (add-to-list
+   'eglot-server-programs '((css-mode) "vscode-css-language-server"))
+  (add-to-list
+   'eglot-server-programs '((json-ts-mode) "vscode-json-language-server"))
+  (add-to-list
+   'eglot-server-programs '((python-ts-mode) "pylsp"))
+  (add-to-list
+   'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
   (setq eglot-autoshutdown 1))
 
 (use-package flycheck-eglot
@@ -776,32 +776,32 @@
 (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
 (use-package mix)
-  (use-package ob-elixir)
-  (use-package elixir-ts-mode
-    :hook (elixir-ts-mode . eglot-ensure)
-    (elixir-ts-mode . mix-minor-mode)
-    (elixir-ts-mode
-     .
-     (lambda ()
-       (push '(">=" . ?\u2265) prettify-symbols-alist)
-       (push '("<=" . ?\u2264) prettify-symbols-alist)
-       (push '("!=" . ?\u2260) prettify-symbols-alist)
-       (push '("==" . ?\u2A75) prettify-symbols-alist)
-       (push '("=~" . ?\u2245) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("->" . ?\u2192) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-       (before-save . eglot-format))
+(use-package ob-elixir)
+(use-package elixir-ts-mode
+  :hook (elixir-ts-mode . eglot-ensure)
+  (elixir-ts-mode . mix-minor-mode)
+  (elixir-ts-mode
+   .
+   (lambda ()
+     (push '(">=" . ?\u2265) prettify-symbols-alist)
+     (push '("<=" . ?\u2264) prettify-symbols-alist)
+     (push '("!=" . ?\u2260) prettify-symbols-alist)
+     (push '("==" . ?\u2A75) prettify-symbols-alist)
+     (push '("=~" . ?\u2245) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("->" . ?\u2192) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+  (before-save . eglot-format))
 
-  (use-package exunit
-    :diminish t
-    :bind
-    ("C-c e ." . exunit-verify-single)
-    ("C-c e b" . exunit-verify)
-    ("C-c e u a" . exunit-verify-all-in-umbrella)
-    ("C-c e a" . exunit-verify-all)
-    ("C-c e l" . exunit-rerun))
+(use-package exunit
+  :diminish t
+  :bind
+  ("C-c e ." . exunit-verify-single)
+  ("C-c e b" . exunit-verify)
+  ("C-c e u a" . exunit-verify-all-in-umbrella)
+  ("C-c e a" . exunit-verify-all)
+  ("C-c e l" . exunit-rerun))
 
 
 ;;  (use-package flycheck-elixir
@@ -868,58 +868,56 @@
 
 (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 
-(defun epoch-to-string (epoch)
-    (interactive "insert epoch")
-    (message (format-time-string
-              "%Y-%m-%d %H:%M:%S"
-              (seconds-to-time (string-to-number
-                                (buffer-substring-no-properties (region-beginning) (region-end))
-                                )))))
+(defun df/epoch-to-string (epoch)
+  (interactive "insert epoch")
+  (let ((date (format-time-string
+               "%Y-%m-%d %H:%M:%S"
+               (seconds-to-time
+    			(string-to-number
+    			 (buffer-substring (region-beginning) (region-end)))))))
+    (delete-region (region-beginning) (region-end))
+    (insert date)))
 
-  (defun insert-current-date ()
-    (interactive)
+(defun df/insert-uuid ()
+  "Inserts a uuid, calling the external method uuidgen"
+  (interactive)
+  (insert (string-trim (shell-command-to-string "uuidgen -r"))))
+
+(defun df/insert-current-date ()
+  (interactive)
+  (insert
+   (format-time-string "%Y-%m-%d")))
+
+(defun df/list-all-fonts ()
+  (interactive)
+  (with-output-to-temp-buffer "*fonts*"
+    (princ (string-join (font-family-list) "\n"))
+    (goto-char (point-min)))
+  (view-mode 1))
+
+(defun df/copy-buffer-path-to-kill-ring ()
+  "Copy the file path of a buffer to the clipboard"
+  (interactive)
+  (kill-new (buffer-file-name)))
+
+
+
+(defun df/my-joiner (&optional j-del j-start j-end)
+  "Join a region of lines separated by j-del and surrounded by j-start and j-end"
+  (interactive "sDelimiter ',': \nsStart (': \nsEnd '): ")
+  (let* ((my-text (buffer-substring (region-beginning) (region-end)))
+      	 (lines (remove "" (mapcar 'string-trim (string-split my-text "\n"))))
+      	 (delimiter (if (string-empty-p j-del) "','" j-del))
+      	 (start (if (string-empty-p j-start) "('" j-start))
+      	 (end (if (string-empty-p j-end) "')" j-end)))
+    (delete-region (region-beginning) (region-end))
     (insert
-     (format-time-string "%Y-%m-%d")))
-
-  (defun list-all-fonts ()
-    (interactive)
-    (get-buffer-create "fonts")
-    (switch-to-buffer "fonts")
-    (dolist (font (x-list-fonts "*"))
-      (insert (format "%s\n" font)))
-    (beginning-of-buffer))
-
-  (defun df/copy-buffer-path-to-kill-ring ()
-    "Copy the file path of a buffer to the clipboard"
-    (interactive)
-    (kill-new (buffer-file-name)))
-
-  (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
-    (interactive "sDelimiter: \nsStart: \nsEnd")
-    ;;  (copy-region-as-kill (region-beginning) (region-end))
-    (kill-region (region-beginning) (region-end))
-    (let ((my-current-buffer (current-buffer)))
-  	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
-  	  (yank)
-  	  (switch-to-buffer (current-buffer))
-  	  (goto-char (point-min))
-  	  (while (not (eobp))
-  		(goto-char (pos-eol))
-  		(if (not (eq (pos-eol) (point-max)))
-  			(insert joiner-delimiter))
-  		(forward-line 1)
-  		(delete-backward-char 1))
-  	  (goto-char (pos-bol))
-  	  (insert joiner-start)
-  	  (goto-char (pos-eol))
-  	  (insert joiner-end)
-  	  (mark-whole-buffer)
-  	  (copy-region-as-kill (region-beginning) (region-end))
-  	  (kill-buffer)
-  	  (yank))))
+     (concat start
+      		 (string-join lines delimiter)
+      		 end))))
 
 (defhydra df/funs (:hint nil :color blue)
-	   "
+  "
 _h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
 \tThe epoch must be in a region for this        
 \tto work.                                   _l_: Join lines
@@ -930,11 +928,11 @@ _q_:\tQuit
 
 
 "
-	   ("h" epoch-to-string)
-	   ("j" insert-current-date)
-	   ("k" df/copy-buffer-path-to-kill-ring)
-	   ("l" figge/my-joiner)
-	   ("q" nil "quit"))
+  ("h" epoch-to-string)
+  ("j" insert-current-date)
+  ("k" df/copy-buffer-path-to-kill-ring)
+  ("l" figge/my-joiner)
+  ("q" nil "quit"))
 
 (keymap-global-set "C-x m" 'df/funs/body)
 
@@ -959,9 +957,11 @@ _q_:\tQuit
 (use-remote-emafig)
 
 ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
+;; OpenAI API Key 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
+
 (use-package gptel)
 (setq
- gptel-model 'gemini-2.5-pro
+ gptel-model 'gemini-2.5-flash
  gptel-backend (gptel-make-gemini "Gemini"
 				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
 				 :stream t))

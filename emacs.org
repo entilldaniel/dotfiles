@@ -1120,76 +1120,74 @@ On ice for now.
 
 * Custom functions
 #+begin_src emacs-lisp
-  (defun epoch-to-string (epoch)
+  (defun df/epoch-to-string (epoch)
     (interactive "insert epoch")
-    (message (format-time-string
-              "%Y-%m-%d %H:%M:%S"
-              (seconds-to-time (string-to-number
-                                (buffer-substring-no-properties (region-beginning) (region-end))
-                                )))))
+    (let ((date (format-time-string
+                 "%Y-%m-%d %H:%M:%S"
+                 (seconds-to-time
+      			(string-to-number
+      			 (buffer-substring (region-beginning) (region-end)))))))
+      (delete-region (region-beginning) (region-end))
+      (insert date)))
 
-  (defun insert-current-date ()
+  (defun df/insert-uuid ()
+    "Inserts a uuid, calling the external method uuidgen"
+    (interactive)
+    (insert (string-trim (shell-command-to-string "uuidgen -r"))))
+
+  (defun df/insert-current-date ()
     (interactive)
     (insert
      (format-time-string "%Y-%m-%d")))
 
-  (defun list-all-fonts ()
+  (defun df/list-all-fonts ()
     (interactive)
-    (get-buffer-create "fonts")
-    (switch-to-buffer "fonts")
-    (dolist (font (x-list-fonts "*"))
-      (insert (format "%s\n" font)))
-    (beginning-of-buffer))
+    (with-output-to-temp-buffer "*fonts*"
+      (princ (string-join (font-family-list) "\n"))
+      (goto-char (point-min)))
+    (view-mode 1))
 
   (defun df/copy-buffer-path-to-kill-ring ()
     "Copy the file path of a buffer to the clipboard"
     (interactive)
     (kill-new (buffer-file-name)))
 
-  (defun figge/my-joiner (joiner-delimiter joiner-start joiner-end)
-    (interactive "sDelimiter: \nsStart: \nsEnd")
-    ;;  (copy-region-as-kill (region-beginning) (region-end))
-    (kill-region (region-beginning) (region-end))
-    (let ((my-current-buffer (current-buffer)))
-  	(with-current-buffer (get-buffer-create "*temp-line-joiner*")
-  	  (yank)
-  	  (switch-to-buffer (current-buffer))
-  	  (goto-char (point-min))
-  	  (while (not (eobp))
-  		(goto-char (pos-eol))
-  		(if (not (eq (pos-eol) (point-max)))
-  			(insert joiner-delimiter))
-  		(forward-line 1)
-  		(delete-backward-char 1))
-  	  (goto-char (pos-bol))
-  	  (insert joiner-start)
-  	  (goto-char (pos-eol))
-  	  (insert joiner-end)
-  	  (mark-whole-buffer)
-  	  (copy-region-as-kill (region-beginning) (region-end))
-  	  (kill-buffer)
-  	  (yank))))
-
-(defhydra df/funs (:hint nil :color blue)
-	   "
-_h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
-\tThe epoch must be in a region for this        
-\tto work.                                   _l_: Join lines
-
-_k_:\tCopy buffer path to kill ring
-
-_q_:\tQuit
 
 
-"
-	   ("h" epoch-to-string)
-	   ("j" insert-current-date)
-	   ("k" df/copy-buffer-path-to-kill-ring)
-	   ("l" figge/my-joiner)
-	   ("q" nil "quit"))
+  (defun df/my-joiner (&optional j-del j-start j-end)
+    "Join a region of lines separated by j-del and surrounded by j-start and j-end"
+    (interactive "sDelimiter ',': \nsStart (': \nsEnd '): ")
+    (let* ((my-text (buffer-substring (region-beginning) (region-end)))
+        	 (lines (remove "" (mapcar 'string-trim (string-split my-text "\n"))))
+        	 (delimiter (if (string-empty-p j-del) "','" j-del))
+        	 (start (if (string-empty-p j-start) "('" j-start))
+        	 (end (if (string-empty-p j-end) "')" j-end)))
+      (delete-region (region-beginning) (region-end))
+      (insert
+       (concat start
+        		 (string-join lines delimiter)
+        		 end))))
 
-(keymap-global-set "C-x m" 'df/funs/body)
-  
+  (defhydra df/funs (:hint nil :color blue)
+    "
+  _h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
+  \tThe epoch must be in a region for this        
+  \tto work.                                   _l_: Join lines
+
+  _k_:\tCopy buffer path to kill ring
+
+  _q_:\tQuit
+
+
+  "
+    ("h" epoch-to-string)
+    ("j" insert-current-date)
+    ("k" df/copy-buffer-path-to-kill-ring)
+    ("l" figge/my-joiner)
+    ("q" nil "quit"))
+
+  (keymap-global-set "C-x m" 'df/funs/body)
+
 #+end_src
 
 ** Personal Modes
@@ -1220,12 +1218,14 @@ _q_:\tQuit
 
 #+begin_src emacs-lisp
 
-  ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-  (use-package gptel)
-  (setq
-   gptel-model 'gemini-2.5-pro
-   gptel-backend (gptel-make-gemini "Gemini"
-  				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
-  				 :stream t))
+    ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
+    ;; OpenAI API Key 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
+
+    (use-package gptel)
+    (setq
+     gptel-model 'gemini-2.5-flash
+     gptel-backend (gptel-make-gemini "Gemini"
+    				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
+    				 :stream t))
 #+end_src
 
