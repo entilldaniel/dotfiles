@@ -1219,7 +1219,6 @@ On ice for now.
 #+begin_src emacs-lisp
 
     ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-    ;; OpenAI API Key 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
 
     (use-package gptel)
     (setq
