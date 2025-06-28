@@ -57,6 +57,13 @@ and display the startup time for emacs.
     (normal-top-level-add-subdirs-to-load-path))
 #+end_src
 
+** Setup secure storage of api-keys
+#+begin_src emacs-lisp
+  (setq epg-gpg-program "gpg2")
+  (setq auth-sources
+  	  '((:source "~/.config/emacs/secrets/.authinfo.gpg")))
+#+end_src
+
 * Interface
 
 ** Initial configs
@@ -1218,13 +1225,12 @@ On ice for now.
 
 #+begin_src emacs-lisp
 
-    ;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-
     (use-package gptel)
     (setq
-     gptel-model 'gemini-2.5-flash
+     gptel-model 'gemini-2.5-pro
      gptel-backend (gptel-make-gemini "Gemini"
-    				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
+    				 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
     				 :stream t))
 #+end_src
+
 

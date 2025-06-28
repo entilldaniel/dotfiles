@@ -41,6 +41,10 @@
 (let ((default-directory "~/.config/emacs/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
 
+(setq epg-gpg-program "gpg2")
+(setq auth-sources
+	  '((:source "~/.config/emacs/secrets/.authinfo.gpg")))
+
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -956,11 +960,9 @@ _q_:\tQuit
 ;; Set default to remote
 (use-remote-emafig)
 
-;; Gemini API Key AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q
-
 (use-package gptel)
 (setq
- gptel-model 'gemini-2.5-flash
+ gptel-model 'gemini-2.5-pro
  gptel-backend (gptel-make-gemini "Gemini"
-				 :key "AIzaSyCz81mr3cf5rvMYMcXlo1eWnHoIa3U9B-Q"
+				 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
 				 :stream t))
