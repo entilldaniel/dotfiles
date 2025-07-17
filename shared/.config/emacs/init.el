@@ -8,8 +8,8 @@
 (defun display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
-      	     (float-time
-      	      (time-subtract after-init-time before-init-time)))
+      			   (float-time
+      				(time-subtract after-init-time before-init-time)))
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time)
@@ -74,8 +74,7 @@
       use-package-enable-imenu-support t
       mark-ring-max 30
       set-mark-command-repeat-pop t
-      initial-buffer-choice 'remember-notes
-      tab-bar-mode 1)
+      initial-buffer-choice 'remember-notes)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -143,7 +142,7 @@
          ("C-x M-R" . remember-clipboard)))
 
 (add-hook 'after-make-frame-functions
-        (lambda (f) (with-selected-frame f (remember-notes t))))
+          (lambda (f) (with-selected-frame f (remember-notes t))))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -157,7 +156,7 @@
   :config
   (setq spacious-padding-subtle-mode-line
         `(:mode-line-active 'default
-          :mode-line-inactive vertical-border))
+							:mode-line-inactive vertical-border))
   :init
   (spacious-padding-mode))
 
@@ -444,7 +443,7 @@
   (svg-lib-icons-dir (no-littering-expand-var-file-name "svg-lib/cache/")) ; Change cache dir
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
-)
+  )
 
 (use-package embark
   :bind
@@ -682,16 +681,16 @@
    'eglot-server-programs '((tsx-ts-mode) "typescript-language-server" "--stdio"))
   (add-to-list
    'eglot-server-programs '((js-ts-mode) "typescript-language-server" "--stdio"))
-   (add-to-list
-    'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
-   (add-to-list
-    'eglot-server-programs '((css-mode) "vscode-css-language-server"))
-   (add-to-list
-      'eglot-server-programs '((json-ts-mode) "vscode-json-language-server"))
-   (add-to-list
-      'eglot-server-programs '((python-ts-mode) "pylsp"))
-   (add-to-list
-        'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
+  (add-to-list
+   'eglot-server-programs '((html-mode) "vscode-html-language-server" "--stdio"))
+  (add-to-list
+   'eglot-server-programs '((css-mode) "vscode-css-language-server"))
+  (add-to-list
+   'eglot-server-programs '((json-ts-mode) "vscode-json-language-server"))
+  (add-to-list
+   'eglot-server-programs '((python-ts-mode) "pylsp"))
+  (add-to-list
+   'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
   (setq eglot-autoshutdown 1))
 
 (use-package flycheck-eglot
@@ -780,32 +779,32 @@
 (add-to-list 'auto-mode-alist '("/Dockerfile\\'" . dockerfile-ts-mode))
 
 (use-package mix)
-  (use-package ob-elixir)
-  (use-package elixir-ts-mode
-    :hook (elixir-ts-mode . eglot-ensure)
-    (elixir-ts-mode . mix-minor-mode)
-    (elixir-ts-mode
-     .
-     (lambda ()
-       (push '(">=" . ?\u2265) prettify-symbols-alist)
-       (push '("<=" . ?\u2264) prettify-symbols-alist)
-       (push '("!=" . ?\u2260) prettify-symbols-alist)
-       (push '("==" . ?\u2A75) prettify-symbols-alist)
-       (push '("=~" . ?\u2245) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("->" . ?\u2192) prettify-symbols-alist)
-       (push '("<-" . ?\u2190) prettify-symbols-alist)
-       (push '("|>" . ?\u25B7) prettify-symbols-alist)))
-       (before-save . eglot-format))
+(use-package ob-elixir)
+(use-package elixir-ts-mode
+  :hook (elixir-ts-mode . eglot-ensure)
+  (elixir-ts-mode . mix-minor-mode)
+  (elixir-ts-mode
+   .
+   (lambda ()
+     (push '(">=" . ?\u2265) prettify-symbols-alist)
+     (push '("<=" . ?\u2264) prettify-symbols-alist)
+     (push '("!=" . ?\u2260) prettify-symbols-alist)
+     (push '("==" . ?\u2A75) prettify-symbols-alist)
+     (push '("=~" . ?\u2245) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("->" . ?\u2192) prettify-symbols-alist)
+     (push '("<-" . ?\u2190) prettify-symbols-alist)
+     (push '("|>" . ?\u25B7) prettify-symbols-alist)))
+  (before-save . eglot-format))
 
-  (use-package exunit
-    :diminish t
-    :bind
-    ("C-c e ." . exunit-verify-single)
-    ("C-c e b" . exunit-verify)
-    ("C-c e u a" . exunit-verify-all-in-umbrella)
-    ("C-c e a" . exunit-verify-all)
-    ("C-c e l" . exunit-rerun))
+(use-package exunit
+  :diminish t
+  :bind
+  ("C-c e ." . exunit-verify-single)
+  ("C-c e b" . exunit-verify)
+  ("C-c e u a" . exunit-verify-all-in-umbrella)
+  ("C-c e a" . exunit-verify-all)
+  ("C-c e l" . exunit-rerun))
 
 
 ;;  (use-package flycheck-elixir
@@ -945,7 +944,7 @@ _q_:\tQuit
   "configure emacs to use remote emafig"
   (interactive)
   (setq emafig-token
-        "HHHSribvaTZv8X8Uaua7JggWbUf1SyUyhzLAevQsEfO9xBJ0")
+		(plist-get (nth 0  (auth-source-search :max 1 :machine "figueroa.se")) :emafig-token))
   (setq emafig-host
         "https://figueroa.se"))
 
