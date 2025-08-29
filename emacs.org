@@ -394,7 +394,13 @@ Display page breaks as lines instead of ^L
     :bind (("M-<up>" . move-text-up)
            ("M-<down>" . move-text-down)))
 #+end_src
-e
+
+** Expand Region like in intellij
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :bind (("C-=" . 'er/expand-region)))
+#+end_src
+
 ** Treemacs
 A sidebar for navigating the file tree, gives a more IDE-like feeling.
 #+begin_src emacs-lisp

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: piped assign
+# key: >ass
+# --
+|> assign($1, $2)
+

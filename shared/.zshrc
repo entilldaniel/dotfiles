@@ -87,6 +87,8 @@ cheat () {
 eval "$(atuin init zsh)"
 
 
+eval "$(zoxide init zsh)"
+
 # pnpm
 export PNPM_HOME="/home/daniel/.local/share/pnpm"
 case ":$PATH:" in
@@ -94,3 +96,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+

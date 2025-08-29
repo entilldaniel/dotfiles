@@ -316,6 +316,9 @@
   :bind (("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))
 
+(use-package expand-region
+  :bind (("C-=" . 'er/expand-region)))
+
 (use-package treemacs
   :bind
   (("C-c t" . treemacs))
