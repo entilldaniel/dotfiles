@@ -1,4 +1,4 @@
-#+TITLE: Emacs Configuration
+h#+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle shared/.config/emacs/init.el
 
 * Initial Setup
@@ -622,6 +622,11 @@ both during a minibuffer completion session and in normal buffers.
 #+begin_src emacs-lisp
   (use-package proced)
 #+end_src
+** Occur configuration
+See this article: https://www.masteringemacs.org/article/searching-buffers-occur-mode
+#+begin_src emacs-lisp
+(setq list-matching-lines-default-context-lines 2)
+#+end_src
 
 * Social
 ** Mastodon
@@ -1125,7 +1130,7 @@ On ice for now.
   (add-hook 'project-find-functions #'project-find-go-module)
 
   (defun eglot-format-buffer-before-save ()
-    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
 
   (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 #+end_src
@@ -1200,6 +1205,30 @@ On ice for now.
 
   (keymap-global-set "C-x m" 'df/funs/body)
 
+#+end_src
+
+*** Multi Occur
+Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-occur-mode
+
+#+begin_src emacs-lisp
+(defun get-buffers-matching-mode (mode)
+  "Returns a list of buffers where their major-mode is equal to MODE"
+  (let ((buffer-mode-matches '()))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (eq mode major-mode)
+          (push buf buffer-mode-matches))))
+    buffer-mode-matches))
+
+
+(defun multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode."
+  (interactive)
+  (multi-occur
+   (get-buffers-matching-mode major-mode)
+   (car (occur-read-primary-args))))
+
+(keymap-global-set "C-<f2>" 'multi-occur-in-this-mode)
 #+end_src
 
 ** Personal Modes

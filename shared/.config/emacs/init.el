@@ -467,6 +467,8 @@
 
 (use-package proced)
 
+(setq list-matching-lines-default-context-lines 2)
+
 (use-package mastodon
   :config
   (setq mastodon-instance-url "https://genserver.social")
@@ -860,19 +862,19 @@
 
 (require 'project)
 
-(defun project-find-go-module (dir)
-  (when-let ((root (locate-dominating-file dir "go.mod")))
-    (cons 'go-module root)))
+  (defun project-find-go-module (dir)
+    (when-let ((root (locate-dominating-file dir "go.mod")))
+      (cons 'go-module root)))
 
-(cl-defmethod project-root ((project (head go-module)))
-  (cdr project))
+  (cl-defmethod project-root ((project (head go-module)))
+    (cdr project))
 
-(add-hook 'project-find-functions #'project-find-go-module)
+  (add-hook 'project-find-functions #'project-find-go-module)
 
-(defun eglot-format-buffer-before-save ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+  (defun eglot-format-buffer-before-save ()
+i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
 
-(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
+  (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 
 (defun df/epoch-to-string (epoch)
   (interactive "insert epoch")
@@ -941,6 +943,25 @@ _q_:\tQuit
   ("q" nil "quit"))
 
 (keymap-global-set "C-x m" 'df/funs/body)
+
+(defun get-buffers-matching-mode (mode)
+  "Returns a list of buffers where their major-mode is equal to MODE"
+  (let ((buffer-mode-matches '()))
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (eq mode major-mode)
+          (push buf buffer-mode-matches))))
+    buffer-mode-matches))
+
+
+(defun multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode."
+  (interactive)
+  (multi-occur
+   (get-buffers-matching-mode major-mode)
+   (car (occur-read-primary-args))))
+
+(keymap-global-set "C-<f2>" 'multi-occur-in-this-mode)
 
 (load-file "~/.config/emacs/custom/emafig/emafig.el")
 (defun use-remote-emafig ()
