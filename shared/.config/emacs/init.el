@@ -595,6 +595,8 @@
          "** %?\n %i\n")
         ("p" "Project Note" entry (function df/project-notes-path)
          "** %?\n %i\n")
+		("d" "Journal" entry (file+headline "~/Documents/vaults/main/personal/orgs/dev-diary.org" "Developer Diary")
+         "** %<%Y-%m-%d> - %?\n %i\n")
         ("j" "Training Journal Entry" entry
          (file+headline "~/Documents/org/training.org" "Training Journal")
          "* %<%Y-%m-%d> Training Session\n:PROPERTIES:\n:Effort: %^{Effort (1-10)|10}\n:END:\n\n** What I Did\n%?\n\n** Weights Used\n- \n\n** Notes\n- ")
