@@ -1253,6 +1253,9 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
     (setq emafig-host
           "http://localhost:4000"))
 
+
+  (load-file "~/Projects/elisp/slel/sl.el")
+
   ;; Set default to remote
   (use-remote-emafig)
 
