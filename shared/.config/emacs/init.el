@@ -74,7 +74,7 @@
       use-package-enable-imenu-support t
       mark-ring-max 30
       set-mark-command-repeat-pop t
-      initial-buffer-choice 'remember-notes)
+	  use-package-enable-imenu t)
 
 (dolist (mode '(org-mode-hook
                 term-mode-hook
@@ -141,8 +141,8 @@
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
 
-(add-hook 'after-make-frame-functions
-          (lambda (f) (with-selected-frame f (remember-notes t))))
+;; (add-hook 'after-make-frame-functions
+;;           (lambda (f) (with-selected-frame f (remember-notes t))))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -283,6 +283,7 @@
   :init
   (global-page-break-lines-mode))
 
+(use-package iedit)    
 (use-package multiple-cursors
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
@@ -311,6 +312,8 @@
 
 (use-package ace-jump-mode
   :bind (("C-c SPC" . ace-jump-mode)))
+
+(use-package emr)
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
@@ -451,7 +454,7 @@
 (use-package embark
   :bind
   (("C-." . embark-act)
-   ("C-;" . embark-dwim))
+   ("C-M-;" . embark-dwim))
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -564,11 +567,7 @@
         org-journal-date-format "%A, %d %B %Y"))
 
 (setq calendar-week-start-day 1)
-(setq org-agenda-files (list "~/Documents/org/todo.org"
-                             "~/Documents/org/inbox.org"
-                             "~/Documents/org/work.org"
-                             "~/Documents/org/ideas.org"
-                             "~/Documents/org/archive.org"))
+(setq org-agenda-files (list "~/Documents/org"))
 
 (setq org-refile-targets '((nil :maxlevel . 9)
                            (org-agenda-files :maxlevel . 9)))
@@ -585,21 +584,18 @@
       (insert "Notes"))))
 
 (setq org-capture-templates
-      '(("t" "TODO" entry (file+headline "~/Documents/org/todo.org" "Tasks")
-         "* TODO %?\n %i\n")
-        ("b" "INBOX" entry (file+headline "~/Documents/org/inbox.org" "Tasks")
+      '(("t" "TODO" entry (file+headline "~/Documents/org/inbox.org" "Tasks")
+         "** TODO %?\n %i\n")
+        ("b" "INBOX" entry (file+headline "~/Documents/org/inbox.org" "Inbox")
          "**  %?\n %i\n")
         ("i" "IDEA" entry (file+headline "~/Documents/org/ideas.org" "Ideas")
          "** %?\n %i\n")
-        ("n" "NOTE" entry (file+headline "~/Documents/org/ideas.org" "Notes")
+        ("n" "NOTE" entry (file+headline "~/Documents/org/inbox.org" "Notes")
          "** %?\n %i\n")
         ("p" "Project Note" entry (function df/project-notes-path)
          "** %?\n %i\n")
 		("d" "Journal" entry (file+headline "~/Documents/vaults/main/personal/orgs/dev-diary.org" "Developer Diary")
          "** %<%Y-%m-%d> - %?\n %i\n")
-        ("j" "Training Journal Entry" entry
-         (file+headline "~/Documents/org/training.org" "Training Journal")
-         "* %<%Y-%m-%d> Training Session\n:PROPERTIES:\n:Effort: %^{Effort (1-10)|10}\n:END:\n\n** What I Did\n%?\n\n** Weights Used\n- \n\n** Notes\n- ")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
          "** %?\n %i\n")))
 
@@ -678,7 +674,7 @@
          (markdown-ts-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
          (html-mode . eglot-ensure)
-         (java-ts-mode . eglot-ensure))
+		 (kotlin-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
@@ -697,8 +693,10 @@
   (add-to-list
    'eglot-server-programs '((python-ts-mode) "pylsp"))
   (add-to-list
-   'eglot-server-programs '((java-ts-mode) "~/.local/bin/jdtls/bin/jdtls"))
-  (setq eglot-autoshutdown 1))
+   'eglot-server-programs '((clojure-ts-mode) "clojure-lsp"))
+  
+  :custom
+  ((eglot-autoshutdown t)))
 
 (use-package flycheck-eglot
   :ensure t
@@ -759,7 +757,8 @@
         (bash       "https://github.com/tree-sitter/tree-sitter-bash")
         (markdown   "https://github.com/ikatyang/tree-sitter-markdown")
         (java       "https://github.com/tree-sitter/tree-sitter-java")
-        (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
+        (yaml       "https://github.com/ikatyang/tree-sitter-yaml")
+		(kotlin     "https://github.com/fwcd/tree-sitter-kotlin")))
 
 (setq major-mode-remap-alist
       '((elixir-mode . elixir-ts-mode)
@@ -767,8 +766,7 @@
         (js-mode . js-ts-mode)
         (js-json-mode . json-ts-mode)
         (go-mode . go-ts-mode)
-        (python-mode . python-ts-mode)
-        (java-mode . java-ts-mode)))
+        (python-mode . python-ts-mode)))
 
 (use-package emmet-mode)
 
@@ -823,17 +821,11 @@
          (ielm-mode . paredit-mode)
          (lisp-mode . paredit-mode)
          (clojure-mode . paredit-mode)
+		 (scheme-mode . paredit-mode)
          (eval-expression-minibuffer . paredit-mode)))
 
-;; (use-package eglot-java)
-;; (add-hook 'java-ts-mode-hook 'eglot-java-mode)
-;; (with-eval-after-load 'eglot-java
-;;   (define-key eglot-java-mode-map (kbd "C-c l n") #'eglot-java-file-new)
-;;   (define-key eglot-java-mode-map (kbd "C-c l x") #'eglot-java-run-main)
-;;   (define-key eglot-java-mode-map (kbd "C-c l t") #'eglot-java-run-test)
-;;   (define-key eglot-java-mode-map (kbd "C-c l N") #'eglot-java-project-new)
-;;   (define-key eglot-java-mode-map (kbd "C-c l T") #'eglot-java-project-build-task)
-;;   (define-key eglot-java-mode-map (kbd "C-c l R") #'eglot-java-project-build-refresh))
+(use-package clojure-ts-mode)
+(use-package cider)
 
 (use-package geiser)
 (use-package ac-geiser
@@ -910,8 +902,6 @@ i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
   (interactive)
   (kill-new (buffer-file-name)))
 
-
-
 (defun df/my-joiner (&optional j-del j-start j-end)
   "Join a region of lines separated by j-del and surrounded by j-start and j-end"
   (interactive "sDelimiter ',': \nsStart (': \nsEnd '): ")
@@ -926,22 +916,28 @@ i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
       		 (string-join lines delimiter)
       		 end))))
 
+(defun df/filter-private ()
+  "Remove private items from recentf list"
+  (interactive)
+  (setq recentf-list (-filter (lambda (x) (not (s-contains? ".private" x))) recentf-list)))
+
 (defhydra df/funs (:hint nil :color blue)
   "
 _h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
 \tThe epoch must be in a region for this        
-\tto work.                                   _l_: Join lines
+\tto work.                                       _l_: Join lines
 
-_k_:\tCopy buffer path to kill ring
+_k_:\tCopy buffer path to kill ring              _r_: Filter private
 
 _q_:\tQuit
 
 
 "
-  ("h" epoch-to-string)
-  ("j" insert-current-date)
+  ("h" df/epoch-to-string)
+  ("j" df/insert-current-date)
   ("k" df/copy-buffer-path-to-kill-ring)
-  ("l" figge/my-joiner)
+  ("l" df/my-joiner)
+  ("r" df/filter-private)
   ("q" nil "quit"))
 
 (keymap-global-set "C-x m" 'df/funs/body)
@@ -982,6 +978,9 @@ _q_:\tQuit
   (setq emafig-host
         "http://localhost:4000"))
 
+
+(load-file "~/Projects/elisp/slel/sl.el")
+
 ;; Set default to remote
 (use-remote-emafig)
 
@@ -991,3 +990,5 @@ _q_:\tQuit
  gptel-backend (gptel-make-gemini "Gemini"
 				 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
 				 :stream t))
+
+(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)

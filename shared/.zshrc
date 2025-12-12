@@ -20,11 +20,11 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 HISTSIZE=5000
 
-#enable ASDF
-. $HOME/.asdf/asdf.sh
+export ASDF_DATA_DIR="/home/hubbe/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
 
 # append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
+fpath=(${ASDF_DATA_DIR}/completions $fpath)
 
 # Test speeding up zsh shell
 DISABLE_UNTRACKED_FILES_DIRTY="true"  
@@ -33,8 +33,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 setxkbmap -layout us -option ctrl:nocaps
 
 
-export FLYCTL_INSTALL=~/.fly
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --hidden --files'
 export EDITOR="emacsclient -c"
 export ELIXIR_EDITOR="emacsclient __FILE__"
@@ -54,6 +52,8 @@ alias tree='exa --long --tree -a'
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
+# ASDF Java configuraton
+. ~/.asdf/plugins/java/set-java-home.zsh
 
 # For emacs vterm support
 vterm_printf(){
@@ -86,15 +86,13 @@ cheat () {
 
 eval "$(atuin init zsh)"
 
-
 eval "$(zoxide init zsh)"
 
 # pnpm
 export PNPM_HOME="/home/daniel/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
 # pnpm end
-
 
