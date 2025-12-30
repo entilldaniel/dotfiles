@@ -65,7 +65,7 @@
 
 (setq next-line-add-newlines t
       history-length 25
-      global-auto-revert-non-file-buffers 1
+      global-auto-revert-non-file-buffers nil
       use-dialog-box nil
       kill-whole-line t
       next-screen-context-lines 10
@@ -132,6 +132,16 @@
   :config
   (setq dired-open-extensions '(("mp4" . "vlc"))))
 
+(setq ibuffer-saved-filters-groups
+	  '(("Main"
+		 ("Lisp" (mode . emacs-lisp-mode))
+		 ("Elixir" (mode . elixir-ts-mode))
+		 ("Java" (mode . java-ts-mode))
+		 ("JavaScript" (mode (or (mode . js-ts-mode) (mode . tsx-ts-mode))))
+		 ("Shell" (mode (or (mode . eshell-mode) (mode . shell-mode)))))
+		("Programming"
+		 (or (derived-mode . prog-mode) (mode . ess-mode))))
+
 (use-package remember
   :config
   (setq remember-data-directory "~/.config/emacs/var/remember/notes"
@@ -140,9 +150,6 @@
         remember-annotation "")
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
-
-;; (add-hook 'after-make-frame-functions
-;;           (lambda (f) (with-selected-frame f (remember-notes t))))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -211,72 +218,35 @@
 
 (use-package ligature
   :config
-  ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia and Fira Code ligatures in programming modes
   (ligature-set-ligatures 'prog-mode
-                          '(;; == === ==== => =| =>>=>=|=>==>> ==< =/=//=// =~
-                            ;; =:= =!=
-                            ("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                            ;; ;; ;;;
+                          '(("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
                             (";" (rx (+ ";")))
-                            ;; && &&&
                             ("&" (rx (+ "&")))
-                            ;; !! !!! !. !: !!. != !== !~
                             ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                            ;; ?? ??? ?:  ?=  ?.
                             ("?" (rx (or ":" "=" "\." (+ "?"))))
-                            ;; %% %%%
                             ("%" (rx (+ "%")))
-                            ;; |> ||> |||> ||||> |] |} || ||| |-> ||-||
-                            ;; |->>-||-<<-| |- |== ||=||
-                            ;; |==>>==<<==<=>==//==/=!==:===>
                             ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
                                             "-" "=" ))))
-                            ;; \\ \\\ \/
                             ("\\" (rx (or "/" (+ "\\"))))
-                            ;; ++ +++ ++++ +>
                             ("+" (rx (or ">" (+ "+"))))
-                            ;; :: ::: :::: :> :< := :// ::=
                             (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                            ;; // /// //// /\ /* /> /===:===!=//===>>==>==/
                             ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
                                             "="))))
-                            ;; .. ... .... .= .- .? ..= ..<
                             ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                            ;; -- --- ---- -~ -> ->> -| -|->-->>->--<<-|
                             ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                            ;; *> */ *)  ** *** ****
                             ("*" (rx (or ">" "/" ")" (+ "*"))))
-                            ;; www wwww
                             ("w" (rx (+ "w")))
-                            ;; <> <!-- <|> <: <~ <~> <~~ <+ <* <$ </  <+> <*>
-                            ;; <$> </> <|  <||  <||| <|||| <- <-| <-<<-|-> <->>
-                            ;; <<-> <= <=> <<==<<==>=|=>==/==//=!==:=>
-                            ;; << <<< <<<<
                             ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
                                             "-"  "/" "|" "="))))
-                            ;; >: >- >>- >--|-> >>-|-> >= >== >>== >=|=:=>>
-                            ;; >> >>> >>>>
                             (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                            ;; #: #= #! #( #? #[ #{ #_ #_( ## ### #####
                             ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
                                          (+ "#"))))
-                            ;; ~~ ~~~ ~=  ~-  ~@ ~> ~~>
                             ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                            ;; __ ___ ____ _|_ __|____|_
                             ("_" (rx (+ (or "_" "|"))))
-                            ;; Fira code: 0xFF 0x12
                             ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                            ;; Fira code:
                             "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                            ;; The few not covered by the regexps.
                             "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-  ;; Enables ligature checks globally in all buffers. You can also do it
-  ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
 
 (use-package page-break-lines
@@ -344,16 +314,6 @@
 
 (global-set-key (kbd "<f2>") 'transient-scale-text)
 
-(use-package perspective
-  :bind
-  (("C-x C-b" . persp-ibuffer)
-   ("C-x b"   . persp-switch-to-buffer*)
-   ("C-x k"   . persp-kill-buffer*))
-  :custom
-  (persp-mode-prefix-key (kbd "C-x x"))
-  :init
-  (persp-mode))
-
 (use-package diminish)
 
 (use-package hl-line
@@ -386,7 +346,7 @@
   :bind
   (("C-s"     . consult-line)
    ("C-x b"   . consult-buffer)
-   ("C-x r m" . consult-bookmark)
+   ("C-c r m" . consult-bookmark)
    ("C-y"     . consult-yank-pop))
   :config
   (setq consult-fontify-max-size 1024))
@@ -472,6 +432,10 @@
 
 (setq list-matching-lines-default-context-lines 2)
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (use-package mastodon
   :config
   (setq mastodon-instance-url "https://genserver.social")
@@ -528,11 +492,6 @@
 
 
 (defun org-font-setup ()
-  ;; replace list hyphen with dot"
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\)"
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
@@ -540,13 +499,22 @@
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+  (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
 
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+  ;;stolend from org-superstar examples
+  ;; set basic title font
+  (set-face-attribute 'org-level-8 nil :weight 'bold :inherit 'default)
+  ;; Low levels are unimportant => no scaling
+  (set-face-attribute 'org-level-7 nil :inherit 'org-level-8)
+  (set-face-attribute 'org-level-6 nil :inherit 'org-level-8)
+  (set-face-attribute 'org-level-5 nil :inherit 'org-level-8)
+  (set-face-attribute 'org-level-4 nil :inherit 'org-level-8)
+  ;; Top ones get scaled the same as in LaTeX (\large, \Large, \LARGE)
+  (set-face-attribute 'org-level-3 nil :inherit 'org-level-8 :height 1.1) ;\large
+  (set-face-attribute 'org-level-2 nil :inherit 'org-level-8 :height 1.2) ;\Large
+  (set-face-attribute 'org-level-1 nil :inherit 'org-level-8 :height 1.3) ;\LARGE
+  )
+
 
 (defun org-mode-visual-fill ()
   (setq visual-fill-column-width 140
@@ -555,6 +523,15 @@
 
 (use-package visual-fill-column
   :hook (org-mode . org-mode-visual-fill))
+
+(use-package org-superstar
+  :config
+  (setq
+   org-superstar-leading-bullet "."
+   org-superstar-remove-leading-stars t
+   org-superstar-headline-bullets-list '("¹" "²" "³" "⁴" "⁵" "⁶" "⁷"))
+  :hook
+  (org-mode . org-superstar-mode))
 
 (use-package org-journal
   :ensure t
@@ -567,7 +544,7 @@
         org-journal-date-format "%A, %d %B %Y"))
 
 (setq calendar-week-start-day 1)
-(setq org-agenda-files (list "~/Documents/org"))
+(setq org-agenda-files (list "~/Documents/org" "~/Documents/org/calendars"))
 
 (setq org-refile-targets '((nil :maxlevel . 9)
                            (org-agenda-files :maxlevel . 9)))
@@ -583,6 +560,11 @@
       (org-insert-heading nil nil t)
       (insert "Notes"))))
 
+(defun df/org-family-capture-heading ()
+  (goto-char (org-find-exact-headline-in-buffer
+			  (completing-read "Which heading? " '("Otis" "Sofia" "Daniel" "Familj") nil t)))
+  (end-of-line))
+
 (setq org-capture-templates
       '(("t" "TODO" entry (file+headline "~/Documents/org/inbox.org" "Tasks")
          "** TODO %?\n %i\n")
@@ -594,6 +576,8 @@
          "** %?\n %i\n")
         ("p" "Project Note" entry (function df/project-notes-path)
          "** %?\n %i\n")
+		("f" "Family Item" entry (file+function "~/Documents/org/family.org" df/org-family-capture-heading)
+		 "** %?\n %i\n")
 		("d" "Journal" entry (file+headline "~/Documents/vaults/main/personal/orgs/dev-diary.org" "Developer Diary")
          "** %<%Y-%m-%d> - %?\n %i\n")
         ("o" "OBSIDIAN ENTRY" entry (file+headline "~/Documents/org/obsidian.org" "Obisidan Entries")
@@ -674,7 +658,8 @@
          (markdown-ts-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure)
          (html-mode . eglot-ensure)
-		 (kotlin-ts-mode . eglot-ensure))
+		 (kotlin-ts-mode . eglot-ensure)
+		 (java-ts-mode . eglot-ensure))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
@@ -703,6 +688,10 @@
   :after (flycheck eglot)
   :config
   (global-flycheck-eglot-mode 1))
+
+(use-package eglot-java)
+
+(use-package eldoc-box)
 
 (defun eglot-open-link ()
   (interactive)
@@ -961,7 +950,7 @@ _q_:\tQuit
 
 (keymap-global-set "C-<f2>" 'multi-occur-in-this-mode)
 
-(load-file "~/.config/emacs/custom/emafig/emafig.el")
+(load-file "~/Projects/elisp/emafig/emafig.el")
 (defun use-remote-emafig ()
   "configure emacs to use remote emafig"
   (interactive)

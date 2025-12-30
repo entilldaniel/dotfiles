@@ -22,6 +22,7 @@ HISTSIZE=5000
 
 export ASDF_DATA_DIR="/home/hubbe/.asdf"
 export PATH="$ASDF_DATA_DIR/shims:$PATH"
+export PATH="$PATH:/home/hubbe/.local/bin"
 
 # append completions to fpath
 fpath=(${ASDF_DATA_DIR}/completions $fpath)
@@ -49,6 +50,11 @@ alias ls=exa
 alias ks=kubectl
 alias dps='docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Networks}}\t{{.Ports}}"'
 alias tree='exa --long --tree -a'
+
+mmk() {
+	mkdir -p $1 && cd $1
+}
+
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
@@ -85,11 +91,12 @@ cheat () {
 }
 
 eval "$(atuin init zsh)"
-
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
+
 
 # pnpm
-export PNPM_HOME="/home/daniel/.local/share/pnpm"
+export PNPM_HOME="/home/hubbe/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PATH:$PNPM_HOME" ;;
