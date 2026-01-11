@@ -58,7 +58,6 @@
 (recentf-mode 1)
 (savehist-mode 1)
 (save-place-mode 1)
-(global-auto-revert-mode 1)
 (line-number-mode t)
 (repeat-mode)
 (winner-mode)
@@ -132,15 +131,15 @@
   :config
   (setq dired-open-extensions '(("mp4" . "vlc"))))
 
-(setq ibuffer-saved-filters-groups
-	  '(("Main"
-		 ("Lisp" (mode . emacs-lisp-mode))
-		 ("Elixir" (mode . elixir-ts-mode))
-		 ("Java" (mode . java-ts-mode))
-		 ("JavaScript" (mode (or (mode . js-ts-mode) (mode . tsx-ts-mode))))
-		 ("Shell" (mode (or (mode . eshell-mode) (mode . shell-mode)))))
-		("Programming"
-		 (or (derived-mode . prog-mode) (mode . ess-mode))))
+;; (setq ibuffer-saved-filters-groups
+;; 	  '(("Main"
+;; 		 ("Lisp" (mode . emacs-lisp-mode))
+;; 		 ("Elixir" (mode . elixir-ts-mode))
+;; 		 ("Java" (mode . java-ts-mode))
+;; 		 ("JavaScript" (or (mode . js-ts-mode) (mode . tsx-ts-mode)))
+;; 		 ("Shell" (or (mode . eshell-mode) (mode . shell-mode))))
+;; 		("Programming"
+;; 		 (or (derived-mode . prog-mode) (mode . ess-mode))))
 
 (use-package remember
   :config
@@ -967,8 +966,10 @@ _q_:\tQuit
   (setq emafig-host
         "http://localhost:4000"))
 
-
 (load-file "~/Projects/elisp/slel/sl.el")
+(load-file "~/Projects/elisp/dunst-history/dunst-history.el")
+(require 'sl)
+(require 'dunst-history)
 
 ;; Set default to remote
 (use-remote-emafig)
