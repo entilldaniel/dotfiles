@@ -933,12 +933,12 @@ i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
 
 (defhydra df/funs (:hint nil :color blue)
   "
-_h_:\tConvert an *epoch* to a date-string        _j_: Insert current date
-\tThe epoch must be in a region for this        
-\tto work.                                       _l_: Join lines
+_h_:\tConvert an *epoch* to a date-string          _j_: Insert current date
+\t\tThe epoch must be in a region for this       _l_: Join lines
+\t\tto work.                                     _r_: Filter private
 
-_k_:\tCopy buffer path to kill ring              _r_: Filter private
-
+_k_:\tCopy buffer path to kill ring
+_m_:\tOpen EMPV
 _q_:\tQuit
 
 
@@ -948,6 +948,7 @@ _q_:\tQuit
   ("k" df/copy-buffer-path-to-kill-ring)
   ("l" df/my-joiner)
   ("r" df/filter-private)
+  ("m" empv-hydra/body)
   ("q" nil "quit"))
 
 (keymap-global-set "C-x m" 'df/funs/body)
