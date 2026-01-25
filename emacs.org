@@ -452,6 +452,24 @@ prefixes like C-x 8 which are shown in a different face.
     (setq which-key-idle-delay 0.5))  
 #+end_src
 
+**** Fix spacing at bottom
+#+begin_src emacs-lisp
+(defun add-lines-advice (fn act-popup-dim)
+  (let ((height (car act-popup-dim))
+					(width (cdr act-popup-dim)))
+				(funcall fn (cons (+ height 1) width))))
+
+
+(advice-add #'which-key--show-popup :around
+			#'add-lines-advice)
+;; Removing advice.
+;; (advice-mapc (lambda (x y)
+;; 			   (advice-remove 'which-key--show-popup x)
+;; 			   (insert (format "\n%s\n" x))
+;; 			   )  'which-key--show-popup)
+#+end_src
+
+
 *** Undo Tree
 Visualize the emacs undo tree and navigate through it.
 #+begin_src emacs-lisp
@@ -597,7 +615,7 @@ both during a minibuffer completion session and in normal buffers.
 ** Occur configuration
 See this article: https://www.masteringemacs.org/article/searching-buffers-occur-mode
 #+begin_src emacs-lisp
-(setq list-matching-lines-default-context-lines 2)
+  (setq list-matching-lines-default-context-lines 2)
 #+end_src
 ** Direnv
 #+begin_src emacs-lisp
@@ -614,7 +632,19 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
     (setq mastodon-active-user "entilldaniel"))
 
 #+end_src   
-
+* Media
+** MPV player
+#+begin_src emacs-lisp
+  (use-package empv
+    :config (setq empv-radio-channels
+  				'(("SomaFM - Groove Salad" . "http://www.somafm.com/groovesalad.pls")
+  				  ("SomaFM - Drone Zone" . "http://www.somafm.com/dronezone.pls")
+  				  ("SomaFM - Dark Zone" . "https://somafm.com/darkzone.pls")
+  				  ("SomaFM - The Trip" . "https//somafm.com/thetrip.pls")
+  				  ("SomaFM - Lush" . "https//somafm.com/lush.pls")
+  				  ("SomaFM - Deep Space One" . "https//somafm.com/deepspaceone.pls")
+  				  ("SomaFM - Vaporwaves" . "https://somafm.com/vaporwaves.pls"))))
+#+end_src
 * Markdown Mode
 #+begin_src emacs-lisp
   (use-package markdown-mode
@@ -669,7 +699,6 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
     (org-indent-mode)
     (variable-pitch-mode)
     (visual-line-mode))
-
 
   (defun org-font-setup ()
     ;; Ensure that anything that should be fixed-pitch in Org files appears that way
@@ -738,11 +767,7 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
 #+end_src
 
 ** Org Capture Templates
-
-
 #+begin_src emacs-lisp
-
-
   (defun df/project-notes-path ()
     "uses project.el project name to get the current path of the project"
     (let ((path (concat (project-root (project-current)) ".notes.org")))
@@ -803,12 +828,12 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
 ** Structure Templates
 #+begin_src emacs-lisp
   (require 'org-tempo)
-
-  (add-to-list 'org-structure-template-alist '("b"   . "src bash"))
+  (add-to-list 'org-structure-template-alist '("bash"   . "src bash"))
   (add-to-list 'org-structure-template-alist '("py"  . "src python"))
-  (add-to-list 'org-structure-template-alist '("exs" . "src elixir"))
+  (add-to-list 'org-structure-template-alist '("ex" . "src elixir"))
   (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
   (add-to-list 'org-structure-template-alist '("el"  . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("mmd" . "src mermaid"))
 #+end_src
 
 ** Babel Configuration
@@ -833,14 +858,13 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 #+end_src
 
-* Terminal Configuration
+* Handle Environment Variables
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :config
     (setq exec-path-from-shell-arguments '("-l" "-i"))
     (when (daemonp)
       (exec-path-from-shell-initialize)))
-
 #+end_src
 
 * VTERM
@@ -1001,7 +1025,6 @@ apparently
 
 #+begin_src emacs-lisp
   (use-package emmet-mode)
-
   (use-package yaml-mode)
   (use-package toml-mode)
   (use-package markdown-mode)
@@ -1021,7 +1044,6 @@ apparently
 #+end_src
 *** Elixir
 #+begin_src emacs-lisp
-
   (use-package mix)
   (use-package ob-elixir)
   (use-package elixir-ts-mode
@@ -1054,6 +1076,7 @@ apparently
   ;;  (use-package flycheck-elixir
   ;;    :hook elixir-ts-mode)
 #+end_src
+
 *** Lisps
 #+begin_src emacs-lisp
   (use-package paredit
@@ -1072,6 +1095,7 @@ apparently
   (use-package clojure-ts-mode)
   (use-package cider)
 #+end_src
+
 *** Guile
 #+begin_src emacs-lisp
   (use-package geiser)
@@ -1216,7 +1240,6 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
           (push buf buffer-mode-matches))))
     buffer-mode-matches))
 
-
 (defun multi-occur-in-this-mode ()
   "Show all lines matching REGEXP in buffers with this major mode."
   (interactive)
@@ -1260,11 +1283,16 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
 
 #+begin_src emacs-lisp
   (use-package gptel)
+  (gptel-make-ollama "Ollama"
+    :host "192.168.0.109:11434"
+    :stream t
+    :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest))
+
   (setq
    gptel-model 'gemini-2.5-pro
    gptel-backend (gptel-make-gemini "Gemini"
-  				 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-  				 :stream t))
+      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
+      			 :stream t))
 
   (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
 #+end_src

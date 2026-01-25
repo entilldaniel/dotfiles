@@ -327,6 +327,20 @@
   :config
   (setq which-key-idle-delay 0.5))
 
+(defun add-lines-advice (fn act-popup-dim)
+  (let ((height (car act-popup-dim))
+					(width (cdr act-popup-dim)))
+				(funcall fn (cons (+ height 1) width))))
+
+
+(advice-add #'which-key--show-popup :around
+			#'add-lines-advice)
+;; Removing advice.
+;; (advice-mapc (lambda (x y)
+;; 			   (advice-remove 'which-key--show-popup x)
+;; 			   (insert (format "\n%s\n" x))
+;; 			   )  'which-key--show-popup)
+
 (use-package undo-tree
   :init
   (global-undo-tree-mode)
@@ -440,6 +454,16 @@
   (setq mastodon-instance-url "https://genserver.social")
   (setq mastodon-active-user "entilldaniel"))
 
+(use-package empv
+  :config (setq empv-radio-channels
+				'(("SomaFM - Groove Salad" . "http://www.somafm.com/groovesalad.pls")
+				  ("SomaFM - Drone Zone" . "http://www.somafm.com/dronezone.pls")
+				  ("SomaFM - Dark Zone" . "https://somafm.com/darkzone.pls")
+				  ("SomaFM - The Trip" . "https//somafm.com/thetrip.pls")
+				  ("SomaFM - Lush" . "https//somafm.com/lush.pls")
+				  ("SomaFM - Deep Space One" . "https//somafm.com/deepspaceone.pls")
+				  ("SomaFM - Vaporwaves" . "https://somafm.com/vaporwaves.pls"))))
+
 (use-package markdown-mode
   :hook
   (markdown-mode . nb/markdown-unhighlight)
@@ -488,7 +512,6 @@
   (org-indent-mode)
   (variable-pitch-mode)
   (visual-line-mode))
-
 
 (defun org-font-setup ()
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
@@ -604,12 +627,12 @@
 (add-hook 'org-present-mode-quit-hook 'myfuns/end-presentation)
 
 (require 'org-tempo)
-
-(add-to-list 'org-structure-template-alist '("b"   . "src bash"))
+(add-to-list 'org-structure-template-alist '("bash"   . "src bash"))
 (add-to-list 'org-structure-template-alist '("py"  . "src python"))
-(add-to-list 'org-structure-template-alist '("exs" . "src elixir"))
+(add-to-list 'org-structure-template-alist '("ex" . "src elixir"))
 (add-to-list 'org-structure-template-alist '("sql" . "src sql"))
 (add-to-list 'org-structure-template-alist '("el"  . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("mmd" . "src mermaid"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -757,7 +780,6 @@
         (python-mode . python-ts-mode)))
 
 (use-package emmet-mode)
-
 (use-package yaml-mode)
 (use-package toml-mode)
 (use-package markdown-mode)
@@ -939,7 +961,6 @@ _q_:\tQuit
           (push buf buffer-mode-matches))))
     buffer-mode-matches))
 
-
 (defun multi-occur-in-this-mode ()
   "Show all lines matching REGEXP in buffers with this major mode."
   (interactive)
@@ -975,10 +996,15 @@ _q_:\tQuit
 (use-remote-emafig)
 
 (use-package gptel)
+(gptel-make-ollama "Ollama"
+  :host "192.168.0.109:11434"
+  :stream t
+  :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest))
+
 (setq
  gptel-model 'gemini-2.5-pro
  gptel-backend (gptel-make-gemini "Gemini"
-				 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-				 :stream t))
+    			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
+    			 :stream t))
 
 (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
