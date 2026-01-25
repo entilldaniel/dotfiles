@@ -1,2 +1,5 @@
 shared/.config/emacs/custom.el
 **/*~undo-tree~
+
+archies/.config/tmux
+shared/.config/autorandr
