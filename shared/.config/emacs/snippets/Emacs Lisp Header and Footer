@@ -1,0 +1,12 @@
+# key: elh
+# name: Emacs Lisp Header and Footer
+# --
+;;; ${1:package-name} --- ${2:Summary} -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Author: ${3: Daniel Figueroa}
+;;; Code:
+
+
+(provide ${4: `(file-name-base)})
+;;; ${5: `(file-name-nondirectory (buffer-file-name))} ends here.
+
