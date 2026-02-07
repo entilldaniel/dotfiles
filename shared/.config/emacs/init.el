@@ -449,10 +449,28 @@
   :config
   (direnv-mode))
 
+(use-package tmr
+  :config
+  (tmr-mode-line-mode t)
+  (setq tmr-sound-file "~/Music/notification.wav"))
+
+(add-to-list 'display-buffer-alist
+			 '("\\\\*tmr-tabulated-view\\\\*"
+			   (display-buffer-in-side-window)
+			   (side . top)
+			   (slot . 4)
+			   (window-height . 0.1)))
+
 (use-package mastodon
   :config
   (setq mastodon-instance-url "https://genserver.social")
   (setq mastodon-active-user "entilldaniel"))
+
+(use-package erc)
+
+(use-package elfeed
+  :config
+  (setq elfeed-feeds '("https://planet.emacslife.com/atom.xml")))
 
 (use-package empv
   :config (setq empv-radio-channels

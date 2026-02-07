@@ -623,6 +623,22 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
     :config
     (direnv-mode))
 #+end_src
+** Timers
+Use the package tmr, needs to configure the beep sound to something nicer.
+#+begin_src emacs-lisp
+  (use-package tmr
+    :config
+    (tmr-mode-line-mode t)
+    (setq tmr-sound-file "~/Music/notification.wav"))
+
+  (add-to-list 'display-buffer-alist
+  			 '("\\\\*tmr-tabulated-view\\\\*"
+  			   (display-buffer-in-side-window)
+  			   (side . top)
+  			   (slot . 4)
+  			   (window-height . 0.1))) 
+
+#+end_src
 * Social
 ** Mastodon
 #+begin_src emacs-lisp  
@@ -631,7 +647,19 @@ See this article: https://www.masteringemacs.org/article/searching-buffers-occur
     (setq mastodon-instance-url "https://genserver.social")
     (setq mastodon-active-user "entilldaniel"))
 
-#+end_src   
+#+end_src
+** IRC
+liberachat-user: entilldaniel
+documentation:  https://www.gnu.org/software/emacs/manual/html_node/erc/Keystroke-Summary.html
+#+begin_src emacs-lisp
+  (use-package erc)
+#+end_src
+* News
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :config
+    (setq elfeed-feeds '("https://planet.emacslife.com/atom.xml")))
+#+end_src
 * Media
 ** MPV player
 #+begin_src emacs-lisp
