@@ -609,7 +609,7 @@ both during a minibuffer completion session and in normal buffers.
 
 #+RESULTS:
 | embark-consult--upgrade-markers | consult-preview-at-point-mode |
-
+|                                 |                               |
 
 * Tools
 ** Proced
@@ -904,7 +904,7 @@ documentation:  https://www.gnu.org/software/emacs/manual/html_node/erc/Keystrok
   (use-package vterm
     :commands vterm
     :config
-    (setq vterm-shell "zsh")
+    (setq vterm-shell "bash")
     (setq vterm-max-scrollback 5000))
 #+end_src
 * Development
@@ -1328,6 +1328,7 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
       			 :stream t))
 
   (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  (use-package gptel-agent)
 #+end_src
 
 

@@ -679,7 +679,7 @@
 (use-package vterm
   :commands vterm
   :config
-  (setq vterm-shell "zsh")
+  (setq vterm-shell "bash")
   (setq vterm-max-scrollback 5000))
 
 (use-package magit
@@ -1029,3 +1029,4 @@ _q_:\tQuit
     			 :stream t))
 
 (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+(use-package gptel-agent)
