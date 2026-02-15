@@ -150,13 +150,15 @@
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
 
+(add-to-list 'default-frame-alist '(alpha-background . 75))
+
 (use-package all-the-icons)
 (use-package all-the-icons-dired
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (use-package ef-themes)
-(load-theme 'ef-dark)
+(load-theme 'ef-cherie)
 
 (use-package spacious-padding
   :config
@@ -182,10 +184,10 @@
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (regular
-           :default-family "JetBrains Mono"
+           :default-family "Jetbrains Mono"
            :default-height 110
            :fixed-pitch-family "JetBrains Mono"
-           :variable-pitch-family "Iosevka"
+           :variable-pitch-family "Iosevka Nerd Font"
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (large
@@ -1020,7 +1022,7 @@ _q_:\tQuit
   :stream t
   :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest))
 
-(setq
+(setq 
  gptel-model 'gemini-2.5-pro
  gptel-backend (gptel-make-gemini "Gemini"
     			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)

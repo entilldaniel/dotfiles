@@ -1,10 +1,10 @@
 [font]
-size = 9
+size = 13
   [font.normal]
-  family="Hack Nerd Font"
+  family="JetBrains Mono"
   style="normal"
 [window]
-opacity=0.9
+opacity=0.8
   [window.padding]
   x=10
   y=10
