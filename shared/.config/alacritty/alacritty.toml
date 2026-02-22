@@ -1,10 +1,10 @@
 [font]
-size = 13
+size = 16
   [font.normal]
   family="JetBrains Mono"
   style="normal"
 [window]
-opacity=0.8
+opacity=0.6
   [window.padding]
   x=10
   y=10
