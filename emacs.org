@@ -3,13 +3,13 @@
 
 * Initial Setup
 ** Handle GC and startup
-
-Increase garbage collection threshold so we can't start faster without GC'ing
+Increase garbage collection threshold so we can start faster without GC'ing
 and display the startup time for emacs.
 
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
-
+  (add-hook 'after-init-hook
+            (lambda () (setq gc-cons-threshold 800000))) ; 800KB
   (setq gc-cons-threshold 100000000
         read-process-output-max (* 1024 1024)
         load-prefer-newer t
@@ -29,39 +29,43 @@ and display the startup time for emacs.
 ** Package System Setup
 
 #+begin_src emacs-lisp
-  (require 'package)
-  (add-to-list 'package-archives
-               '("melpa" . "https://melpa.org/packages/") t)
+    (require 'package)
+    (add-to-list 'package-archives
+                 '("melpa" . "https://melpa.org/packages/") t)
 
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
+    (package-initialize)
+    (unless package-archive-contents
+      (package-refresh-contents))
 
-  (setq use-package-always-ensure t)
+    (setq use-package-always-ensure t)
 
-  (use-package auto-package-update
-    :custom
-    (auto-package-update-interval 7)
-    (auto-package-update-prompt-before-update t)
-    (auto-package-update-hide-results t)
-    (auto-package-update-delete-old-versions t)
-    :config
-    (auto-package-update-maybe)
-    (auto-package-update-at-time "11:59"))
+    (use-package auto-package-update
+      :custom
+      (auto-package-update-interval 7)
+      (auto-package-update-prompt-before-update t)
+      (auto-package-update-hide-results t)
+      (auto-package-update-delete-old-versions t)
+      :config
+      (auto-package-update-maybe)
+      (auto-package-update-at-time "11:59"))
 
-  (use-package no-littering)
-  (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
-  (load custom-file)
-  ;; Make sure we load files
-  (let ((default-directory "~/.config/emacs/elpa/"))
-    (normal-top-level-add-subdirs-to-load-path))
+    (use-package no-littering)
+    (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+    (load custom-file)
+    ;; Make sure we load files
+    (let ((default-directory "~/.config/emacs/elpa/"))
+      (normal-top-level-add-subdirs-to-load-path))
+
+  (load-file "~/.config/emacs/local.el")
+
 #+end_src
 
 ** Setup secure storage of api-keys
 #+begin_src emacs-lisp
   (setq epg-gpg-program "gpg2")
   (setq auth-sources
-  	  '((:source "~/.config/emacs/secrets/.authinfo.gpg")))
+  	  '((:source "~/.config/emacs/secrets/authinfo.gpg")))
+  (setq epg-pinentry-mode 'loopback)
 #+end_src
 
 * Interface
@@ -255,7 +259,7 @@ Set the font and enable font ligatures.
              :default-family "Jetbrains Mono"
              :default-height 110
              :fixed-pitch-family "JetBrains Mono"
-             :variable-pitch-family "Iosevka Nerd Font"
+             :variable-pitch-family "Iosevka"
              :italic-family "JetBrains Mono"
              :line-spacing 1)
             (large
@@ -286,45 +290,6 @@ Set the font and enable font ligatures.
         ((equal "" "") (fontaine-set-preset 'regular)))
 
 #+end_src
-***** Ligature Mode
-[[https://github.com/mickeynp/ligature.el][ligature.el]] is a mode that helps with showing ligatures in emacs.
-****** TODO Explore if this is still needed?
-
-#+begin_src emacs-lisp
-
-  (use-package ligature
-    :config
-    (ligature-set-ligatures 't '("www"))
-    (ligature-set-ligatures 'prog-mode
-                            '(("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                              (";" (rx (+ ";")))
-                              ("&" (rx (+ "&")))
-                              ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                              ("?" (rx (or ":" "=" "\." (+ "?"))))
-                              ("%" (rx (+ "%")))
-                              ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                              "-" "=" ))))
-                              ("\\" (rx (or "/" (+ "\\"))))
-                              ("+" (rx (or ">" (+ "+"))))
-                              (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                              ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                              "="))))
-                              ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                              ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                              ("*" (rx (or ">" "/" ")" (+ "*"))))
-                              ("w" (rx (+ "w")))
-                              ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                              "-"  "/" "|" "="))))
-                              (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                              ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                           (+ "#"))))
-                              ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                              ("_" (rx (+ (or "_" "|"))))
-                              ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                              "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                              "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-    (global-ligature-mode t))
-#+end_src 
 
 *** Page Breaks
 Display page breaks as lines instead of ^L
@@ -1315,20 +1280,36 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
 ** Emacs AI setup.
 
 #+begin_src emacs-lisp
-  (use-package gptel)
-  (gptel-make-ollama "Ollama"
-    :host "192.168.0.109:11434"
-    :stream t
-    :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest))
 
-  (setq 
-   gptel-model 'gemini-2.5-pro
-   gptel-backend (gptel-make-gemini "Gemini"
-      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-      			 :stream t))
+    (use-package gptel)
+    (gptel-make-ollama "Ollama"
+      :host "192.168.0.109:11434"
+      :stream t
+      :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest qwen3-coder-next))
 
-  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-  (use-package gptel-agent)
+  (gptel-make-ollama "OllamaLocal"
+      :host "localhost:11434"
+      :stream t
+      :models '(qwen3-coder-next))
+
+  ;;  (setq 
+  ;;   gptel-model 'gemini-2.5-pro
+  ;;   gptel-backend (gptel-make-gemini "Gemini"
+  ;;      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
+  ;;      			 :stream t))
+
+
+
+    
+    (setq 
+     gptel-model 'gemini-2.5-pro
+     gptel-backend (gptel-make-gemini "Gemini"
+        			 :key (gemini-key)
+        			 :stream t))
+
+
+    (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+    (use-package gptel-agent)
 #+end_src
 
 

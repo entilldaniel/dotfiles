@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
-
+(add-hook 'after-init-hook
+          (lambda () (setq gc-cons-threshold 800000))) ; 800KB
 (setq gc-cons-threshold 100000000
       read-process-output-max (* 1024 1024)
       load-prefer-newer t
@@ -15,35 +16,38 @@
 (add-hook 'emacs-startup-hook #'display-startup-time)
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/") t)
 
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
 
-(setq use-package-always-ensure t)
+  (setq use-package-always-ensure t)
 
-(use-package auto-package-update
-  :custom
-  (auto-package-update-interval 7)
-  (auto-package-update-prompt-before-update t)
-  (auto-package-update-hide-results t)
-  (auto-package-update-delete-old-versions t)
-  :config
-  (auto-package-update-maybe)
-  (auto-package-update-at-time "11:59"))
+  (use-package auto-package-update
+    :custom
+    (auto-package-update-interval 7)
+    (auto-package-update-prompt-before-update t)
+    (auto-package-update-hide-results t)
+    (auto-package-update-delete-old-versions t)
+    :config
+    (auto-package-update-maybe)
+    (auto-package-update-at-time "11:59"))
 
-(use-package no-littering)
-(setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
-(load custom-file)
-;; Make sure we load files
-(let ((default-directory "~/.config/emacs/elpa/"))
-  (normal-top-level-add-subdirs-to-load-path))
+  (use-package no-littering)
+  (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
+  (load custom-file)
+  ;; Make sure we load files
+  (let ((default-directory "~/.config/emacs/elpa/"))
+    (normal-top-level-add-subdirs-to-load-path))
+
+(load-file "~/.config/emacs/local.el")
 
 (setq epg-gpg-program "gpg2")
 (setq auth-sources
-	  '((:source "~/.config/emacs/secrets/.authinfo.gpg")))
+	  '((:source "~/.config/emacs/secrets/authinfo.gpg")))
+(setq epg-pinentry-mode 'loopback)
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -150,7 +154,7 @@
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
 
-(add-to-list 'default-frame-alist '(alpha-background . 75))
+(add-to-list 'default-frame-alist '(alpha-background . 100))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -187,7 +191,7 @@
            :default-family "Jetbrains Mono"
            :default-height 110
            :fixed-pitch-family "JetBrains Mono"
-           :variable-pitch-family "Iosevka Nerd Font"
+           :variable-pitch-family "Iosevka"
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (large
@@ -216,39 +220,6 @@
       ((equal (system-name) "archie") (fontaine-set-preset 'regular))
       ((equal (system-name) "slartibartfast") (fontaine-set-preset 'large))
       ((equal "" "") (fontaine-set-preset 'regular)))
-
-(use-package ligature
-  :config
-  (ligature-set-ligatures 't '("www"))
-  (ligature-set-ligatures 'prog-mode
-                          '(("=" (rx (+ (or ">" "<" "|" "/" "~" ":" "!" "="))))
-                            (";" (rx (+ ";")))
-                            ("&" (rx (+ "&")))
-                            ("!" (rx (+ (or "=" "!" "\." ":" "~"))))
-                            ("?" (rx (or ":" "=" "\." (+ "?"))))
-                            ("%" (rx (+ "%")))
-                            ("|" (rx (+ (or ">" "<" "|" "/" ":" "!" "}" "\]"
-                                            "-" "=" ))))
-                            ("\\" (rx (or "/" (+ "\\"))))
-                            ("+" (rx (or ">" (+ "+"))))
-                            (":" (rx (or ">" "<" "=" "//" ":=" (+ ":"))))
-                            ("/" (rx (+ (or ">"  "<" "|" "/" "\\" "\*" ":" "!"
-                                            "="))))
-                            ("\." (rx (or "=" "-" "\?" "\.=" "\.<" (+ "\."))))
-                            ("-" (rx (+ (or ">" "<" "|" "~" "-"))))
-                            ("*" (rx (or ">" "/" ")" (+ "*"))))
-                            ("w" (rx (+ "w")))
-                            ("<" (rx (+ (or "\+" "\*" "\$" "<" ">" ":" "~"  "!"
-                                            "-"  "/" "|" "="))))
-                            (">" (rx (+ (or ">" "<" "|" "/" ":" "=" "-"))))
-                            ("#" (rx (or ":" "=" "!" "(" "\?" "\[" "{" "_(" "_"
-                                         (+ "#"))))
-                            ("~" (rx (or ">" "=" "-" "@" "~>" (+ "~"))))
-                            ("_" (rx (+ (or "_" "|"))))
-                            ("0" (rx (and "x" (+ (in "A-F" "a-f" "0-9")))))
-                            "Fl"  "Tl"  "fi"  "fj"  "fl"  "ft"
-                            "{|"  "[|"  "]#"  "(*"  "}#"  "$>"  "^="))
-  (global-ligature-mode t))
 
 (use-package page-break-lines
   :init
@@ -1017,16 +988,31 @@ _q_:\tQuit
 (use-remote-emafig)
 
 (use-package gptel)
-(gptel-make-ollama "Ollama"
-  :host "192.168.0.109:11434"
-  :stream t
-  :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest))
+  (gptel-make-ollama "Ollama"
+    :host "192.168.0.109:11434"
+    :stream t
+    :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest qwen3-coder-next))
 
-(setq 
- gptel-model 'gemini-2.5-pro
- gptel-backend (gptel-make-gemini "Gemini"
-    			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-    			 :stream t))
+(gptel-make-ollama "OllamaLocal"
+    :host "localhost:11434"
+    :stream t
+    :models '(qwen3-coder-next))
 
-(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-(use-package gptel-agent)
+;;  (setq 
+;;   gptel-model 'gemini-2.5-pro
+;;   gptel-backend (gptel-make-gemini "Gemini"
+;;      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
+;;      			 :stream t))
+
+
+
+  
+  (setq 
+   gptel-model 'gemini-2.5-pro
+   gptel-backend (gptel-make-gemini "Gemini"
+      			 :key (gemini-key)
+      			 :stream t))
+
+
+  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  (use-package gptel-agent)
