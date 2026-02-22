@@ -546,15 +546,7 @@
   :hook
   (org-mode . org-superstar-mode))
 
-(use-package org-journal
-  :ensure t
-  :defer t
-  :init
-  ;; Change default prefix key; needs to be set before loading org-journal
-  (setq org-journal-prefix-key "C-c j ")
-  :config
-  (setq org-journal-dir "~/Documents/org/journal/"
-        org-journal-date-format "%A, %d %B %Y"))
+(setq org-journal-file (concat org-directory "/journal.org"))
 
 (setq calendar-week-start-day 1)
 (setq org-agenda-files (list "~/Documents/org" "~/Documents/org/calendars"))
