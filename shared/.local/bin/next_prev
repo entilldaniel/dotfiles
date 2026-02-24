@@ -1,0 +1,18 @@
+#!/bin/env bash
+
+
+current_workspace=$(swaymsg -p -t get_workspaces|grep focused|grep -oE "[0-9]+")
+echo $current_workspace 
+if [ "$1" = "next" ]; then
+	target=$((current_workspace + 1))
+	if [ "$target" -gt 10 ]; then
+	       target=1
+	fi	       
+elif [ "$1" = "prev" ]; then
+	target=$((current_workspace - 1))
+	if [ "$target" -lt 1 ]; then
+		target=10
+	fi
+fi
+echo $target
+swaymsg workspace number $target

@@ -89,7 +89,7 @@
 (setq initial-scratch-message (concat
                                ";;; Emacs started: "
                                (format-time-string "%Y-%m-%d - %H:%m")
-                               "\n;;; Happy Hacking!\n"))
+                               "\n;;; What do you want to automate today?\n"))
 
 (setq ring-bell-function 'ignore
       x-select-enable-clipboard t

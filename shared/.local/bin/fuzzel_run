@@ -1,0 +1,96 @@
+#!/bin/bash
+
+NAME="${0##*/}"
+VER="0.8"
+OPTS=(
+	-padding 50
+	-line-padding 4
+	-hide-scrollbar
+)
+
+usage()
+{
+	cat <<EOF
+
+ USAGE:  $NAME [OPTIONS]
+
+ OPTIONS:
+
+     -h,--help          Display this message
+
+     -v,--version       Display script version
+
+     -r,--run           Run launcher
+
+     -d,--drun          Desktop application launcher
+
+     -w,--window        Switch between windows
+
+     -l,--logout        System logout dialog
+
+     -b,--browser       Browser search by keyword (requires surfraw)
+
+     -q,--qalculate     Persistant calculator dialog (requires libqalculate)
+
+     -c,--clipboard     Select previous clipboard entries (requires greenclip)
+
+
+  Without any options the run dialog will be opened.
+
+EOF
+}
+
+if (( $# == 0 )); then
+	rofi -show run -columns 2 "${OPTS[@]}"
+else
+	for arg in "$@"; do
+		case $arg in
+			-h|--help)
+				usage
+				exit 0
+				;;
+			-d|--displays)
+				case "$(echo -e '󰍹 Docked\n󰍺 Both\n Laptop' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
+					*Docked) kanshictl switch docked;;
+					*Both) kanshictl switch both;;
+					*Laptop) kanshictl switch laptop_only;;
+				esac
+				;;
+			-v|--clipboard)
+				cliphist list | fuzzel --hide-prompt --dmenu --width=45 --with-nth 2 | cliphist decode | wl-copy
+				;;
+			-q|--qalculate)
+				hash qalc >/dev/null 2>&1 || { echo "Requires 'libqalculate' installed"; exit 1; }
+				rofi -modi "calc:qalc +u8 -nocurrencies" -show "calc:qalc +u8 -nocurrencies" "${OPTS[@]}"
+				;;
+			-z|--applications)
+				windows=$(swaymsg -t get_tree | jq -r '.nodes[1].nodes[].nodes[] | .. | (.id|tostring) + " " + .name?' | grep -e "[0-9]* ."  )
+				selected=$(echo "$windows" | fuzzel --dmenu --with-nth=2 --nth-delimiter=" " | awk '{print $1}')
+				swaymsg [con_id="$selected"] focus
+				;;
+			-k|--keyboard)
+				case "$(echo -e 'English\nSwedish' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
+					*English) swaymsg input "type:keyboard" xkb_layout "us";;
+					*Swedish) swaymsg input "type:keyboard" xkb_layout "se";;
+				esac
+				;;
+			-c|--clipboard)
+				hash greenclip >/dev/null 2>&1 || { echo "Requires 'greenclip' installed"; exit 1; }
+				rofi -modi "clipboard:greenclip print" -show "clipboard:greenclip print" "${OPTS[@]}"
+				;;
+			-l|--logout)
+				case "$(echo -e ' Shutdown\n󰜉 Reboot\n󰿅 Logout\n Lock' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
+					*Lock) swaylock -f -c 000000;;
+					*Reboot) systemctl reboot ;;
+					*Shutdown) systemctl -i poweroff ;;
+					*Logout)  swaymsg exit ;;
+				esac
+				;;
+			*)
+				printf "\nOption does not exist: %s\n\n" "$arg"
+				exit 2
+		esac
+	done
+fi
+
+
