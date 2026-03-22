@@ -1,19 +1,19 @@
 ;; -*- lexical-binding: t -*-
 (add-hook 'after-init-hook
-          (lambda () (setq gc-cons-threshold 800000))) ; 800KB
-(setq gc-cons-threshold 100000000
-      read-process-output-max (* 1024 1024)
-      load-prefer-newer t
-      user-full-name "Daniel Figueroa"
-      use-short-answers t)
-(defun display-startup-time ()
-  (message "Emacs loaded in %s with %d garbage collections."
-           (format "%.2f seconds"
-      			   (float-time
-      				(time-subtract after-init-time before-init-time)))
-           gcs-done))
+           (lambda () (setq gc-cons-threshold 800000))) ; 800KB
+ (setq gc-cons-threshold 100000000
+       read-process-output-max (* 1024 1024)
+       load-prefer-newer t
+       user-full-name "Daniel Figueroa"
+       use-short-answers t)
+ (defun display-startup-time ()
+   (message "Emacs loaded in %s with %d garbage collections."
+            (format "%.2f seconds"
+       			   (float-time
+       				(time-subtract after-init-time before-init-time)))
+            gcs-done))
 
-(add-hook 'emacs-startup-hook #'display-startup-time)
+ (add-hook 'emacs-startup-hook #'display-startup-time)
 
 (require 'package)
   (add-to-list 'package-archives
@@ -153,8 +153,6 @@
         remember-annotation "")
   :bind (("C-x M-r" . remember)
          ("C-x M-R" . remember-clipboard)))
-
-(add-to-list 'default-frame-alist '(alpha-background . 100))
 
 (use-package all-the-icons)
 (use-package all-the-icons-dired
@@ -546,7 +544,7 @@
   :hook
   (org-mode . org-superstar-mode))
 
-(setq org-journal-file (concat org-directory "/journal.org"))
+(setq org-journal-file (concat "~/Documents/org/journal.org"))
 
 (setq calendar-week-start-day 1)
 (setq org-agenda-files (list "~/Documents/org" "~/Documents/org/calendars"))
@@ -627,7 +625,7 @@
 (setq org-confirm-babel-evaluate nil)
 
 (defun org-babel-tangle-config ()
-  (when (eq (string-match "/home/.*/.dotfiles/.*.org" (buffer-file-name)) 0)
+  (when (eq (string-match "/home/hubbe/.dotfiles/.*.org" (buffer-file-name)) 0)
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 
@@ -694,7 +692,12 @@
   :config
   (global-flycheck-eglot-mode 1))
 
-(use-package eglot-java)
+(use-package eglot-java
+:config
+(setq eglot-java-server-options
+      '(:initializationOptions
+        (:configuration
+         (:updateBuildConfiguration "interactive")))))
 
 (use-package eldoc-box)
 
@@ -979,32 +982,31 @@ _q_:\tQuit
 ;; Set default to remote
 (use-remote-emafig)
 
-(use-package gptel)
-  (gptel-make-ollama "Ollama"
-    :host "192.168.0.109:11434"
-    :stream t
-    :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest qwen3-coder-next))
+(use-package gptel
+  :config
+  (setq gptel-default-mode 'org-mode))
 
-(gptel-make-ollama "OllamaLocal"
-    :host "localhost:11434"
-    :stream t
-    :models '(qwen3-coder-next))
+(setq 
+ gptel-model 'gemini-2.5-pro
+ gptel-backend (gptel-make-gemini "Gemini"
+        		 :key (gemini-key)
+        		 :stream t))
 
-;;  (setq 
-;;   gptel-model 'gemini-2.5-pro
-;;   gptel-backend (gptel-make-gemini "Gemini"
-;;      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-;;      			 :stream t))
+(load-file "/home/hubbe/.config/emacs/aistuff.el")
+(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
 
+(use-package mcp
+  :after gptel
+  :custom (mcp-hub-servers
+  		   `(("borsdata" . (
+							:command "java"
+							:args ("--enable-native-access=ALL-UNNAMED" "-jar" "/home/hubbe/Projects/Antigravity/testproject/borsdata-mcp/target/borsdata-mcp-0.0.1-SNAPSHOT.jar")
+  			      :env (BORSDATA_API_KEY (borsdata-key)))))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server))
 
-
-  
-  (setq 
-   gptel-model 'gemini-2.5-pro
-   gptel-backend (gptel-make-gemini "Gemini"
-      			 :key (gemini-key)
-      			 :stream t))
-
-
-  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-  (use-package gptel-agent)
+(use-package gptel-mcp
+  :ensure t
+  :vc (:url "https://github.com/lizqwerscott/gptel-mcp.el")
+  :bind (:map gptel-mode-map
+              ("C-c m" . gptel-mcp-dispatch)))

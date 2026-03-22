@@ -1,6 +1,7 @@
+
+
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle shared/.config/emacs/init.el
-
 * Initial Setup
 ** Handle GC and startup
 Increase garbage collection threshold so we can start faster without GC'ing
@@ -8,7 +9,7 @@ and display the startup time for emacs.
 
 #+begin_src emacs-lisp
   ;; -*- lexical-binding: t -*-
-  (add-hook 'after-init-hook
+ (add-hook 'after-init-hook
             (lambda () (setq gc-cons-threshold 800000))) ; 800KB
   (setq gc-cons-threshold 100000000
         read-process-output-max (* 1024 1024)
@@ -204,10 +205,6 @@ Using the classic remember package I can store quick notes in the remember buffe
 #+end_src
 
 ** Theeming
-*** Transparency
-#+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(alpha-background . 75))
-#+end_src
 *** Modus Theme
 #+begin_src emacs-lisp
 
@@ -744,7 +741,7 @@ documentation:  https://www.gnu.org/software/emacs/manual/html_node/erc/Keystrok
 
 #+begin_src emacs-lisp
 
-  (setq org-journal-file (concat org-directory "/journal.org"))
+  (setq org-journal-file (concat "~/Documents/org/journal.org"))
 
   (setq calendar-week-start-day 1)
   (setq org-agenda-files (list "~/Documents/org" "~/Documents/org/calendars"))
@@ -841,7 +838,7 @@ documentation:  https://www.gnu.org/software/emacs/manual/html_node/erc/Keystrok
 ** Write emacs configuration everytime we save.
 #+begin_src emacs-lisp
   (defun org-babel-tangle-config ()
-    (when (eq (string-match "/home/.*/.dotfiles/.*.org" (buffer-file-name)) 0)
+    (when (eq (string-match "/home/hubbe/.dotfiles/.*.org" (buffer-file-name)) 0)
       (let ((org-confirm-babel-evaluate nil))
         (org-babel-tangle))))
 
@@ -922,7 +919,12 @@ Eglot is the built in lsp client in emacs.
 #+end_src
 *** Eglot for Java
 #+begin_src emacs-lisp
-  (use-package eglot-java)
+  (use-package eglot-java
+  :config
+  (setq eglot-java-server-options
+        '(:initializationOptions
+          (:configuration
+           (:updateBuildConfiguration "interactive")))))
 #+end_src
 
 ** Eldoc
@@ -1274,35 +1276,34 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
 
 #+begin_src emacs-lisp
 
-    (use-package gptel)
-    (gptel-make-ollama "Ollama"
-      :host "192.168.0.109:11434"
-      :stream t
-      :models '(gemma3:latest gemma3:12b falcon3:latest openhermes:latest qwen3-coder-next))
+  (use-package gptel
+    :config
+    (setq gptel-default-mode 'org-mode))
 
-  (gptel-make-ollama "OllamaLocal"
-      :host "localhost:11434"
-      :stream t
-      :models '(qwen3-coder-next))
+  (setq 
+   gptel-model 'gemini-2.5-pro
+   gptel-backend (gptel-make-gemini "Gemini"
+          		 :key (gemini-key)
+          		 :stream t))
+  
+  (load-file "/home/hubbe/.config/emacs/aistuff.el")
+  (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
 
-  ;;  (setq 
-  ;;   gptel-model 'gemini-2.5-pro
-  ;;   gptel-backend (gptel-make-gemini "Gemini"
-  ;;      			 :key (plist-get (nth 0  (auth-source-search :max 1 :machine "gemini.google.com")) :api-key)
-  ;;      			 :stream t))
+  (use-package mcp
+    :after gptel
+    :custom (mcp-hub-servers
+    		   `(("borsdata" . (
+  							:command "java"
+  							:args ("--enable-native-access=ALL-UNNAMED" "-jar" "/home/hubbe/Projects/Antigravity/testproject/borsdata-mcp/target/borsdata-mcp-0.0.1-SNAPSHOT.jar")
+    			      :env (BORSDATA_API_KEY (borsdata-key)))))
+    :config (require 'mcp-hub)
+    :hook (after-init . mcp-hub-start-all-server))
 
+  (use-package gptel-mcp
+    :ensure t
+    :vc (:url "https://github.com/lizqwerscott/gptel-mcp.el")
+    :bind (:map gptel-mode-map
+                ("C-c m" . gptel-mcp-dispatch)))
 
-
-    
-    (setq 
-     gptel-model 'gemini-2.5-pro
-     gptel-backend (gptel-make-gemini "Gemini"
-        			 :key (gemini-key)
-        			 :stream t))
-
-
-    (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-    (use-package gptel-agent)
 #+end_src
-
 
