@@ -35,6 +35,7 @@
     (auto-package-update-maybe)
     (auto-package-update-at-time "11:59"))
 
+
   (use-package no-littering)
   (setq custom-file (expand-file-name "custom.el" "~/.config/emacs/"))
   (load custom-file)
@@ -79,6 +80,7 @@
       set-mark-command-repeat-pop t
 	  use-package-enable-imenu t)
 
+
 (dolist (mode '(org-mode-hook
                 term-mode-hook
                 treemacs-mode-hook
@@ -101,7 +103,11 @@
       auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t))
       backup-directory-alist '(("." . "~/.emacs_backups"))
       proced-enable-color-flag t
-      create-lockfiles nil)
+      create-lockfiles nil
+	  read-process-output-max (* 4 1024 1024) ; 4MB
+	  save-interprogram-paste-before-kill t
+	  help-window-select t
+	  package-install-upgrade-built-in t)
 
 (make-directory "~/.emacs_backups/" t)
 (make-directory "~/.emacs_autosave/" t)
@@ -113,6 +119,10 @@
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 (put 'narrow-to-region 'disabled nil)
+
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-unset-key (kbd "C-z"))
@@ -662,7 +672,7 @@
          (go-ts-mode . eglot-ensure)
          (html-mode . eglot-ensure)
 		 (kotlin-ts-mode . eglot-ensure)
-		 (java-ts-mode . eglot-ensure))
+		 (java-ts-mode . eglot-java-mode))
   :config
   (add-to-list
    'eglot-server-programs '(elixir-ts-mode "elixir-ls"))
@@ -850,94 +860,20 @@
 ;;   (setq flymake-eslint-prefer-json-diagnostics t))
 ;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
-(require 'project)
+(defun project-find-go-module (dir)
+  (when-let* ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
 
-  (defun project-find-go-module (dir)
-    (when-let ((root (locate-dominating-file dir "go.mod")))
-      (cons 'go-module root)))
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
 
-  (cl-defmethod project-root ((project (head go-module)))
-    (cdr project))
+(add-hook 'project-find-functions #'project-find-go-module)
 
-  (add-hook 'project-find-functions #'project-find-go-module)
+(defun df/eglot-format-on-save ()
+  "Add `eglot-format-buffer` to `before-save-hook` locally."
+  (add-hook 'before-save-hook #'eglot-format-buffer nil 'local))
 
-  (defun eglot-format-buffer-before-save ()
-i    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-
-  (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
-
-(defun df/epoch-to-string (epoch)
-  (interactive "insert epoch")
-  (let ((date (format-time-string
-               "%Y-%m-%d %H:%M:%S"
-               (seconds-to-time
-    			(string-to-number
-    			 (buffer-substring (region-beginning) (region-end)))))))
-    (delete-region (region-beginning) (region-end))
-    (insert date)))
-
-(defun df/insert-uuid ()
-  "Inserts a uuid, calling the external method uuidgen"
-  (interactive)
-  (insert (string-trim (shell-command-to-string "uuidgen -r"))))
-
-(defun df/insert-current-date ()
-  (interactive)
-  (insert
-   (format-time-string "%Y-%m-%d")))
-
-(defun df/list-all-fonts ()
-  (interactive)
-  (with-output-to-temp-buffer "*fonts*"
-    (princ (string-join (font-family-list) "\n"))
-    (goto-char (point-min)))
-  (view-mode 1))
-
-(defun df/copy-buffer-path-to-kill-ring ()
-  "Copy the file path of a buffer to the clipboard"
-  (interactive)
-  (kill-new (buffer-file-name)))
-
-(defun df/my-joiner (&optional j-del j-start j-end)
-  "Join a region of lines separated by j-del and surrounded by j-start and j-end"
-  (interactive "sDelimiter ',': \nsStart (': \nsEnd '): ")
-  (let* ((my-text (buffer-substring (region-beginning) (region-end)))
-      	 (lines (remove "" (mapcar 'string-trim (string-split my-text "\n"))))
-      	 (delimiter (if (string-empty-p j-del) "','" j-del))
-      	 (start (if (string-empty-p j-start) "('" j-start))
-      	 (end (if (string-empty-p j-end) "')" j-end)))
-    (delete-region (region-beginning) (region-end))
-    (insert
-     (concat start
-      		 (string-join lines delimiter)
-      		 end))))
-
-(defun df/filter-private ()
-  "Remove private items from recentf list"
-  (interactive)
-  (setq recentf-list (-filter (lambda (x) (not (s-contains? ".private" x))) recentf-list)))
-
-(defhydra df/funs (:hint nil :color blue)
-  "
-_h_:\tConvert an *epoch* to a date-string          _j_: Insert current date
-\t\tThe epoch must be in a region for this       _l_: Join lines
-\t\tto work.                                     _r_: Filter private
-
-_k_:\tCopy buffer path to kill ring
-_m_:\tOpen EMPV
-_q_:\tQuit
-
-
-"
-  ("h" df/epoch-to-string)
-  ("j" df/insert-current-date)
-  ("k" df/copy-buffer-path-to-kill-ring)
-  ("l" df/my-joiner)
-  ("r" df/filter-private)
-  ("m" empv-hydra/body)
-  ("q" nil "quit"))
-
-(keymap-global-set "C-x m" 'df/funs/body)
+(add-hook 'go-ts-mode-hook #'df/eglot-format-on-save)
 
 (defun get-buffers-matching-mode (mode)
   "Returns a list of buffers where their major-mode is equal to MODE"
@@ -984,7 +920,7 @@ _q_:\tQuit
 
 (use-package gptel
   :config
-  (setq gptel-default-mode 'org-mode))
+  (setq gptel-default-mode 'markdown-mode))
 
 (setq 
  gptel-model 'gemini-2.5-pro
@@ -999,14 +935,14 @@ _q_:\tQuit
   :after gptel
   :custom (mcp-hub-servers
   		   `(("borsdata" . (
-							:command "java"
-							:args ("--enable-native-access=ALL-UNNAMED" "-jar" "/home/hubbe/Projects/Antigravity/testproject/borsdata-mcp/target/borsdata-mcp-0.0.1-SNAPSHOT.jar")
-  			      :env (BORSDATA_API_KEY (borsdata-key)))))
+							:command "borsdata-mcp"
+  			      :env (:BORSDATA_API_KEY (borsdata-key)))))
   :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server))
+  :hook (after-init . mcp-hub-start-all-server)))
 
 (use-package gptel-mcp
-  :ensure t
   :vc (:url "https://github.com/lizqwerscott/gptel-mcp.el")
   :bind (:map gptel-mode-map
               ("C-c m" . gptel-mcp-dispatch)))
+
+(load-file "/home/hubbe/.config/emacs/functions.el")
