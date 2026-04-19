@@ -1241,3 +1241,4 @@ Proudly stolen from: https://www.masteringemacs.org/article/searching-buffers-oc
 #+begin_src emacs-lisp
 (load-file "/home/hubbe/.config/emacs/functions.el")
 #+end_src
+

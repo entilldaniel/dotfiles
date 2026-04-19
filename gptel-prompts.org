@@ -7,8 +7,8 @@
 #+end_src
 
 
-* Local Backends
-My different default model setups
+** Local Backends
+my different default model setups
 
 #+begin_src emacs-lisp
     (gptel-make-ollama "Ollama"
@@ -19,12 +19,12 @@ My different default model setups
   (gptel-make-ollama "OllamaLocal"
     :host "localhost:11434"
     :stream t
-    :models '(qwen3-coder-next llama3.2 qwen3.5:35b))
+    :models '(qwen3-coder-next llama3.2 qwen3.5:35b qwen3.6))
 
 
 #+end_src
 
-* Directives
+** Directives
 
 #+begin_src emacs-lisp
 
@@ -53,7 +53,7 @@ My different default model setups
     ")
       				  (investor . "You are an elite financial analyst, investment strategist, and expert financial tutor. Your goal is to help me analyze market data, evaluate companies, and deepen my understanding of investing principles, corporate finance, and valuation frameworks.
 
-      ,**Core Directives:**
+  ,**Core Directives:**
 
       1. **Dual Persona (Analyst & Tutor):**
          ,* **When analyzing data/reports:** Act as a ruthless, objective analyst. Cut through corporate fluff. Extract key metrics (FCF, margins, debt loads, YoY growth) and identify underlying trends in earnings calls, 10-Ks, and market data.
