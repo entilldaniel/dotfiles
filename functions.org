@@ -4,12 +4,12 @@
 * My Extras
 This document contains helper methods that used to reside in my init.el but I wanted to have them in a separate file.
 
-* Best practices
+** Best practices
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t -*-
 #+end_src
-
-* Destructuring a JWT
+ 
+** Destructuring a JWT
 A little helper method to destruct a JWT to see whats in it.
 #+begin_src emacs-lisp
   (defun df/destruct-jwt ()
@@ -39,7 +39,7 @@ A little helper method to destruct a JWT to see whats in it.
     (insert "\n")))
 #+end_src
 
-* Convert a timestamp to a date string
+** Convert a timestamp to a date string
 #+begin_src emacs-lisp
   (defun df/epoch-to-string (epoch)
     (interactive "insert epoch")
@@ -52,7 +52,7 @@ A little helper method to destruct a JWT to see whats in it.
       (insert date)))
 #+end_src
 
-* Generate and insert a uuid
+** Generate and insert a uuid
 #+begin_src emacs-lisp
   (defun df/insert-uuid ()
       "Inserts a uuid, calling the external method uuidgen"
@@ -60,7 +60,7 @@ A little helper method to destruct a JWT to see whats in it.
   	(insert (string-trim (shell-command-to-string "uuidgen -r"))))
 #+end_src
 
-* Copy the buffer path to the kill ring
+** Copy the buffer path to the kill ring
 #+begin_src emacs-lisp
   (defun df/copy-buffer-path-to-kill-ring ()
       "Copy the file path of a buffer to the clipboard"
@@ -68,7 +68,7 @@ A little helper method to destruct a JWT to see whats in it.
   	(kill-new (buffer-file-name)))
 #+end_src
 
-* Join lines together with a specifid start, delimiter and end
+** Join lines together with a specifid start, delimiter and end
 #+begin_src emacs-lisp
   (defun df/my-joiner (&optional j-del j-start j-end)
       "Join a region of lines separated by j-del and surrounded by j-start and j-end"
@@ -86,7 +86,7 @@ A little helper method to destruct a JWT to see whats in it.
   	  ))
 #+end_src
 
-* Filter out private paths from recent files list.
+** Filter out private paths from recent files list.
 #+begin_src emacs-lisp
   (defun df/filter-private ()
     "Remove private items from recentf list"
@@ -94,7 +94,7 @@ A little helper method to destruct a JWT to see whats in it.
     (setq recentf-list (-filter (lambda (x) (not (s-contains? ".private" x))) recentf-list)))
 #+end_src
 
-* Insert the current date
+** Insert the current date
 #+begin_src emacs-lisp
   (defun df/insert-current-date ()
       (interactive)
@@ -102,7 +102,7 @@ A little helper method to destruct a JWT to see whats in it.
   	 (format-time-string "%Y-%m-%d")))
 #+end_src
 
-* List all available fonts
+** List all available fonts
 #+begin_src emacs-lisp
   (defun df/list-all-fonts ()
     (interactive)
@@ -112,7 +112,9 @@ A little helper method to destruct a JWT to see whats in it.
     (view-mode 1))
 #+end_src
 
-* Show a hydra with my functions
+* Bringing it all together
+
+** Show a hydra with my functions
 #+begin_src emacs-lisp
   (defhydra df/funs (:hint nil :color blue)
     "
