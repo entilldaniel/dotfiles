@@ -16,7 +16,7 @@ A little helper method to destruct a JWT to see whats in it.
   "decodes the current region as a jwt and prints it instead."
   (interactive)
   (let* ((jwt (buffer-substring (region-beginning) (region-end)))
-         (parts (s-split "\\." jwt))
+         (parts (string-split jwt "\\."))
          (header (base64-decode-string (nth 0 parts) t nil))
          (payload (base64-decode-string (nth 1 parts) t nil)))
     (kill-region (region-beginning) (region-end))

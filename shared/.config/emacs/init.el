@@ -934,9 +934,13 @@
 (use-package mcp
   :after gptel
   :custom (mcp-hub-servers
-  		   `(("borsdata" . (
+  		   `(
+			 ("borsdata" . (
 							:command "borsdata-mcp"
-  			      :env (:BORSDATA_API_KEY (borsdata-key)))))
+						    :env (:BORSDATA_API_KEY (borsdata-key))))
+			 ("borsdatamcp" . (:command "java"
+							   :args ("-jar" "/home/hubbe/Projects/java/borsdatamcp/target/borsdatamcp-1.0-SNAPSHOT-jar-with-dependencies.jar")
+							   )))
   :config (require 'mcp-hub)
   :hook (after-init . mcp-hub-start-all-server)))
 
