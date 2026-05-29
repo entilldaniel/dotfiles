@@ -189,17 +189,17 @@
   :config
   (setq fontaine-presets
         '((tight
-           :default-family "JetBrains Mono"
+           :default-family "JetBrains Mono Thin"
            :default-height 100
-           :fixed-pitch-family "JetBrains Mono"
+           :fixed-pitch-family "JetBrains Mono Thin"
            :variable-pitch-family "Iosevka"
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (regular
-           :default-family "Jetbrains Mono"
+           :default-family "Jetbrains Mono Thin"
            :default-height 110
-           :fixed-pitch-family "JetBrains Mono"
-           :variable-pitch-family "Iosevka"
+           :fixed-pitch-family "JetBrains Mono Thin"
+           :variable-pitch-family "Iosevka Thin"
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (large
@@ -217,9 +217,9 @@
            :italic-family "JetBrains Mono"
            :line-spacing 1)
           (work-from-home
-           :default-family "JetBrains Mono"
+           :default-family "JetBrains Mono Thin"
            :default-height 80
-           :fixed-pitch-family "JetBrains Mono"
+           :fixed-pitch-family "JetBrains Mono Thin"
            :variable-pitch-family "Iosevka"
            :italic-family "JetBrains Mono"
            :line-spacing 1))))
@@ -276,12 +276,32 @@
   :bind
   (("C-c t" . treemacs))
   :config
-  (setq treemacs-user-mode-line-format 'none))
+  (setq treemacs-user-mode-line-format -1))
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 (use-package treemacs-magit
   :after (treemacs magit))
 
+(defun aorst/treemacs-setup-title ()
+  (let ((bg (face-attribute 'default :background))
+		(fg (face-attribute 'default :foreground)))
+	(face-remap-add-relative 'header-line
+							 :background bg :foreground fg
+							 :underline nil
+							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline nil :color ,bg))
+	(face-remap-add-relative 'header-line-inactive
+							 :background bg :foreground fg
+							 :underline nil
+							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline nil :color ,bg)))
+  (setq mode-line-format '())
+  (setq header-line-format
+		'((:eval
+           (let* ((text (treemacs-workspace->name (treemacs-current-workspace)))
+                  (extra-align (+ (/ (length text) 2) 1))
+                  (width (- (/ (window-width) 2) extra-align)))
+			 (concat (make-string width ?\s) text))))))
+
+(add-hook 'treemacs-mode-hook (lambda () (aorst/treemacs-setup-title)))
 (add-hook 'treemacs-mode-hook (lambda() (display-line-numbers-mode -1)))
 (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode -1)))
 
@@ -335,6 +355,13 @@
   (setq vertico-resize -1)
   (setq vertico-count 15)
   (setq vertico-cycle t))
+
+(use-package vertico-posframe
+  :config
+  (vertico-posframe-mode 1)
+  (setq vertico-posframe-parameters
+		'((left-fringe . 16)
+          (right-fringe . 16))))
 
 (use-package consult
   :bind
@@ -874,6 +901,77 @@
   (add-hook 'before-save-hook #'eglot-format-buffer nil 'local))
 
 (add-hook 'go-ts-mode-hook #'df/eglot-format-on-save)
+
+;; frontend
+(use-package kirigami
+  :commands (kirigami-open-fold
+    		 kirigami-open-fold-rec
+    		 kirigami-close-fold
+    		 kirigami-toggle-fold
+    		 kigirami-open-folds
+    		 kirigami-close-folds-except-current
+    		 kirigami-close-folds)
+  :bind
+  (("C-c z o" . kirigami-open-fold)
+   ("C-c z O" . kirigami-open-fold-rec)
+   ("C-c z r" . kirigami-open-folds)
+   ("C-c z c" . kirigami-close-fold)
+   ("C-c z m" . kirigami-close-folds)
+   ("C-c z a" . kirigami-toggle-fold))
+  )
+
+
+(use-package treesit-fold
+  :commands (treesit-fold-close
+             treesit-fold-close-all
+             treesit-fold-open
+             treesit-fold-toggle
+             treesit-fold-open-all
+             treesit-fold-mode
+             global-treesit-fold-mode
+             treesit-fold-open-recursively
+             treesit-fold-line-comment-mode)
+  :custom
+  (treesit-fold-line-count-show t)
+  (treesit-fold-line-count-format " ▼")
+
+  :config
+  (set-face-attribute 'treesit-fold-replacement-face nil
+                      :foreground "#808080"
+                      :box nil
+                      :weight 'bold))
+
+;; Systems and General Purpose
+(add-hook 'c-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'c++-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'java-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'rust-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'go-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'ruby-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'elixir-ts-mode-hook #'treesit-fold-mode)
+
+;; Web and Frontend
+(add-hook 'js-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'typescript-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'tsx-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'css-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'html-ts-mode-hook #'treesit-fold-mode)
+
+;; Scripting and Infrastructure
+(add-hook 'bash-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'cmake-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'dockerfile-ts-mode-hook #'treesit-fold-mode)
+
+;; Data and Configuration
+(add-hook 'json-ts-mode-hook #'treesit-fold-mode)
+(add-hook 'toml-ts-mode-hook #'treesit-fold-mode)
+
+(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
+(add-hook 'lisp-interaction-mode-hook #'hs-minor-mode) ; scratch
+(add-hook 'lisp-mode-hook #'outline-minor-mode)
+(add-hook 'conf-mode-hook #'outline-minor-mode)
+(add-hook 'markdown-mode-hook #'outline-minor-mode)
+(add-hook 'diff-mode-hook #'outline-minor-mode)
 
 (defun get-buffers-matching-mode (mode)
   "Returns a list of buffers where their major-mode is equal to MODE"

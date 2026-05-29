@@ -59,10 +59,6 @@ else
 			-v|--clipboard)
 				cliphist list | fuzzel --hide-prompt --dmenu --width=45 --with-nth 2 | cliphist decode | wl-copy
 				;;
-			-q|--qalculate)
-				hash qalc >/dev/null 2>&1 || { echo "Requires 'libqalculate' installed"; exit 1; }
-				rofi -modi "calc:qalc +u8 -nocurrencies" -show "calc:qalc +u8 -nocurrencies" "${OPTS[@]}"
-				;;
 			-z|--applications)
 				windows=$(swaymsg -t get_tree | jq -r '.nodes[1].nodes[].nodes[] | .. | (.id|tostring) + " " + .name?' | grep -e "[0-9]* ."  )
 				selected=$(echo "$windows" | fuzzel --dmenu --with-nth=2 --nth-delimiter=" " | awk '{print $1}')
@@ -73,10 +69,6 @@ else
 					*English) swaymsg input "type:keyboard" xkb_layout "us";;
 					*Swedish) swaymsg input "type:keyboard" xkb_layout "se";;
 				esac
-				;;
-			-c|--clipboard)
-				hash greenclip >/dev/null 2>&1 || { echo "Requires 'greenclip' installed"; exit 1; }
-				rofi -modi "clipboard:greenclip print" -show "clipboard:greenclip print" "${OPTS[@]}"
 				;;
 			-l|--logout)
 				case "$(echo -e ' Shutdown\n󰜉 Reboot\n󰿅 Logout\n Lock' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
@@ -92,5 +84,4 @@ else
 		esac
 	done
 fi
-
 

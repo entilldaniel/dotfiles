@@ -8,7 +8,17 @@ This document contains helper methods that used to reside in my init.el but I wa
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t -*-
 #+end_src
- 
+
+** Running the current bash shell script
+#+begin_src emacs-lisp
+  (defun df/run-in-terminal ()
+    "Run the current buffer in a terminal, as if it were a bash script."
+    (interactive)
+    (let ((file (buffer-file-name)))
+  	(set-file-modes file (logior (file-modes file) #o111)))
+    (sh-execute-region (point-min) (point-max)))
+#+end_src
+
 ** Destructuring a JWT
 A little helper method to destruct a JWT to see whats in it.
 #+begin_src emacs-lisp
