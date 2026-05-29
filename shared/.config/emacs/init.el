@@ -286,13 +286,16 @@
   (let ((bg (face-attribute 'default :background))
 		(fg (face-attribute 'default :foreground)))
 	(face-remap-add-relative 'header-line
-							 :background bg :foreground fg
-							 :underline nil
-							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline nil :color ,bg))
+							 :background bg
+							 :foreground fg
+							 :underline '()
+							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline '() :color ,bg :fringe '()))
+	
 	(face-remap-add-relative 'header-line-inactive
-							 :background bg :foreground fg
-							 :underline nil
-							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline nil :color ,bg)))
+							 :background bg
+							 :foreground fg
+							 :underline '()
+							 :box `(:line-width ,(/ (line-pixel-height) 2) :underline '() :color ,bg :fringe '())))
   (setq mode-line-format '())
   (setq header-line-format
 		'((:eval
