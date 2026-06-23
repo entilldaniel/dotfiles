@@ -70,7 +70,7 @@ else
 					*Swedish) swaymsg input "type:keyboard" xkb_layout "se";;
 				esac
 				;;
-			-l|--logout)
+      		-l|--logout)
 				case "$(echo -e ' Shutdown\n󰜉 Reboot\n󰿅 Logout\n Lock' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
 					*Lock) swaylock -f -c 000000;;
 					*Reboot) systemctl reboot ;;
@@ -78,6 +78,15 @@ else
 					*Logout)  swaymsg exit ;;
 				esac
 				;;
+			-s|--screehsot)
+				case "$(echo -e 'Fullscreen\nRegion\nFocused\nDisplay\nSwappy' | fuzzel --hide-prompt --minimal-lines --dmenu --width 11 --selection-radius=6)" in
+					*Fullscreen) /home/hubbe/.local/bin/screenshot fullscreen;;
+					*Region) /home/hubbe/.local/bin/screenshot region;;
+					*Focused) /home/hubbe/.local/bin/screenshot focused;;
+					*Display) /home/hubbe/.local/bin/screenshot display;;
+					*Swappy) /home/hubbe/.local/bin/screenshot swappy;;
+				esac
+				;;		
 			*)
 				printf "\nOption does not exist: %s\n\n" "$arg"
 				exit 2
