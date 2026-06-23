@@ -1,5 +1,16 @@
 ;; -*- lexical-binding: t -*-
 
+(defun my-org-transient-capture ()
+  "Start an org-capture session in a dedicated frame and close it when done."
+  (interactive)
+  (let ((capture-frame (selected-frame)))
+    (add-hook 'org-capture-after-finalize-hook
+              (lambda ()
+                (when (frame-live-p capture-frame)
+                  (delete-frame capture-frame)))
+              nil t)
+    (org-capture nil "i")))
+
 (defun df/run-in-terminal ()
   "Run the current buffer in a terminal, as if it were a bash script."
   (interactive)

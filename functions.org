@@ -9,6 +9,20 @@ This document contains helper methods that used to reside in my init.el but I wa
 ;; -*- lexical-binding: t -*-
 #+end_src
 
+** Creating a quick and dirty thought
+#+begin_src emacs-lisp
+(defun my-org-transient-capture ()
+  "Start an org-capture session in a dedicated frame and close it when done."
+  (interactive)
+  (let ((capture-frame (selected-frame)))
+    (add-hook 'org-capture-after-finalize-hook
+              (lambda ()
+                (when (frame-live-p capture-frame)
+                  (delete-frame capture-frame)))
+              nil t)
+    (org-capture nil "i")))
+#+end_src
+
 ** Running the current bash shell script
 #+begin_src emacs-lisp
   (defun df/run-in-terminal ()
